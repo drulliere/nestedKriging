@@ -1,0 +1,3143 @@
+[
+    {
+        "definitions" : [
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/appendix_nuggetAnalysis.h",
+                "kind" : 6,
+                "line" : 23,
+                "name" : "nugget(const double)",
+                "parent_name" : "",
+                "usr" : "c:@N@appendix@F@nugget#1d#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/appendix_nuggetAnalysis.h",
+                "kind" : 6,
+                "line" : 28,
+                "name" : "error(const double, const std::size_t, bool)",
+                "parent_name" : "",
+                "usr" : "c:@N@appendix@F@error#1d#1k#b#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/appendix_nuggetAnalysis.h",
+                "kind" : 6,
+                "line" : 62,
+                "name" : "maxErrorOverSize(bool, std::size_t, double)",
+                "parent_name" : "",
+                "usr" : "c:@N@appendix@F@maxErrorOverSize#b#k#d#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/appendix_nuggetAnalysis.h",
+                "kind" : 6,
+                "line" : 71,
+                "name" : "maxErrorOverSizeAndFactors(bool, std::size_t, std::size_t)",
+                "parent_name" : "",
+                "usr" : "c:@N@appendix@F@maxErrorOverSizeAndFactors#b#k#k#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/appendix_nuggetAnalysis.h",
+                "kind" : 6,
+                "line" : 85,
+                "name" : "analyzeFactorInDetail(double, std::size_t)",
+                "parent_name" : "",
+                "usr" : "c:@N@appendix@F@analyzeFactorInDetail#d#k#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/appendix_nuggetAnalysis.h",
+                "kind" : 6,
+                "line" : 99,
+                "name" : "investigateChoice(double, std::size_t)",
+                "parent_name" : "",
+                "usr" : "c:@N@appendix@F@investigateChoice#d#k#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/appendix_nuggetAnalysis.h",
+                "kind" : 6,
+                "line" : 107,
+                "name" : "launchNuggetAnalysis",
+                "parent_name" : "",
+                "usr" : "c:@N@appendix@F@launchNuggetAnalysis#"
+            }
+        ],
+        "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/appendix_nuggetAnalysis.h",
+        "file_last_write" : 1559914231
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/appendix_triangularLoopAnalysis.h",
+                "kind" : 6,
+                "line" : 16,
+                "name" : "affiche(long, long, long)",
+                "parent_name" : "",
+                "usr" : "c:@N@appendix@F@affiche#L#L#L#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/appendix_triangularLoopAnalysis.h",
+                "kind" : 6,
+                "line" : 20,
+                "name" : "triangularise(int)",
+                "parent_name" : "",
+                "usr" : "c:@N@appendix@F@triangularise#I#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/appendix_triangularLoopAnalysis.h",
+                "kind" : 6,
+                "line" : 50,
+                "name" : "launchLoopsAnalysis",
+                "parent_name" : "",
+                "usr" : "c:@N@appendix@F@launchLoopsAnalysis#"
+            }
+        ],
+        "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/appendix_triangularLoopAnalysis.h",
+        "file_last_write" : 1559914231
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/common.h",
+                "kind" : 2,
+                "line" : 57,
+                "name" : "Initializer<ArithmeticType>",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@ST>1#T@Initializer"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/common.h",
+                "kind" : 7,
+                "line" : 64,
+                "name" : "fill(ArithmeticType &)",
+                "parent_name" : "Initializer<ArithmeticType>",
+                "usr" : "c:@N@nestedKrig@ST>1#T@Initializer@F@fill#&t0.0#1"
+            }
+        ],
+        "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/common.h",
+        "file_last_write" : 1559914231
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/compactMatrix.h",
+                "kind" : 3,
+                "line" : 33,
+                "name" : "Allocator",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@S@Allocator"
+            },
+            {
+                "column" : 16,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/compactMatrix.h",
+                "kind" : 7,
+                "line" : 35,
+                "name" : "allocate(std::size_t, std::size_t)",
+                "parent_name" : "Allocator",
+                "usr" : "c:@N@nestedKrig@S@Allocator@F@allocate#k#k#S"
+            },
+            {
+                "column" : 13,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/compactMatrix.h",
+                "kind" : 7,
+                "line" : 48,
+                "name" : "free(double *)",
+                "parent_name" : "Allocator",
+                "usr" : "c:@N@nestedKrig@S@Allocator@F@free#*d#S"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/compactMatrix.h",
+                "kind" : 2,
+                "line" : 68,
+                "name" : "WritableRow",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@WritableRow"
+            },
+            {
+                "column" : 16,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/compactMatrix.h",
+                "kind" : 7,
+                "line" : 74,
+                "name" : "operator=(const double *)",
+                "parent_name" : "WritableRow",
+                "usr" : "c:@N@nestedKrig@C@WritableRow@F@operator=#*1d#"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/compactMatrix.h",
+                "kind" : 7,
+                "line" : 79,
+                "name" : "operator[](const size_t)",
+                "parent_name" : "WritableRow",
+                "usr" : "c:@N@nestedKrig@C@WritableRow@F@operator[]#1k#"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/compactMatrix.h",
+                "kind" : 2,
+                "line" : 84,
+                "name" : "CompactMatrix",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@CompactMatrix"
+            },
+            {
+                "column" : 27,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/compactMatrix.h",
+                "kind" : 7,
+                "line" : 98,
+                "name" : "nextMultipleOf(const size_t, const size_t)",
+                "parent_name" : "CompactMatrix",
+                "usr" : "c:@N@nestedKrig@C@CompactMatrix@F@nextMultipleOf#1k#1k#S"
+            },
+            {
+                "column" : 17,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/compactMatrix.h",
+                "kind" : 7,
+                "line" : 102,
+                "name" : "getBufferBytes(const size_t, const size_t)",
+                "parent_name" : "CompactMatrix",
+                "usr" : "c:@N@nestedKrig@C@CompactMatrix@F@getBufferBytes#1k#1k#S"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/compactMatrix.h",
+                "kind" : 7,
+                "line" : 117,
+                "name" : "copyRow(const size_t, const double *)",
+                "parent_name" : "CompactMatrix",
+                "usr" : "c:@N@nestedKrig@C@CompactMatrix@F@copyRow#1k#*1d#"
+            },
+            {
+                "column" : 24,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/compactMatrix.h",
+                "kind" : 7,
+                "line" : 121,
+                "name" : "row(const size_t)",
+                "parent_name" : "CompactMatrix",
+                "usr" : "c:@N@nestedKrig@C@CompactMatrix@F@row#1k#1"
+            },
+            {
+                "column" : 22,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/compactMatrix.h",
+                "kind" : 7,
+                "line" : 125,
+                "name" : "row(const size_t)",
+                "parent_name" : "CompactMatrix",
+                "usr" : "c:@N@nestedKrig@C@CompactMatrix@F@row#1k#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/compactMatrix.h",
+                "kind" : 7,
+                "line" : 129,
+                "name" : "set_size(const size_t, const size_t)",
+                "parent_name" : "CompactMatrix",
+                "usr" : "c:@N@nestedKrig@C@CompactMatrix@F@set_size#1k#1k#"
+            }
+        ],
+        "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/compactMatrix.h",
+        "file_last_write" : 1559914231
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 2,
+                "line" : 100,
+                "name" : "CorrelationFunction",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@CorrelationFunction"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 2,
+                "line" : 113,
+                "name" : "CorrWhiteNoise",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@CorrWhiteNoise"
+            },
+            {
+                "column" : 18,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 7,
+                "line" : 119,
+                "name" : "corr(const Point &, const Point &)",
+                "parent_name" : "CorrWhiteNoise",
+                "usr" : "c:@N@nestedKrig@C@CorrWhiteNoise@F@corr#&1$@N@std@C@valarray>#d#S0_#1"
+            },
+            {
+                "column" : 18,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 7,
+                "line" : 126,
+                "name" : "scaling_factor",
+                "parent_name" : "CorrWhiteNoise",
+                "usr" : "c:@N@nestedKrig@C@CorrWhiteNoise@F@scaling_factor#1"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 2,
+                "line" : 132,
+                "name" : "CorrGauss",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@CorrGauss"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 7,
+                "line" : 139,
+                "name" : "corr(const Point &, const Point &)",
+                "parent_name" : "CorrGauss",
+                "usr" : "c:@N@nestedKrig@C@CorrGauss@F@corr#&1$@N@std@C@valarray>#d#S0_#1"
+            },
+            {
+                "column" : 18,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 7,
+                "line" : 149,
+                "name" : "scaling_factor",
+                "parent_name" : "CorrGauss",
+                "usr" : "c:@N@nestedKrig@C@CorrGauss@F@scaling_factor#1"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 2,
+                "line" : 156,
+                "name" : "Correxp",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@Correxp"
+            },
+            {
+                "column" : 18,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 7,
+                "line" : 162,
+                "name" : "corr(const Point &, const Point &)",
+                "parent_name" : "Correxp",
+                "usr" : "c:@N@nestedKrig@C@Correxp@F@corr#&1$@N@std@C@valarray>#d#S0_#1"
+            },
+            {
+                "column" : 18,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 7,
+                "line" : 169,
+                "name" : "scaling_factor",
+                "parent_name" : "Correxp",
+                "usr" : "c:@N@nestedKrig@C@Correxp@F@scaling_factor#1"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 2,
+                "line" : 175,
+                "name" : "CorrMatern32",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@CorrMatern32"
+            },
+            {
+                "column" : 18,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 7,
+                "line" : 180,
+                "name" : "corr(const Point &, const Point &)",
+                "parent_name" : "CorrMatern32",
+                "usr" : "c:@N@nestedKrig@C@CorrMatern32@F@corr#&1$@N@std@C@valarray>#d#S0_#1"
+            },
+            {
+                "column" : 18,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 7,
+                "line" : 192,
+                "name" : "scaling_factor",
+                "parent_name" : "CorrMatern32",
+                "usr" : "c:@N@nestedKrig@C@CorrMatern32@F@scaling_factor#1"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 2,
+                "line" : 198,
+                "name" : "CorrMatern52",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@CorrMatern52"
+            },
+            {
+                "column" : 18,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 7,
+                "line" : 204,
+                "name" : "corr(const Point &, const Point &)",
+                "parent_name" : "CorrMatern52",
+                "usr" : "c:@N@nestedKrig@C@CorrMatern52@F@corr#&1$@N@std@C@valarray>#d#S0_#1"
+            },
+            {
+                "column" : 18,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 7,
+                "line" : 216,
+                "name" : "scaling_factor",
+                "parent_name" : "CorrMatern52",
+                "usr" : "c:@N@nestedKrig@C@CorrMatern52@F@scaling_factor#1"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 2,
+                "line" : 222,
+                "name" : "CorrPowerexp",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@CorrPowerexp"
+            },
+            {
+                "column" : 18,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 7,
+                "line" : 230,
+                "name" : "corr(const Point &, const Point &)",
+                "parent_name" : "CorrPowerexp",
+                "usr" : "c:@N@nestedKrig@C@CorrPowerexp@F@corr#&1$@N@std@C@valarray>#d#S0_#1"
+            },
+            {
+                "column" : 18,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 7,
+                "line" : 236,
+                "name" : "scaling_factor",
+                "parent_name" : "CorrPowerexp",
+                "usr" : "c:@N@nestedKrig@C@CorrPowerexp@F@scaling_factor#1"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 2,
+                "line" : 245,
+                "name" : "CovarianceParameters",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@CovarianceParameters"
+            },
+            {
+                "column" : 18,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 7,
+                "line" : 253,
+                "name" : "createScalingFactors",
+                "parent_name" : "CovarianceParameters",
+                "usr" : "c:@N@nestedKrig@C@CovarianceParameters@F@createScalingFactors#"
+            },
+            {
+                "column" : 24,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 7,
+                "line" : 260,
+                "name" : "getCorrelationFunction(std::string &)",
+                "parent_name" : "CovarianceParameters",
+                "usr" : "c:@N@nestedKrig@C@CovarianceParameters@F@getCorrelationFunction#&$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#1"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 2,
+                "line" : 300,
+                "name" : "Points",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@Points"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 7,
+                "line" : 309,
+                "name" : "fillWith(const arma::mat &, const nestedKrig::CovarianceParameters &, const arma::rowvec &)",
+                "parent_name" : "Points",
+                "usr" : "c:@N@nestedKrig@C@Points@F@fillWith#&1$@N@arma@C@Mat>#d#&1$@N@nestedKrig@C@CovarianceParameters#&1$@N@arma@C@Row>#d#"
+            },
+            {
+                "column" : 37,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 7,
+                "line" : 348,
+                "name" : "operator[](const std::size_t)",
+                "parent_name" : "Points",
+                "usr" : "c:@N@nestedKrig@C@Points@F@operator[]#1k#1"
+            },
+            {
+                "column" : 31,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 7,
+                "line" : 351,
+                "name" : "operator[](const std::size_t)",
+                "parent_name" : "Points",
+                "usr" : "c:@N@nestedKrig@C@Points@F@operator[]#1k#"
+            },
+            {
+                "column" : 22,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 7,
+                "line" : 354,
+                "name" : "size",
+                "parent_name" : "Points",
+                "usr" : "c:@N@nestedKrig@C@Points@F@size#1"
+            },
+            {
+                "column" : 15,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 7,
+                "line" : 355,
+                "name" : "resize(const std::size_t)",
+                "parent_name" : "Points",
+                "usr" : "c:@N@nestedKrig@C@Points@F@resize#1k#"
+            },
+            {
+                "column" : 15,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 7,
+                "line" : 357,
+                "name" : "reserve(const std::size_t, const std::size_t)",
+                "parent_name" : "Points",
+                "usr" : "c:@N@nestedKrig@C@Points@F@reserve#1k#1k#"
+            },
+            {
+                "column" : 18,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 7,
+                "line" : 363,
+                "name" : "cell(const std::size_t, const std::size_t)",
+                "parent_name" : "Points",
+                "usr" : "c:@N@nestedKrig@C@Points@F@cell#1k#1k#"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 2,
+                "line" : 375,
+                "name" : "Covariance",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@Covariance"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 7,
+                "line" : 385,
+                "name" : "fillAllocatedDiagonal(arma::mat &, const NuggetVector &)",
+                "parent_name" : "Covariance",
+                "usr" : "c:@N@nestedKrig@C@Covariance@F@fillAllocatedDiagonal#&$@N@arma@C@Mat>#d#&1$@N@arma@C@Col>#d#1"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 7,
+                "line" : 402,
+                "name" : "fillAllocatedCorrMatrix(arma::mat &, const nestedKrig::Points &, const NuggetVector &)",
+                "parent_name" : "Covariance",
+                "usr" : "c:@N@nestedKrig@C@Covariance@F@fillAllocatedCorrMatrix#&$@N@arma@C@Mat>#d#&1$@N@nestedKrig@C@Points#&1$@N@arma@C@Col>#d#1"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 7,
+                "line" : 409,
+                "name" : "fillAllocatedCrossCorrelations(arma::mat &, const nestedKrig::Points &, const nestedKrig::Points &)",
+                "parent_name" : "Covariance",
+                "usr" : "c:@N@nestedKrig@C@Covariance@F@fillAllocatedCrossCorrelations#&$@N@arma@C@Mat>#d#&1$@N@nestedKrig@C@Points#S2_#1"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 7,
+                "line" : 418,
+                "name" : "fillCorrMatrix(arma::mat &, const nestedKrig::Points &, const NuggetVector &)",
+                "parent_name" : "Covariance",
+                "usr" : "c:@N@nestedKrig@C@Covariance@F@fillCorrMatrix#&$@N@arma@C@Mat>#d#&1$@N@nestedKrig@C@Points#&1$@N@arma@C@Col>#d#1"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+                "kind" : 7,
+                "line" : 429,
+                "name" : "fillCrossCorrelations(arma::mat &, const nestedKrig::Points &, const nestedKrig::Points &)",
+                "parent_name" : "Covariance",
+                "usr" : "c:@N@nestedKrig@C@Covariance@F@fillCrossCorrelations#&$@N@arma@C@Mat>#d#&1$@N@nestedKrig@C@Points#S2_#1"
+            }
+        ],
+        "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+        "file_last_write" : 1559914231
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
+                "kind" : 3,
+                "line" : 22,
+                "name" : "SolverChoice",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@S@SolverChoice"
+            },
+            {
+                "column" : 28,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
+                "kind" : 4,
+                "line" : 22,
+                "name" : "Family",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@S@SolverChoice@E@Family"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
+                "kind" : 2,
+                "line" : 26,
+                "name" : "LinearSolver<SOLVER>",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@ST>1#NI@LinearSolver"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
+                "kind" : 3,
+                "line" : 29,
+                "name" : "LinearSolver<SolverChoice::InvSympd>",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@S@LinearSolver>#VI0"
+            },
+            {
+                "column" : 15,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
+                "kind" : 7,
+                "line" : 30,
+                "name" : "findWeights(const arma::mat &, const arma::mat &, arma::mat &)",
+                "parent_name" : "LinearSolver<SolverChoice::InvSympd>",
+                "usr" : "c:@N@nestedKrig@S@LinearSolver>#VI0@F@findWeights#&1$@N@arma@C@Mat>#d#S0_#&S1_#S"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
+                "kind" : 3,
+                "line" : 39,
+                "name" : "LinearSolver<SolverChoice::Cholesky>",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@S@LinearSolver>#VI1"
+            },
+            {
+                "column" : 15,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
+                "kind" : 7,
+                "line" : 40,
+                "name" : "findWeights(const arma::mat &, const arma::mat &, arma::mat &)",
+                "parent_name" : "LinearSolver<SolverChoice::Cholesky>",
+                "usr" : "c:@N@nestedKrig@S@LinearSolver>#VI1@F@findWeights#&1$@N@arma@C@Mat>#d#S0_#&S1_#S"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
+                "kind" : 3,
+                "line" : 48,
+                "name" : "LinearSolver<SolverChoice::Solve>",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@S@LinearSolver>#VI2"
+            },
+            {
+                "column" : 15,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
+                "kind" : 7,
+                "line" : 49,
+                "name" : "findWeights(const arma::mat &, const arma::mat &, arma::mat &)",
+                "parent_name" : "LinearSolver<SolverChoice::Solve>",
+                "usr" : "c:@N@nestedKrig@S@LinearSolver>#VI2@F@findWeights#&1$@N@arma@C@Mat>#d#S0_#&S1_#S"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
+                "kind" : 2,
+                "line" : 67,
+                "name" : "KrigingPredictor",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@KrigingPredictor"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
+                "kind" : 2,
+                "line" : 91,
+                "name" : "SimpleKrigingPredictor",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@SimpleKrigingPredictor"
+            },
+            {
+                "column" : 16,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
+                "kind" : 7,
+                "line" : 102,
+                "name" : "fillResults(arma::vec &, double &, double &, double &)",
+                "parent_name" : "SimpleKrigingPredictor",
+                "usr" : "c:@N@nestedKrig@C@SimpleKrigingPredictor@F@fillResults#&$@N@arma@C@Col>#d#&d#S2_#S2_#1"
+            },
+            {
+                "column" : 16,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
+                "kind" : 7,
+                "line" : 110,
+                "name" : "fillResults(arma::mat &, arma::rowvec &, std::vector<double> &, std::vector<double> &)",
+                "parent_name" : "SimpleKrigingPredictor",
+                "usr" : "c:@N@nestedKrig@C@SimpleKrigingPredictor@F@fillResults#&$@N@arma@C@Mat>#d#&$@N@arma@C@Row>#d#&$@N@std@C@vector>#d#$@N@std@C@allocator>#d#S4_#1"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
+                "kind" : 2,
+                "line" : 121,
+                "name" : "OrdinaryKrigingPredictor",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@OrdinaryKrigingPredictor"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
+                "kind" : 3,
+                "line" : 123,
+                "name" : "Precomputations",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@OrdinaryKrigingPredictor@S@Precomputations"
+            },
+            {
+                "column" : 16,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
+                "kind" : 7,
+                "line" : 135,
+                "name" : "fillResultsHelper(arma::mat &, arma::rowvec &, std::vector<double> &, std::vector<double> &, const arma::mat &, const nestedKrig::OrdinaryKrigingPredictor::Precomputations &)",
+                "parent_name" : "OrdinaryKrigingPredictor",
+                "usr" : "c:@N@nestedKrig@C@OrdinaryKrigingPredictor@F@fillResultsHelper#&$@N@arma@C@Mat>#d#&$@N@arma@C@Row>#d#&$@N@std@C@vector>#d#$@N@std@C@allocator>#d#S4_#&1S1_#&1$@N@nestedKrig@C@OrdinaryKrigingPredictor@S@Precomputations#1"
+            },
+            {
+                "column" : 16,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
+                "kind" : 7,
+                "line" : 147,
+                "name" : "fillResultsHelper(arma::vec &, double &, double &, double &, const arma::mat &, const nestedKrig::OrdinaryKrigingPredictor::Precomputations &)",
+                "parent_name" : "OrdinaryKrigingPredictor",
+                "usr" : "c:@N@nestedKrig@C@OrdinaryKrigingPredictor@F@fillResultsHelper#&$@N@arma@C@Col>#d#&d#S2_#S2_#&1$@N@arma@C@Mat>#d#&1$@N@nestedKrig@C@OrdinaryKrigingPredictor@S@Precomputations#1"
+            },
+            {
+                "column" : 16,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
+                "kind" : 7,
+                "line" : 165,
+                "name" : "fillResults(arma::mat &, arma::rowvec &, std::vector<double> &, std::vector<double> &)",
+                "parent_name" : "OrdinaryKrigingPredictor",
+                "usr" : "c:@N@nestedKrig@C@OrdinaryKrigingPredictor@F@fillResults#&$@N@arma@C@Mat>#d#&$@N@arma@C@Row>#d#&$@N@std@C@vector>#d#$@N@std@C@allocator>#d#S4_#1"
+            },
+            {
+                "column" : 16,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
+                "kind" : 7,
+                "line" : 174,
+                "name" : "fillResults(arma::vec &, double &, double &, double &)",
+                "parent_name" : "OrdinaryKrigingPredictor",
+                "usr" : "c:@N@nestedKrig@C@OrdinaryKrigingPredictor@F@fillResults#&$@N@arma@C@Col>#d#&d#S2_#S2_#1"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
+                "kind" : 2,
+                "line" : 185,
+                "name" : "ChosenPredictor",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@ChosenPredictor"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
+                "kind" : 7,
+                "line" : 207,
+                "name" : "fillResults(arma::mat &, arma::rowvec &, std::vector<double> &, std::vector<double> &)",
+                "parent_name" : "ChosenPredictor",
+                "usr" : "c:@N@nestedKrig@C@ChosenPredictor@F@fillResults#&$@N@arma@C@Mat>#d#&$@N@arma@C@Row>#d#&$@N@std@C@vector>#d#$@N@std@C@allocator>#d#S4_#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
+                "kind" : 7,
+                "line" : 210,
+                "name" : "fillResults(arma::vec &, double &, double &, double &)",
+                "parent_name" : "ChosenPredictor",
+                "usr" : "c:@N@nestedKrig@C@ChosenPredictor@F@fillResults#&$@N@arma@C@Col>#d#&d#S2_#S2_#1"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
+                "kind" : 2,
+                "line" : 224,
+                "name" : "ChosenLOOKrigingPredictor",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@ChosenLOOKrigingPredictor"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
+                "kind" : 3,
+                "line" : 231,
+                "name" : "LOOSubMatrices",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@ChosenLOOKrigingPredictor@S@LOOSubMatrices"
+            },
+            {
+                "column" : 16,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
+                "kind" : 7,
+                "line" : 289,
+                "name" : "fillResults(arma::mat &, arma::rowvec &, std::vector<double> &, std::vector<double> &)",
+                "parent_name" : "ChosenLOOKrigingPredictor",
+                "usr" : "c:@N@nestedKrig@C@ChosenLOOKrigingPredictor@F@fillResults#&$@N@arma@C@Mat>#d#&$@N@arma@C@Row>#d#&$@N@std@C@vector>#d#$@N@std@C@allocator>#d#S4_#1"
+            }
+        ],
+        "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
+        "file_last_write" : 1559914231
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/leaveOneOut.h",
+                "kind" : 2,
+                "line" : 34,
+                "name" : "LOOScheme",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@LOOScheme"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/leaveOneOut.h",
+                "kind" : 7,
+                "line" : 44,
+                "name" : "countOnesIn(const Indices &)",
+                "parent_name" : "LOOScheme",
+                "usr" : "c:@N@nestedKrig@C@LOOScheme@F@countOnesIn#&1$@N@std@C@vector>#L#$@N@std@C@allocator>#L#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/leaveOneOut.h",
+                "kind" : 7,
+                "line" : 56,
+                "name" : "createPredPoints_xY(const Indices &, const arma::mat &, const arma::vec &)",
+                "parent_name" : "LOOScheme",
+                "usr" : "c:@N@nestedKrig@C@LOOScheme@F@createPredPoints_xY#&1$@N@std@C@vector>#L#$@N@std@C@allocator>#L#&1$@N@arma@C@Mat>#d#&1$@N@arma@C@Col>#d#"
+            },
+            {
+                "column" : 15,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/leaveOneOut.h",
+                "kind" : 7,
+                "line" : 115,
+                "name" : "getMethod",
+                "parent_name" : "LOOScheme",
+                "usr" : "c:@N@nestedKrig@C@LOOScheme@F@getMethod#1"
+            },
+            {
+                "column" : 13,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/leaveOneOut.h",
+                "kind" : 7,
+                "line" : 119,
+                "name" : "getExpectedY",
+                "parent_name" : "LOOScheme",
+                "usr" : "c:@N@nestedKrig@C@LOOScheme@F@getExpectedY#1"
+            },
+            {
+                "column" : 13,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/leaveOneOut.h",
+                "kind" : 7,
+                "line" : 123,
+                "name" : "getPredictionPoints",
+                "parent_name" : "LOOScheme",
+                "usr" : "c:@N@nestedKrig@C@LOOScheme@F@getPredictionPoints#1"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/leaveOneOut.h",
+                "kind" : 7,
+                "line" : 127,
+                "name" : "isPointInGroup(Long, Long)",
+                "parent_name" : "LOOScheme",
+                "usr" : "c:@N@nestedKrig@C@LOOScheme@F@isPointInGroup#k#k#1"
+            },
+            {
+                "column" : 15,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/leaveOneOut.h",
+                "kind" : 7,
+                "line" : 133,
+                "name" : "positionInItsGroup(const Long)",
+                "parent_name" : "LOOScheme",
+                "usr" : "c:@N@nestedKrig@C@LOOScheme@F@positionInItsGroup#1k#1"
+            },
+            {
+                "column" : 26,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/leaveOneOut.h",
+                "kind" : 7,
+                "line" : 141,
+                "name" : "splittedSchemes(nestedKrig::Splitter &)",
+                "parent_name" : "LOOScheme",
+                "usr" : "c:@N@nestedKrig@C@LOOScheme@F@splittedSchemes#&$@N@nestedKrig@C@Splitter#1"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/leaveOneOut.h",
+                "kind" : 2,
+                "line" : 164,
+                "name" : "LOOExclusions",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@LOOExclusions"
+            },
+            {
+                "column" : 17,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/leaveOneOut.h",
+                "kind" : 7,
+                "line" : 173,
+                "name" : "isPointExcluded(const Long)",
+                "parent_name" : "LOOExclusions",
+                "usr" : "c:@N@nestedKrig@C@LOOExclusions@F@isPointExcluded#1k#1"
+            },
+            {
+                "column" : 17,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/leaveOneOut.h",
+                "kind" : 7,
+                "line" : 178,
+                "name" : "positionInItsGroup(Long)",
+                "parent_name" : "LOOExclusions",
+                "usr" : "c:@N@nestedKrig@C@LOOExclusions@F@positionInItsGroup#k#1"
+            }
+        ],
+        "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/leaveOneOut.h",
+        "file_last_write" : 1559914231
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 2,
+                "line" : 39,
+                "name" : "Screen",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@Screen"
+            },
+            {
+                "column" : 15,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 7,
+                "line" : 41,
+                "name" : "printLine(const std::string &, const std::string &)",
+                "parent_name" : "Screen",
+                "usr" : "c:@N@nestedKrig@C@Screen@F@printLine#&1$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#S0_#S"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 3,
+                "line" : 55,
+                "name" : "verboseLevels",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@Screen@S@verboseLevels"
+            },
+            {
+                "column" : 30,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 4,
+                "line" : 55,
+                "name" : "levels",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@Screen@S@verboseLevels@E@levels"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 7,
+                "line" : 65,
+                "name" : "print(const std::ostringstream &, const std::string &)",
+                "parent_name" : "Screen",
+                "usr" : "c:@N@nestedKrig@C@Screen@F@print#&1$@N@std@C@basic_ostringstream>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#&1$@N@std@C@basic_string>#C#S2_#S3_#1"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 7,
+                "line" : 69,
+                "name" : "print(const std::string &, const std::string &)",
+                "parent_name" : "Screen",
+                "usr" : "c:@N@nestedKrig@C@Screen@F@print#&1$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#S0_#1"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 7,
+                "line" : 73,
+                "name" : "warning(const std::string &, const std::string &)",
+                "parent_name" : "Screen",
+                "usr" : "c:@N@nestedKrig@C@Screen@F@warning#&1$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#S0_#1"
+            },
+            {
+                "column" : 15,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 7,
+                "line" : 77,
+                "name" : "error(const std::string &, const std::exception &)",
+                "parent_name" : "Screen",
+                "usr" : "c:@N@nestedKrig@C@Screen@F@error#&1$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#&1$@N@std@C@exception#S"
+            },
+            {
+                "column" : 14,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 7,
+                "line" : 100,
+                "name" : "printContainer<>(const double &, const std::string &)",
+                "parent_name" : "Screen",
+                "usr" : "c:@N@nestedKrig@C@Screen@F@printContainer<#d>#&1d#&1$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#1"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 2,
+                "line" : 112,
+                "name" : "ChronoReport",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@ChronoReport"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 7,
+                "line" : 122,
+                "name" : "reserveSteps(const Long)",
+                "parent_name" : "ChronoReport",
+                "usr" : "c:@N@nestedKrig@C@ChronoReport@F@reserveSteps#1k#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 7,
+                "line" : 127,
+                "name" : "saveStep(const double, const double, const std::string &)",
+                "parent_name" : "ChronoReport",
+                "usr" : "c:@N@nestedKrig@C@ChronoReport@F@saveStep#1d#1d#&1$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 7,
+                "line" : 133,
+                "name" : "comparableWith(const nestedKrig::ChronoReport &)",
+                "parent_name" : "ChronoReport",
+                "usr" : "c:@N@nestedKrig@C@ChronoReport@F@comparableWith#&1$@N@nestedKrig@C@ChronoReport#1"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 7,
+                "line" : 137,
+                "name" : "fuseParallelExecutionReports(const std::vector<ChronoReport> &)",
+                "parent_name" : "ChronoReport",
+                "usr" : "c:@N@nestedKrig@C@ChronoReport@F@fuseParallelExecutionReports#&1$@N@std@C@vector>#$@N@nestedKrig@C@ChronoReport#$@N@std@C@allocator>#S2_#"
+            },
+            {
+                "column" : 17,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 7,
+                "line" : 159,
+                "name" : "operator=(const nestedKrig::ChronoReport &)",
+                "parent_name" : "ChronoReport",
+                "usr" : "c:@N@nestedKrig@C@ChronoReport@F@operator=#&1$@N@nestedKrig@C@ChronoReport#"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 2,
+                "line" : 166,
+                "name" : "ChronoEngine",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@ChronoEngine"
+            },
+            {
+                "column" : 22,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 7,
+                "line" : 170,
+                "name" : "now",
+                "parent_name" : "ChronoEngine",
+                "usr" : "c:@N@nestedKrig@C@ChronoEngine@F@now#S"
+            },
+            {
+                "column" : 24,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 7,
+                "line" : 174,
+                "name" : "duration(const Time &, const Time &)",
+                "parent_name" : "ChronoEngine",
+                "usr" : "c:@N@nestedKrig@C@ChronoEngine@F@duration#&1$@N@std@N@chrono@S@time_point>#$@N@std@N@chrono@N@_V2@S@steady_clock#$@N@std@N@chrono@S@duration>#K#$@N@std@S@ratio>#VK1#VK1000000000#S0_#S"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 2,
+                "line" : 180,
+                "name" : "Chrono",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@Chrono"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 7,
+                "line" : 185,
+                "name" : "setToZero",
+                "parent_name" : "Chrono",
+                "usr" : "c:@N@nestedKrig@C@Chrono@F@setToZero#"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 7,
+                "line" : 189,
+                "name" : "durationSinceLastMessage",
+                "parent_name" : "Chrono",
+                "usr" : "c:@N@nestedKrig@C@Chrono@F@durationSinceLastMessage#1"
+            },
+            {
+                "column" : 15,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 7,
+                "line" : 193,
+                "name" : "durationString",
+                "parent_name" : "Chrono",
+                "usr" : "c:@N@nestedKrig@C@Chrono@F@durationString#"
+            },
+            {
+                "column" : 22,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 7,
+                "line" : 200,
+                "name" : "threadNumStr",
+                "parent_name" : "Chrono",
+                "usr" : "c:@N@nestedKrig@C@Chrono@F@threadNumStr#S"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 7,
+                "line" : 217,
+                "name" : "start",
+                "parent_name" : "Chrono",
+                "usr" : "c:@N@nestedKrig@C@Chrono@F@start#"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 7,
+                "line" : 222,
+                "name" : "durationSinceStart",
+                "parent_name" : "Chrono",
+                "usr" : "c:@N@nestedKrig@C@Chrono@F@durationSinceStart#1"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 7,
+                "line" : 226,
+                "name" : "saveStep(const std::string &)",
+                "parent_name" : "Chrono",
+                "usr" : "c:@N@nestedKrig@C@Chrono@F@saveStep#&1$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 7,
+                "line" : 232,
+                "name" : "print(const std::string &)",
+                "parent_name" : "Chrono",
+                "usr" : "c:@N@nestedKrig@C@Chrono@F@print#&1$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 7,
+                "line" : 241,
+                "name" : "printProgression(const Long, const Long)",
+                "parent_name" : "Chrono",
+                "usr" : "c:@N@nestedKrig@C@Chrono@F@printProgression#1k#1k#"
+            },
+            {
+                "column" : 21,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 7,
+                "line" : 259,
+                "name" : "progressBar<>(Long, Long, Long)",
+                "parent_name" : "Chrono",
+                "usr" : "c:@N@nestedKrig@C@Chrono@F@progressBar<#VI0>#k#k#k#"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 2,
+                "line" : 267,
+                "name" : "ProgressBar<ShowProgress>",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@CT>1#NI@ProgressBar"
+            },
+            {
+                "column" : 22,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 7,
+                "line" : 272,
+                "name" : "ceilOfRatio(Long, Long)",
+                "parent_name" : "ProgressBar<ShowProgress>",
+                "usr" : "c:@N@nestedKrig@CT>1#NI@ProgressBar@F@ceilOfRatio#k#k#S"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 7,
+                "line" : 277,
+                "name" : "get_done",
+                "parent_name" : "ProgressBar<ShowProgress>",
+                "usr" : "c:@N@nestedKrig@CT>1#NI@ProgressBar@F@get_done#1"
+            },
+            {
+                "column" : 15,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 7,
+                "line" : 309,
+                "name" : "next",
+                "parent_name" : "ProgressBar<ShowProgress>",
+                "usr" : "c:@N@nestedKrig@CT>1#NI@ProgressBar@F@next#"
+            },
+            {
+                "column" : 15,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 7,
+                "line" : 319,
+                "name" : "signalingNext(bool)",
+                "parent_name" : "ProgressBar<ShowProgress>",
+                "usr" : "c:@N@nestedKrig@CT>1#NI@ProgressBar@F@signalingNext#b#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 7,
+                "line" : 332,
+                "name" : "get_nextTick",
+                "parent_name" : "ProgressBar<ShowProgress>",
+                "usr" : "c:@N@nestedKrig@CT>1#NI@ProgressBar@F@get_nextTick#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 3,
+                "line" : 342,
+                "name" : "ProgressBar<0>",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@S@ProgressBar>#VI0"
+            },
+            {
+                "column" : 15,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 7,
+                "line" : 344,
+                "name" : "next",
+                "parent_name" : "ProgressBar<0>",
+                "usr" : "c:@N@nestedKrig@S@ProgressBar>#VI0@F@next#"
+            },
+            {
+                "column" : 15,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+                "kind" : 7,
+                "line" : 345,
+                "name" : "signalingNext(bool)",
+                "parent_name" : "ProgressBar<0>",
+                "usr" : "c:@N@nestedKrig@S@ProgressBar>#VI0@F@signalingNext#b#"
+            }
+        ],
+        "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/messages.h",
+        "file_last_write" : 1559914231
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.cpp",
+                "kind" : 3,
+                "line" : 19,
+                "name" : "MacroVariables",
+                "parent_name" : "",
+                "usr" : "c:@S@MacroVariables"
+            },
+            {
+                "column" : 21,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.cpp",
+                "kind" : 7,
+                "line" : 29,
+                "name" : "summary",
+                "parent_name" : "MacroVariables",
+                "usr" : "c:@S@MacroVariables@F@summary#1"
+            },
+            {
+                "column" : 12,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.cpp",
+                "kind" : 6,
+                "line" : 43,
+                "name" : "versionInfo(int)",
+                "parent_name" : "",
+                "usr" : "c:@F@versionInfo#I#"
+            },
+            {
+                "column" : 12,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.cpp",
+                "kind" : 6,
+                "line" : 72,
+                "name" : "nestedKrigingDirect(const arma::mat &, const arma::vec &, const std::vector<long> &, const arma::mat &, const std::string, const arma::vec &, const double, const std::string, const std::string, const long, const long, const int, const int, const Rcpp::IntegerVector, const arma::vec)",
+                "parent_name" : "",
+                "usr" : "c:@F@nestedKrigingDirect#&1$@N@arma@C@Mat>#d#&1$@N@arma@C@Col>#d#&1$@N@std@C@vector>#L#$@N@std@C@allocator>#L#S0_#1$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#S2_#1d#1S7_#1S7_#1L#1L#1I#1I#1$@N@Rcpp@C@Vector>#VI13#@N@Rcpp@CT>1#T@PreserveStorage#1S3_#"
+            },
+            {
+                "column" : 12,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.cpp",
+                "kind" : 6,
+                "line" : 103,
+                "name" : "looErrors(const arma::mat &, const arma::vec &, const std::vector<long> &, const std::vector<long> &, const std::string, const arma::vec &, const double, const std::string, const std::string, const long, const long, const int, const int, const Rcpp::IntegerVector, const arma::vec, const std::string)",
+                "parent_name" : "",
+                "usr" : "c:@F@looErrors#&1$@N@arma@C@Mat>#d#&1$@N@arma@C@Col>#d#&1$@N@std@C@vector>#L#$@N@std@C@allocator>#L#S4_#1$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#S2_#1d#1S7_#1S7_#1L#1L#1I#1I#1$@N@Rcpp@C@Vector>#VI13#@N@Rcpp@CT>1#T@PreserveStorage#1S3_#1S7_#"
+            },
+            {
+                "column" : 12,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.cpp",
+                "kind" : 6,
+                "line" : 139,
+                "name" : "tests_run(bool, bool)",
+                "parent_name" : "",
+                "usr" : "c:@F@tests_run#b#b#"
+            },
+            {
+                "column" : 12,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.cpp",
+                "kind" : 6,
+                "line" : 151,
+                "name" : "tests_getCodeValues(unsigned long, std::string, bool, double)",
+                "parent_name" : "",
+                "usr" : "c:@F@tests_getCodeValues#l#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#b#d#"
+            },
+            {
+                "column" : 12,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.cpp",
+                "kind" : 6,
+                "line" : 187,
+                "name" : "tests_getCaseStudy(unsigned long, std::string)",
+                "parent_name" : "",
+                "usr" : "c:@F@tests_getCaseStudy#l#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#"
+            },
+            {
+                "column" : 12,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.cpp",
+                "kind" : 6,
+                "line" : 201,
+                "name" : "looErrorsDirect(const arma::mat &, const arma::vec &, const std::vector<long> &, const std::vector<long> &, const std::string, const arma::vec &, const double, const std::string, const std::string, const long, const long, const int, const int, const Rcpp::IntegerVector, const arma::vec, const std::string)",
+                "parent_name" : "",
+                "usr" : "c:@F@looErrorsDirect#&1$@N@arma@C@Mat>#d#&1$@N@arma@C@Col>#d#&1$@N@std@C@vector>#L#$@N@std@C@allocator>#L#S4_#1$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#S2_#1d#1S7_#1S7_#1L#1L#1I#1I#1$@N@Rcpp@C@Vector>#VI13#@N@Rcpp@CT>1#T@PreserveStorage#1S3_#1S7_#"
+            },
+            {
+                "column" : 12,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.cpp",
+                "kind" : 6,
+                "line" : 234,
+                "name" : "estimParam(const arma::mat &, const arma::vec &, const std::vector<long> &, const std::size_t, const std::string, const std::size_t, const arma::vec &, const arma::vec &, const arma::vec &, const double, const std::string, const std::size_t, const double, const double, const double, const double, const double, const std::string, const long, const long, const int, const Rcpp::IntegerVector, const arma::vec, const std::string)",
+                "parent_name" : "",
+                "usr" : "c:@F@estimParam#&1$@N@arma@C@Mat>#d#&1$@N@arma@C@Col>#d#&1$@N@std@C@vector>#L#$@N@std@C@allocator>#L#1k#1$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#1k#S2_#S2_#S2_#1d#1S7_#1k#1d#1d#1d#1d#1d#1S7_#1L#1L#1I#1$@N@Rcpp@C@Vector>#VI13#@N@Rcpp@CT>1#T@PreserveStorage#1S3_#1S7_#"
+            }
+        ],
+        "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.cpp",
+        "file_last_write" : 1559914231
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 2,
+                "line" : 42,
+                "name" : "GlobalOptions",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@GlobalOptions"
+            },
+            {
+                "column" : 14,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 4,
+                "line" : 44,
+                "name" : "Option",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@GlobalOptions@E@Option"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 7,
+                "line" : 53,
+                "name" : "setDefaultValues",
+                "parent_name" : "GlobalOptions",
+                "usr" : "c:@N@nestedKrig@C@GlobalOptions@F@setDefaultValues#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 7,
+                "line" : 59,
+                "name" : "setOptions(const Rcpp::IntegerVector &)",
+                "parent_name" : "GlobalOptions",
+                "usr" : "c:@N@nestedKrig@C@GlobalOptions@F@setOptions#&1$@N@Rcpp@C@Vector>#VI13#@N@Rcpp@CT>1#T@PreserveStorage#"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 7,
+                "line" : 72,
+                "name" : "getOptionValue(const nestedKrig::GlobalOptions::Option)",
+                "parent_name" : "GlobalOptions",
+                "usr" : "c:@N@nestedKrig@C@GlobalOptions@F@getOptionValue#1$@N@nestedKrig@C@GlobalOptions@E@Option#1"
+            },
+            {
+                "column" : 15,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 7,
+                "line" : 77,
+                "name" : "getOptionString(const nestedKrig::GlobalOptions::Option)",
+                "parent_name" : "GlobalOptions",
+                "usr" : "c:@N@nestedKrig@C@GlobalOptions@F@getOptionString#1$@N@nestedKrig@C@GlobalOptions@E@Option#1"
+            },
+            {
+                "column" : 15,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 7,
+                "line" : 82,
+                "name" : "str",
+                "parent_name" : "GlobalOptions",
+                "usr" : "c:@N@nestedKrig@C@GlobalOptions@F@str#1"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 2,
+                "line" : 95,
+                "name" : "Parallelism",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@Parallelism"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 4,
+                "line" : 104,
+                "name" : "Contexts",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@Parallelism@E@Contexts"
+            },
+            {
+                "column" : 15,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 7,
+                "line" : 110,
+                "name" : "set_nested(int)",
+                "parent_name" : "Parallelism",
+                "usr" : "c:@N@nestedKrig@C@Parallelism@F@set_nested#I#S"
+            },
+            {
+                "column" : 21,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 7,
+                "line" : 144,
+                "name" : "informationString",
+                "parent_name" : "Parallelism",
+                "usr" : "c:@N@nestedKrig@C@Parallelism@F@informationString#S"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 2,
+                "line" : 169,
+                "name" : "Submodels",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@Submodels"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 7,
+                "line" : 171,
+                "name" : "noNugget(const NuggetVector &)",
+                "parent_name" : "Submodels",
+                "usr" : "c:@N@nestedKrig@C@Submodels@F@noNugget#&1$@N@arma@C@Col>#d#"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 7,
+                "line" : 176,
+                "name" : "createSplittedNuggets(const nestedKrig::Splitter &, const Long, const NuggetVector &)",
+                "parent_name" : "Submodels",
+                "usr" : "c:@N@nestedKrig@C@Submodels@F@createSplittedNuggets#&1$@N@nestedKrig@C@Splitter#1k#&1$@N@arma@C@Col>#d#"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 2,
+                "line" : 231,
+                "name" : "RequiredByUser",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@RequiredByUser"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 7,
+                "line" : 234,
+                "name" : "outputLevelContains(int)",
+                "parent_name" : "RequiredByUser",
+                "usr" : "c:@N@nestedKrig@C@RequiredByUser@F@outputLevelContains#I#1"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 7,
+                "line" : 244,
+                "name" : "setOutputLevel(const int)",
+                "parent_name" : "RequiredByUser",
+                "usr" : "c:@N@nestedKrig@C@RequiredByUser@F@setOutputLevel#1I#"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 7,
+                "line" : 246,
+                "name" : "getOutputLevel",
+                "parent_name" : "RequiredByUser",
+                "usr" : "c:@N@nestedKrig@C@RequiredByUser@F@getOutputLevel#1"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 7,
+                "line" : 248,
+                "name" : "alternatives",
+                "parent_name" : "RequiredByUser",
+                "usr" : "c:@N@nestedKrig@C@RequiredByUser@F@alternatives#1"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 7,
+                "line" : 252,
+                "name" : "nestedKrigingPredictions",
+                "parent_name" : "RequiredByUser",
+                "usr" : "c:@N@nestedKrig@C@RequiredByUser@F@nestedKrigingPredictions#1"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 7,
+                "line" : 256,
+                "name" : "predictionBySubmodel",
+                "parent_name" : "RequiredByUser",
+                "usr" : "c:@N@nestedKrig@C@RequiredByUser@F@predictionBySubmodel#1"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 7,
+                "line" : 260,
+                "name" : "covariancesBySubmodel",
+                "parent_name" : "RequiredByUser",
+                "usr" : "c:@N@nestedKrig@C@RequiredByUser@F@covariancesBySubmodel#1"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 7,
+                "line" : 264,
+                "name" : "covariances",
+                "parent_name" : "RequiredByUser",
+                "usr" : "c:@N@nestedKrig@C@RequiredByUser@F@covariances#1"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 2,
+                "line" : 274,
+                "name" : "Output",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@Output"
+            },
+            {
+                "column" : 20,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 7,
+                "line" : 282,
+                "name" : "vecvecToMat(const std::vector<arma::vec> &)",
+                "parent_name" : "Output",
+                "usr" : "c:@N@nestedKrig@C@Output@F@vecvecToMat#&1$@N@std@C@vector>#$@N@arma@C@Col>#d#$@N@std@C@allocator>#S2_#S"
+            },
+            {
+                "column" : 17,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 7,
+                "line" : 295,
+                "name" : "meanSquareError(const arma::vec &, const arma::vec &)",
+                "parent_name" : "Output",
+                "usr" : "c:@N@nestedKrig@C@Output@F@meanSquareError#&1$@N@arma@C@Col>#d#S0_#S"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 7,
+                "line" : 315,
+                "name" : "setDetailLevel(const int)",
+                "parent_name" : "Output",
+                "usr" : "c:@N@nestedKrig@C@Output@F@setDetailLevel#1I#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 7,
+                "line" : 349,
+                "name" : "reserveMatrices(Long, Long)",
+                "parent_name" : "Output",
+                "usr" : "c:@N@nestedKrig@C@Output@F@reserveMatrices#k#k#"
+            },
+            {
+                "column" : 11,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 7,
+                "line" : 393,
+                "name" : "operator=(nestedKrig::Output &&)",
+                "parent_name" : "Output",
+                "usr" : "c:@N@nestedKrig@C@Output@F@operator=#&$@N@nestedKrig@C@Output#"
+            },
+            {
+                "column" : 35,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 7,
+                "line" : 396,
+                "name" : "getDefaultMeanSd2(const nestedKrig::LOOScheme &)",
+                "parent_name" : "Output",
+                "usr" : "c:@N@nestedKrig@C@Output@F@getDefaultMeanSd2#&1$@N@nestedKrig@C@LOOScheme#1"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 7,
+                "line" : 412,
+                "name" : "getDefaultLOOError(const nestedKrig::LOOScheme &, const arma::vec &)",
+                "parent_name" : "Output",
+                "usr" : "c:@N@nestedKrig@C@Output@F@getDefaultLOOError#&1$@N@nestedKrig@C@LOOScheme#&1$@N@arma@C@Col>#d#1"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 7,
+                "line" : 419,
+                "name" : "getDefaultLOOError(const nestedKrig::LOOScheme &)",
+                "parent_name" : "Output",
+                "usr" : "c:@N@nestedKrig@C@Output@F@getDefaultLOOError#&1$@N@nestedKrig@C@LOOScheme#1"
+            },
+            {
+                "column" : 21,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 7,
+                "line" : 432,
+                "name" : "minimalExport(const nestedKrig::LOOScheme &)",
+                "parent_name" : "Output",
+                "usr" : "c:@N@nestedKrig@C@Output@F@minimalExport#&1$@N@nestedKrig@C@LOOScheme#1"
+            },
+            {
+                "column" : 14,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 7,
+                "line" : 439,
+                "name" : "exportList(const nestedKrig::LOOScheme &)",
+                "parent_name" : "Output",
+                "usr" : "c:@N@nestedKrig@C@Output@F@exportList#&1$@N@nestedKrig@C@LOOScheme#1"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 2,
+                "line" : 522,
+                "name" : "Algo",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@Algo"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 7,
+                "line" : 793,
+                "name" : "output",
+                "parent_name" : "Algo",
+                "usr" : "c:@N@nestedKrig@C@Algo@F@output#1"
+            },
+            {
+                "column" : 14,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 7,
+                "line" : 797,
+                "name" : "exportList(const Long)",
+                "parent_name" : "Algo",
+                "usr" : "c:@N@nestedKrig@C@Algo@F@exportList#1k#1"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 2,
+                "line" : 813,
+                "name" : "AlgoZones",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@AlgoZones"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 7,
+                "line" : 841,
+                "name" : "updateDurations",
+                "parent_name" : "AlgoZones",
+                "usr" : "c:@N@nestedKrig@C@AlgoZones@F@updateDurations#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 7,
+                "line" : 847,
+                "name" : "mergeOutputs(const nestedKrig::Splitter &)",
+                "parent_name" : "AlgoZones",
+                "usr" : "c:@N@nestedKrig@C@AlgoZones@F@mergeOutputs#&1$@N@nestedKrig@C@Splitter#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 7,
+                "line" : 888,
+                "name" : "run",
+                "parent_name" : "AlgoZones",
+                "usr" : "c:@N@nestedKrig@C@AlgoZones@F@run#"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 7,
+                "line" : 925,
+                "name" : "output",
+                "parent_name" : "AlgoZones",
+                "usr" : "c:@N@nestedKrig@C@AlgoZones@F@output#1"
+            },
+            {
+                "column" : 13,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 7,
+                "line" : 929,
+                "name" : "exportList(const Long)",
+                "parent_name" : "AlgoZones",
+                "usr" : "c:@N@nestedKrig@C@AlgoZones@F@exportList#1k#1"
+            },
+            {
+                "column" : 12,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+                "kind" : 6,
+                "line" : 938,
+                "name" : "nested_kriging(const arma::mat &, const arma::vec &, const ClusterVector &, const arma::mat &, const std::string, const arma::vec &, const double, const bool, const std::string, long, long, const int, const int, const Indices &, const Rcpp::IntegerVector, const arma::vec, const std::string, const Long)",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@F@nested_kriging#&1$@N@arma@C@Mat>#d#&1$@N@arma@C@Col>#d#&1$@N@std@C@vector>#L#$@N@std@C@allocator>#L#S0_#1$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#S2_#1d#1b#1S7_#L#L#1I#1I#S4_#1$@N@Rcpp@C@Vector>#VI13#@N@Rcpp@CT>1#T@PreserveStorage#1S3_#1S7_#1k#"
+            }
+        ],
+        "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging.h",
+        "file_last_write" : 1559914231
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging_init.c",
+                "kind" : 6,
+                "line" : 34,
+                "name" : "R_init_nestedKriging(DllInfo *)",
+                "parent_name" : "",
+                "usr" : "c:@F@R_init_nestedKriging#*$@S@_DllInfo#"
+            }
+        ],
+        "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/nestedKriging_init.c",
+        "file_last_write" : 1559914231
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/paramEstimation.h",
+                "kind" : 6,
+                "line" : 15,
+                "name" : "withinBound(const arma::vec &, const arma::vec &, const arma::vec &)",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@F@withinBound#&1$@N@arma@C@Col>#d#S0_#S0_#"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/paramEstimation.h",
+                "kind" : 2,
+                "line" : 28,
+                "name" : "BestParamSoFar<ParameterType>",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@CT>1#T@BestParamSoFar"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/paramEstimation.h",
+                "kind" : 7,
+                "line" : 38,
+                "name" : "observedParameter(const ParameterType &, const double)",
+                "parent_name" : "BestParamSoFar<ParameterType>",
+                "usr" : "c:@N@nestedKrig@CT>1#T@BestParamSoFar@F@observedParameter#&1t0.0#1d#"
+            },
+            {
+                "column" : 12,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/paramEstimation.h",
+                "kind" : 6,
+                "line" : 47,
+                "name" : "estimParamCpp(const arma::mat &, const arma::vec &, const std::vector<long> &, const Long, const std::string, const Long, const arma::vec &, const arma::vec &, const arma::vec &, const double, const std::string, const Long, const double, const double, const double, const double, const double, const std::string, const long, const long, const int, const Rcpp::IntegerVector, const arma::vec, const std::string)",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@FT@>1#NIestimParamCpp#&1$@N@arma@C@Mat>#d#&1$@N@arma@C@Col>#d#&1$@N@std@C@vector>#L#$@N@std@C@allocator>#L#1k#1$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#1k#S2_#S2_#S2_#1d#1S7_#1k#1d#1d#1d#1d#1d#1S7_#1L#1L#1I#1$@N@Rcpp@C@Vector>#VI13#@N@Rcpp@CT>1#T@PreserveStorage#1S3_#1S7_#"
+            }
+        ],
+        "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/paramEstimation.h",
+        "file_last_write" : 1559914231
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/sandBox.h",
+                "kind" : 6,
+                "line" : 19,
+                "name" : "RaiseFatalError_and_CrashRSession_1",
+                "parent_name" : "",
+                "usr" : "c:@N@sandBox@F@RaiseFatalError_and_CrashRSession_1#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/sandBox.h",
+                "kind" : 6,
+                "line" : 26,
+                "name" : "RaiseFatalError_and_CrashRSession_2",
+                "parent_name" : "",
+                "usr" : "c:@N@sandBox@F@RaiseFatalError_and_CrashRSession_2#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/sandBox.h",
+                "kind" : 6,
+                "line" : 35,
+                "name" : "launchDraftCode",
+                "parent_name" : "",
+                "usr" : "c:@N@sandBox@F@launchDraftCode#"
+            }
+        ],
+        "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/sandBox.h",
+        "file_last_write" : 1559914231
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/splitter.h",
+                "kind" : 3,
+                "line" : 35,
+                "name" : "IsAlreadyClean",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@S@IsAlreadyClean"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/splitter.h",
+                "kind" : 2,
+                "line" : 51,
+                "name" : "Ranks<VectorType>",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@CT>1#T@Ranks"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/splitter.h",
+                "kind" : 7,
+                "line" : 56,
+                "name" : "computeRanks(const VectorType &)",
+                "parent_name" : "Ranks<VectorType>",
+                "usr" : "c:@N@nestedKrig@CT>1#T@Ranks@F@computeRanks#&1t0.0#"
+            },
+            {
+                "column" : 15,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/splitter.h",
+                "kind" : 7,
+                "line" : 96,
+                "name" : "distinctValues",
+                "parent_name" : "Ranks<VectorType>",
+                "usr" : "c:@N@nestedKrig@CT>1#T@Ranks@F@distinctValues#1"
+            },
+            {
+                "column" : 15,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/splitter.h",
+                "kind" : 7,
+                "line" : 100,
+                "name" : "rankOf(long)",
+                "parent_name" : "Ranks<VectorType>",
+                "usr" : "c:@N@nestedKrig@CT>1#T@Ranks@F@rankOf#L#1"
+            },
+            {
+                "column" : 15,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/splitter.h",
+                "kind" : 7,
+                "line" : 104,
+                "name" : "countByRank(Long)",
+                "parent_name" : "Ranks<VectorType>",
+                "usr" : "c:@N@nestedKrig@CT>1#T@Ranks@F@countByRank#k#1"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/splitter.h",
+                "kind" : 2,
+                "line" : 124,
+                "name" : "CleanScheme<VectorType>",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@CT>1#T@CleanScheme"
+            },
+            {
+                "column" : 15,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/splitter.h",
+                "kind" : 7,
+                "line" : 134,
+                "name" : "operator[](const Long)",
+                "parent_name" : "CleanScheme<VectorType>",
+                "usr" : "c:@N@nestedKrig@CT>1#T@CleanScheme@F@operator[]#1k#1"
+            },
+            {
+                "column" : 15,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/splitter.h",
+                "kind" : 7,
+                "line" : 138,
+                "name" : "size",
+                "parent_name" : "CleanScheme<VectorType>",
+                "usr" : "c:@N@nestedKrig@CT>1#T@CleanScheme@F@size#1"
+            },
+            {
+                "column" : 15,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/splitter.h",
+                "kind" : 7,
+                "line" : 142,
+                "name" : "groupSize(const Long)",
+                "parent_name" : "CleanScheme<VectorType>",
+                "usr" : "c:@N@nestedKrig@CT>1#T@CleanScheme@F@groupSize#1k#1"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/splitter.h",
+                "kind" : 2,
+                "line" : 154,
+                "name" : "DetailedCleanScheme<VectorType>",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@ST>1#T@DetailedCleanScheme"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/splitter.h",
+                "kind" : 7,
+                "line" : 157,
+                "name" : "fillGroupByObs",
+                "parent_name" : "DetailedCleanScheme<VectorType>",
+                "usr" : "c:@N@nestedKrig@ST>1#T@DetailedCleanScheme@F@fillGroupByObs#"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/splitter.h",
+                "kind" : 7,
+                "line" : 163,
+                "name" : "fillPosInItsGroup",
+                "parent_name" : "DetailedCleanScheme<VectorType>",
+                "usr" : "c:@N@nestedKrig@ST>1#T@DetailedCleanScheme@F@fillPosInItsGroup#"
+            },
+            {
+                "column" : 17,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/splitter.h",
+                "kind" : 7,
+                "line" : 190,
+                "name" : "operator[](const Long)",
+                "parent_name" : "DetailedCleanScheme<VectorType>",
+                "usr" : "c:@N@nestedKrig@ST>1#T@DetailedCleanScheme@F@operator[]#1k#1"
+            },
+            {
+                "column" : 17,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/splitter.h",
+                "kind" : 7,
+                "line" : 194,
+                "name" : "positionInItsGroup(const Long)",
+                "parent_name" : "DetailedCleanScheme<VectorType>",
+                "usr" : "c:@N@nestedKrig@ST>1#T@DetailedCleanScheme@F@positionInItsGroup#1k#1"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/splitter.h",
+                "kind" : 2,
+                "line" : 205,
+                "name" : "WithInterface<Interface>",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@ST>1#T@WithInterface"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/splitter.h",
+                "kind" : 3,
+                "line" : 214,
+                "name" : "WithInterface<arma::mat>",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@S@WithInterface>#$@N@arma@C@Mat>#d"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/splitter.h",
+                "kind" : 3,
+                "line" : 223,
+                "name" : "WithInterface<const arma::mat>",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@S@WithInterface>#1$@N@arma@C@Mat>#d"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/splitter.h",
+                "kind" : 3,
+                "line" : 228,
+                "name" : "WithInterface<nestedKrig::Points>",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@S@WithInterface>#$@N@nestedKrig@C@Points"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/splitter.h",
+                "kind" : 3,
+                "line" : 237,
+                "name" : "WithInterface<const nestedKrig::Points>",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@S@WithInterface>#1$@N@nestedKrig@C@Points"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/splitter.h",
+                "kind" : 2,
+                "line" : 245,
+                "name" : "Splitter",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrig@C@Splitter"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/splitter.h",
+                "kind" : 7,
+                "line" : 291,
+                "name" : "setModuloSplitScheme(Long, Long)",
+                "parent_name" : "Splitter",
+                "usr" : "c:@N@nestedKrig@C@Splitter@F@setModuloSplitScheme#k#k#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/splitter.h",
+                "kind" : 7,
+                "line" : 313,
+                "name" : "get_N",
+                "parent_name" : "Splitter",
+                "usr" : "c:@N@nestedKrig@C@Splitter@F@get_N#1"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/splitter.h",
+                "kind" : 7,
+                "line" : 317,
+                "name" : "get_maxGroupSize",
+                "parent_name" : "Splitter",
+                "usr" : "c:@N@nestedKrig@C@Splitter@F@get_maxGroupSize#1"
+            }
+        ],
+        "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/splitter.h",
+        "file_last_write" : 1559914231
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 3,
+                "line" : 22,
+                "name" : "Printer",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@S@Printer"
+            },
+            {
+                "column" : 15,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 23,
+                "name" : "print(const std::string &)",
+                "parent_name" : "Printer",
+                "usr" : "c:@N@nestedKrigTests@S@Printer@F@print#&1$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#S"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 2,
+                "line" : 28,
+                "name" : "Test",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@C@Test"
+            },
+            {
+                "column" : 23,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 8,
+                "line" : 29,
+                "name" : "Context",
+                "parent_name" : "",
+                "usr" : "c:tests.h@609@N@nestedKrigTests@C@Test@T@Context"
+            },
+            {
+                "column" : 32,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 8,
+                "line" : 30,
+                "name" : "Contexts",
+                "parent_name" : "",
+                "usr" : "c:tests.h@640@N@nestedKrigTests@C@Test@T@Contexts"
+            },
+            {
+                "column" : 11,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 42,
+                "name" : "getCompleteContext",
+                "parent_name" : "Test",
+                "usr" : "c:@N@nestedKrigTests@C@Test@F@getCompleteContext#1"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 48,
+                "name" : "appendToVector(Contexts &, const Contexts &)",
+                "parent_name" : "Test",
+                "usr" : "c:@N@nestedKrigTests@C@Test@F@appendToVector#&$@N@std@C@vector>#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#$@N@std@C@allocator>#S2_#&1S1_#1"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 52,
+                "name" : "relativeError(double, double)",
+                "parent_name" : "Test",
+                "usr" : "c:@N@nestedKrigTests@C@Test@F@relativeError#d#d#1"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 57,
+                "name" : "areClose(double, double)",
+                "parent_name" : "Test",
+                "usr" : "c:@N@nestedKrigTests@C@Test@F@areClose#d#d#1"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 61,
+                "name" : "giveLeftRightDetails(double, double, std::string)",
+                "parent_name" : "Test",
+                "usr" : "c:@N@nestedKrigTests@C@Test@F@giveLeftRightDetails#d#d#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#1"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 82,
+                "name" : "setDebugMode(bool)",
+                "parent_name" : "Test",
+                "usr" : "c:@N@nestedKrigTests@C@Test@F@setDebugMode#b#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 86,
+                "name" : "status",
+                "parent_name" : "Test",
+                "usr" : "c:@N@nestedKrigTests@C@Test@F@status#1"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 90,
+                "name" : "append(const nestedKrigTests::Test &)",
+                "parent_name" : "Test",
+                "usr" : "c:@N@nestedKrigTests@C@Test@F@append#&1$@N@nestedKrigTests@C@Test#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 99,
+                "name" : "createSection(std::string)",
+                "parent_name" : "Test",
+                "usr" : "c:@N@nestedKrigTests@C@Test@F@createSection#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 105,
+                "name" : "assertTrue(bool, std::string)",
+                "parent_name" : "Test",
+                "usr" : "c:@N@nestedKrigTests@C@Test@F@assertTrue#b#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 114,
+                "name" : "setPrecision(double, double)",
+                "parent_name" : "Test",
+                "usr" : "c:@N@nestedKrigTests@C@Test@F@setPrecision#d#d#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 119,
+                "name" : "assertClose(const double &, const double &, std::string)",
+                "parent_name" : "Test",
+                "usr" : "c:@N@nestedKrigTests@C@Test@F@assertClose#&1d#S0_#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 124,
+                "name" : "assertNotClose(const double &, const double &, std::string)",
+                "parent_name" : "Test",
+                "usr" : "c:@N@nestedKrigTests@C@Test@F@assertNotClose#&1d#S0_#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 144,
+                "name" : "printSummary(bool)",
+                "parent_name" : "Test",
+                "usr" : "c:@N@nestedKrigTests@C@Test@F@printSummary#b#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 3,
+                "line" : 169,
+                "name" : "Rng",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@S@Rng"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 174,
+                "name" : "operator()",
+                "parent_name" : "Rng",
+                "usr" : "c:@N@nestedKrigTests@S@Rng@F@operator()#"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 2,
+                "line" : 184,
+                "name" : "CaseStudy",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@C@CaseStudy"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 186,
+                "name" : "createGpSize(const arma::vec &)",
+                "parent_name" : "CaseStudy",
+                "usr" : "c:@N@nestedKrigTests@C@CaseStudy@F@createGpSize#&1$@N@arma@C@Col>#d#"
+            },
+            {
+                "column" : 20,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 196,
+                "name" : "testFunction(arma::mat)",
+                "parent_name" : "CaseStudy",
+                "usr" : "c:@N@nestedKrigTests@C@CaseStudy@F@testFunction#$@N@arma@C@Mat>#d#S"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 246,
+                "name" : "setSimpleKriging",
+                "parent_name" : "CaseStudy",
+                "usr" : "c:@N@nestedKrigTests@C@CaseStudy@F@setSimpleKriging#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 250,
+                "name" : "setGroupsN_equals_1",
+                "parent_name" : "CaseStudy",
+                "usr" : "c:@N@nestedKrigTests@C@CaseStudy@F@setGroupsN_equals_1#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 257,
+                "name" : "setGroupsN_equals_n",
+                "parent_name" : "CaseStudy",
+                "usr" : "c:@N@nestedKrigTests@C@CaseStudy@F@setGroupsN_equals_n#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 263,
+                "name" : "increaseLengthScalesBy(double)",
+                "parent_name" : "CaseStudy",
+                "usr" : "c:@N@nestedKrigTests@C@CaseStudy@F@increaseLengthScalesBy#d#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 267,
+                "name" : "keepOnlyOneObservation(Long)",
+                "parent_name" : "CaseStudy",
+                "usr" : "c:@N@nestedKrigTests@C@CaseStudy@F@keepOnlyOneObservation#k#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 276,
+                "name" : "rotateObservations(Long)",
+                "parent_name" : "CaseStudy",
+                "usr" : "c:@N@nestedKrigTests@C@CaseStudy@F@rotateObservations#k#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 285,
+                "name" : "rotatePredPoints(Long)",
+                "parent_name" : "CaseStudy",
+                "usr" : "c:@N@nestedKrigTests@C@CaseStudy@F@rotatePredPoints#k#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 290,
+                "name" : "changeClusterLabels",
+                "parent_name" : "CaseStudy",
+                "usr" : "c:@N@nestedKrigTests@C@CaseStudy@F@changeClusterLabels#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 295,
+                "name" : "changePredPoints(arma::mat)",
+                "parent_name" : "CaseStudy",
+                "usr" : "c:@N@nestedKrigTests@C@CaseStudy@F@changePredPoints#$@N@arma@C@Mat>#d#"
+            },
+            {
+                "column" : 14,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 301,
+                "name" : "output",
+                "parent_name" : "CaseStudy",
+                "usr" : "c:@N@nestedKrigTests@C@CaseStudy@F@output#"
+            },
+            {
+                "column" : 12,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 314,
+                "name" : "launchOurAlgo(nestedKrigTests::CaseStudy &, Long, Long)",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@launchOurAlgo#&$@N@nestedKrigTests@C@CaseStudy#k#k#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 324,
+                "name" : "getLOOerror(nestedKrigTests::CaseStudy &, Long, Long)",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@getLOOerror#&$@N@nestedKrigTests@C@CaseStudy#k#k#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 338,
+                "name" : "getDetailedOutput(nestedKrigTests::CaseStudy &, int)",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@getDetailedOutput#&$@N@nestedKrigTests@C@CaseStudy#I#"
+            },
+            {
+                "column" : 7,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 2,
+                "line" : 358,
+                "name" : "GivenCases",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@C@GivenCases"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 369,
+                "name" : "alarm",
+                "parent_name" : "GivenCases",
+                "usr" : "c:@N@nestedKrigTests@C@GivenCases@F@alarm#"
+            },
+            {
+                "column" : 13,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 373,
+                "name" : "selecx(arma::mat, Long)",
+                "parent_name" : "GivenCases",
+                "usr" : "c:@N@nestedKrigTests@C@GivenCases@F@selecx#$@N@arma@C@Mat>#d#k#"
+            },
+            {
+                "column" : 13,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 377,
+                "name" : "selecx(Rcpp::List, Long)",
+                "parent_name" : "GivenCases",
+                "usr" : "c:@N@nestedKrigTests@C@GivenCases@F@selecx#$@N@Rcpp@C@Vector>#VI19#@N@Rcpp@CT>1#T@PreserveStorage#k#"
+            },
+            {
+                "column" : 10,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 381,
+                "name" : "selecx(arma::vec, Long)",
+                "parent_name" : "GivenCases",
+                "usr" : "c:@N@nestedKrigTests@C@GivenCases@F@selecx#$@N@arma@C@Col>#d#k#"
+            },
+            {
+                "column" : 13,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 410,
+                "name" : "caseVariances",
+                "parent_name" : "GivenCases",
+                "usr" : "c:@N@nestedKrigTests@C@GivenCases@F@caseVariances#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 415,
+                "name" : "whenSimpleKriging",
+                "parent_name" : "GivenCases",
+                "usr" : "c:@N@nestedKrigTests@C@GivenCases@F@whenSimpleKriging#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 416,
+                "name" : "whenPickxBrowse(arma::vec)",
+                "parent_name" : "GivenCases",
+                "usr" : "c:@N@nestedKrigTests@C@GivenCases@F@whenPickxBrowse#$@N@arma@C@Col>#d#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 417,
+                "name" : "whenThreadsNumberAre(Long, Long)",
+                "parent_name" : "GivenCases",
+                "usr" : "c:@N@nestedKrigTests@C@GivenCases@F@whenThreadsNumberAre#k#k#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 418,
+                "name" : "whenLengthScalesAreIncreasedBy(double)",
+                "parent_name" : "GivenCases",
+                "usr" : "c:@N@nestedKrigTests@C@GivenCases@F@whenLengthScalesAreIncreasedBy#d#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 419,
+                "name" : "whenGroupsN_equals_n",
+                "parent_name" : "GivenCases",
+                "usr" : "c:@N@nestedKrigTests@C@GivenCases@F@whenGroupsN_equals_n#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 420,
+                "name" : "whenGroupsN_equals_1",
+                "parent_name" : "GivenCases",
+                "usr" : "c:@N@nestedKrigTests@C@GivenCases@F@whenGroupsN_equals_1#"
+            },
+            {
+                "column" : 26,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 422,
+                "name" : "ourMeans",
+                "parent_name" : "GivenCases",
+                "usr" : "c:@N@nestedKrigTests@C@GivenCases@F@ourMeans#"
+            },
+            {
+                "column" : 26,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 423,
+                "name" : "ourSd2s",
+                "parent_name" : "GivenCases",
+                "usr" : "c:@N@nestedKrigTests@C@GivenCases@F@ourSd2s#"
+            },
+            {
+                "column" : 26,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 424,
+                "name" : "ourmean_Ms",
+                "parent_name" : "GivenCases",
+                "usr" : "c:@N@nestedKrigTests@C@GivenCases@F@ourmean_Ms#"
+            },
+            {
+                "column" : 26,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 425,
+                "name" : "ourWeights",
+                "parent_name" : "GivenCases",
+                "usr" : "c:@N@nestedKrigTests@C@GivenCases@F@ourWeights#"
+            },
+            {
+                "column" : 26,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 426,
+                "name" : "ourKMs",
+                "parent_name" : "GivenCases",
+                "usr" : "c:@N@nestedKrigTests@C@GivenCases@F@ourKMs#"
+            },
+            {
+                "column" : 26,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 427,
+                "name" : "ourkMs",
+                "parent_name" : "GivenCases",
+                "usr" : "c:@N@nestedKrigTests@C@GivenCases@F@ourkMs#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 436,
+                "name" : "testPlatformIndependentRng",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testPlatformIndependentRng#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 446,
+                "name" : "testPlatformIndependentCaseStudy",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testPlatformIndependentCaseStudy#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 463,
+                "name" : "testProgressBar",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testProgressBar#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 495,
+                "name" : "testPoints",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testPoints#"
+            },
+            {
+                "column" : 11,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 517,
+                "name" : "getK(Long, std::string, double)",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@getK#k#$@N@std@C@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@C@allocator>#C#d#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 529,
+                "name" : "testKernelSym",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testKernelSym#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 540,
+                "name" : "slowGaussCovariance(const arma::rowvec &, const arma::rowvec &, const arma::vec &, const double)",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@slowGaussCovariance#&1$@N@arma@C@Row>#d#S0_#&1$@N@arma@C@Col>#d#1d#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 548,
+                "name" : "testKernelGaussDimTwo",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testKernelGaussDimTwo#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 590,
+                "name" : "testKernelGaussWithNugget",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testKernelGaussWithNugget#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 617,
+                "name" : "testRetrieveCorrFromCrossCorr",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testRetrieveCorrFromCrossCorr#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 632,
+                "name" : "testCorrWithEquivalentNuggets",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testCorrWithEquivalentNuggets#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 660,
+                "name" : "testKernelIdenticalNicolas",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testKernelIdenticalNicolas#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 685,
+                "name" : "testRanks",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testRanks#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 711,
+                "name" : "testWithInterface",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testWithInterface#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 3,
+                "line" : 749,
+                "name" : "SplitterInspected",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@S@SplitterInspected"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 7,
+                "line" : 754,
+                "name" : "isAllocationTight",
+                "parent_name" : "SplitterInspected",
+                "usr" : "c:@N@nestedKrigTests@S@SplitterInspected@F@isAllocationTight#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 761,
+                "name" : "testSplitterA",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testSplitterA#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 782,
+                "name" : "testSplitterB",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testSplitterB#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 805,
+                "name" : "testSplitterC",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testSplitterC#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 820,
+                "name" : "testSplitterD",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testSplitterD#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 843,
+                "name" : "testSplitterE",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testSplitterE#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 864,
+                "name" : "testLOOSchemeWithCleanScheme",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testLOOSchemeWithCleanScheme#"
+            },
+            {
+                "column" : 8,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 909,
+                "name" : "checksumPoints(const nestedKrig::Points &)",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@checksumPoints#&1$@N@nestedKrig@C@Points#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 917,
+                "name" : "testSubmodels",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testSubmodels#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 948,
+                "name" : "testInitializer",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testInitializer#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 967,
+                "name" : "testCovariances_kM_and_KM_Basic",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testCovariances_kM_and_KM_Basic#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1011,
+                "name" : "testCovariances_kM_and_KM_LinkWhenSK",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testCovariances_kM_and_KM_LinkWhenSK#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1030,
+                "name" : "testOutputCovariances_kkM_and_KKM",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testOutputCovariances_kkM_and_KKM#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1052,
+                "name" : "test_cagg_kagg",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@test_cagg_kagg#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1073,
+                "name" : "test_cagg_kaggAsDiceKriging",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@test_cagg_kaggAsDiceKriging#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1095,
+                "name" : "test_cagg_kaggAsCalculatedWhenNisOne",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@test_cagg_kaggAsCalculatedWhenNisOne#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1124,
+                "name" : "testOutputCovariancesAsPreviousRun",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testOutputCovariancesAsPreviousRun#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1156,
+                "name" : "testIdenticalmean_MNicolasCase1",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testIdenticalmean_MNicolasCase1#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1168,
+                "name" : "testIdenticalmean_MNicolasCase2",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testIdenticalmean_MNicolasCase2#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1180,
+                "name" : "testIdenticalmean_MClement",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testIdenticalmean_MClement#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1192,
+                "name" : "testIdenticalmean_MClementSmallLengthScales",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testIdenticalmean_MClementSmallLengthScales#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1205,
+                "name" : "testIdenticalmean_MNicolasSmallLengthScales",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testIdenticalmean_MNicolasSmallLengthScales#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1221,
+                "name" : "testIdenticalCorrMatrixK",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testIdenticalCorrMatrixK#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1239,
+                "name" : "testIdenticalCrossCorrMatrixk",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testIdenticalCrossCorrMatrixk#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1252,
+                "name" : "testIdenticalCorrMatrixKSmallLengthScales",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testIdenticalCorrMatrixKSmallLengthScales#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1271,
+                "name" : "testIdenticalCrossCorrMatrixkSmallLengthScales",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testIdenticalCrossCorrMatrixkSmallLengthScales#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1287,
+                "name" : "testIdenticalWeightClement",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testIdenticalWeightClement#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1301,
+                "name" : "testWeightsSolveSystem",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testWeightsSolveSystem#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1320,
+                "name" : "testOneDesignPointOnly",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testOneDesignPointOnly#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1351,
+                "name" : "testPermutationHasNoImpact",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testPermutationHasNoImpact#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1374,
+                "name" : "testWithRotatedPredPoints",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testWithRotatedPredPoints#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1393,
+                "name" : "testInterpolating",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testInterpolating#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1409,
+                "name" : "testIdenticalExtremeGroups",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testIdenticalExtremeGroups#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1427,
+                "name" : "testMultithreadCompilation",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testMultithreadCompilation#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1437,
+                "name" : "testNoThreadImpact",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testNoThreadImpact#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1458,
+                "name" : "testMergeOutputInAlgoZone",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testMergeOutputInAlgoZone#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1483,
+                "name" : "testNoThreadImpactZoneBasic",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testNoThreadImpactZoneBasic#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1499,
+                "name" : "testNoThreadImpactZone",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testNoThreadImpactZone#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1518,
+                "name" : "testTooManyThreadsZone",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testTooManyThreadsZone#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1543,
+                "name" : "testIdenticalMeanSd2WithClement",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testIdenticalMeanSd2WithClement#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1568,
+                "name" : "testIdenticalMeanSd2WithClementSK",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testIdenticalMeanSd2WithClementSK#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1585,
+                "name" : "testIdenticalMeanSd2WithNicolasSKfocus1",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testIdenticalMeanSd2WithNicolasSKfocus1#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1604,
+                "name" : "testIdenticalMeanSd2WithNicolasSKfocus2",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testIdenticalMeanSd2WithNicolasSKfocus2#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1624,
+                "name" : "testIdenticalDiceKriging",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testIdenticalDiceKriging#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1650,
+                "name" : "testLOOErrors",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testLOOErrors#"
+            },
+            {
+                "column" : 6,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1683,
+                "name" : "testNoCriticalStopWithLargerData",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@testNoCriticalStopWithLargerData#"
+            },
+            {
+                "column" : 12,
+                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+                "kind" : 6,
+                "line" : 1703,
+                "name" : "runAllTests(bool, bool)",
+                "parent_name" : "",
+                "usr" : "c:@N@nestedKrigTests@F@runAllTests#b#b#"
+            }
+        ],
+        "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/tests.h",
+        "file_last_write" : 1559914231
+    }
+]
