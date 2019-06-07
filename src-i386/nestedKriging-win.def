@@ -1,0 +1,3 @@
+LIBRARY    nestedKriging.dll
+EXPORTS
+ R_init_nestedKriging
