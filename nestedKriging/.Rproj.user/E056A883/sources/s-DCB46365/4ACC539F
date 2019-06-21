@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1561100589057.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "48147937",
+    "id" : "4ACC539F",
+    "lastKnownWriteTime" : 1561100795,
+    "last_content_update" : 1561100795691,
+    "path" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
+    "project_path" : "src/covariance.h",
+    "properties" : {
+        "cursorPosition" : "258,0",
+        "scrollLine" : "243"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "h"
+}

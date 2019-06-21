@@ -1,0 +1,28 @@
+estimParam              Function to estimate the lenghtscale parameters
+                        (hyperparameters).
+estimParamOld           Old and temporary R implementation of
+                        estimParam.
+estimSigma2             Estimate the prior variance of the underlying
+                        random field.
+looErrors               Function to compute leave-one-out prediction
+                        errors.
+looErrorsDirect         Compute leave-one-out mean square error with
+                        minimal export.
+nestedKriging           Compute Nested Kriging Mean and Variance
+                        Predictions
+nestedKriging-package   Nested Kriging Predictions for Large Datasets
+nestedKrigingDirect     Same Function as 'nestedKriging', Without
+                        Checking Arguments and Without Adjusting the
+                        Number of Threads of Linear Algebra Library
+                        BLAS
+setNumThreadsBLAS       Set the Number of Threads Used by External
+                        Linear Algebra Libraries (BLAS)
+tests_getCaseStudy      Returns a Case Study Example for Manual Testing
+                        of the Package
+tests_getCodeValues     Returns the Nested Kriging Predicion for a
+                        Selected Case Study, for Manual Testing of the
+                        Package
+tests_run               Run all Implemented Tests for the
+                        'nestedKriging' Package
+versionInfo             Gives Information about the Version of this
+                        Package

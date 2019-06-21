@@ -1,0 +1,1129 @@
+
+R version 3.4.3 (2017-11-30) -- "Kite-Eating Tree"
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "nestedKriging"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> options(pager = "console")
+> base::assign(".ExTimings", "nestedKriging-Ex.timings", pos = 'CheckExEnv')
+> base::cat("name\tuser\tsystem\telapsed\n", file=base::get(".ExTimings", pos = 'CheckExEnv'))
+> base::assign(".format_ptime",
++ function(x) {
++   if(!is.na(x[4L])) x[1L] <- x[1L] + x[4L]
++   if(!is.na(x[5L])) x[2L] <- x[2L] + x[5L]
++   options(OutDec = '.')
++   format(x[1L:3L], digits = 7L)
++ },
++ pos = 'CheckExEnv')
+> 
+> ### * </HEADER>
+> library('nestedKriging')
+Loading required package: RhpcBLASctl
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("estimParam")
+> ### * estimParam
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: estimParam
+> ### Title: Function to estimate the lenghtscale parameters
+> ###   (hyperparameters).
+> ### Aliases: estimParam
+> ### Keywords: spatial models & Statistical Models & regression
+> 
+> ### ** Examples
+> 
+> library(nestedKriging)
+> 
+> ### chosen model
+> 
+> morris <- function(X) {
++   d <- dim(X)[2]
++   y <- X[,1]
++   for (i in 1:d) {
++     y <- y + 2*( (i/2 + X[,i] )/(1+i/2 + X[,i])  - 0.5)
++   }
++   y <- y + X[,1]*X[,2]
++   y
++ }
+> 
+> f <- morris
+> d <- 2                   # considered test function is in dimension 2
+> n <- 300                 # Choice of the number of observations.
+> covType <- "exp"         # Choice of the parametric family of covariance function
+> N <- 10                  # Choice of the number of groups
+> krigingType <- "simple"  # Choice of the Kriging Type "simple" or "ordinary"
+> q <- 20                  # number of points used to estimate cross-validation errors
+> sd2 <- 150               # initial variance of the field
+> 
+> ### chosen parameters for the stochastic gradient descent
+> 
+> seed <- 1                  # random seed, for reproducibility reasons
+> niter <- 1000              # number of iterations of the stochastic gradient descent
+>                            # On purpose we pick a very bad values for:
+> paramStart <- c(80,0.1)    # This is our initial 'guess' of the covariance parameters.
+> paramLower <- c(0.01,0.01) # search domain for the covariance parameters : lower bound
+> paramUpper <- c(100,100)   # search domain for the covariance parameters : upper bound
+> 
+> alpha <- 0.602       # see, book bathnagar et al
+> gamma <- 0.101       # see, book bathnagar et al
+> a <- 200             # see, book bathnagar et al
+> A <- 1               # see, book bathnagar et al
+> c <- 0.1             # see, book bathnagar et al
+> 
+> set.seed(seed)                                  # For repeatability
+> X <- matrix(runif(n*d) , ncol=d)                # Design of experiments
+> Y <-  f(X)                                      # observed responses
+> clusters <- kmeans(x = X,centers = N)$cluster   # Construction of the clusters
+> 
+> t1 <- Sys.time()
+> estimation <- nestedKriging::estimParam(X=X, Y=Y, clusters = clusters, q=q,
++               covType = covType, niter=niter, paramStart = paramStart,
++               paramLower = paramLower, paramUpper = paramUpper, sd2=sd2,
++               krigingType=krigingType, seed=seed, alpha = alpha,gamma = gamma,
++               a = a,A = A,c = c, tagAlgo="estimParam",numThreads=4,verboseLevel=10,
++               nugget=0.0, method = "NK")
+estimParam => Parallelism is activated. Your system have: 4 logical cores. 
+
+estimParam - Parameter estimation using LOO: starting...----------------- 0.00s  total  0.00s 
+estimParam gradient descent seed= 1
+estimParam   - step  1/10  0.54s  total  0.54s  ended on thread 1/1
+   step size = 0.0627427
+   current estimation = (1.10818, 7.07399)
+   loo MSE vector = (4.26791e-005, 4.29911e-005)
+estimParam   - step  2/10  0.49s  total  1.04s  ended on thread 1/1
+   step size = 0.0585298
+   current estimation = (1.26532, 6.06263)
+   loo MSE vector = (0.000147351, 0.000147138)
+estimParam   - step  3/10  0.49s  total  1.53s  ended on thread 1/1
+   step size = 0.0561907
+   current estimation = (1.31516, 5.7114)
+   loo MSE vector = (3.50988e-005, 3.61152e-005)
+estimParam   - step  4/10  0.51s  total  2.03s  ended on thread 1/1
+   step size = 0.0545861
+   current estimation = (1.35895, 5.4722)
+   loo MSE vector = (3.79806e-005, 3.17893e-005)
+estimParam   - step  5/10  0.49s  total  2.52s  ended on thread 1/1
+   step size = 0.0533724
+   current estimation = (1.39613, 5.28811)
+   loo MSE vector = (4.53886e-005, 3.7343e-005)
+estimParam   - step  6/10  0.48s  total  3.01s  ended on thread 1/1
+   step size = 0.0524003
+   current estimation = (1.42107, 5.16108)
+   loo MSE vector = (0.000103573, 0.000114543)
+estimParam   - step  7/10  0.49s  total  3.50s  ended on thread 1/1
+   step size = 0.051592
+   current estimation = (1.44931, 5.04035)
+   loo MSE vector = (6.93553e-005, 5.45217e-005)
+estimParam   - step  8/10  0.48s  total  3.98s  ended on thread 1/1
+   step size = 0.0509018
+   current estimation = (1.46698, 4.94861)
+   loo MSE vector = (5.20692e-005, 4.31293e-005)
+estimParam   - step  9/10  0.49s  total  4.46s  ended on thread 1/1
+   step size = 0.0503006
+   current estimation = (1.48015, 4.89474)
+   loo MSE vector = (0.000172113, 0.00015148)
+estimParam   - step 10/10  0.49s  total  4.95s  ended on thread 1/1
+   step size = 0.0497687
+   current estimation = (1.49726, 4.818)
+   loo MSE vector = (0.000164233, 0.00018332)
+> 
+> t2 <- Sys.time()
+> difftime(t2,t1)
+Time difference of 4.9408 secs
+> optimalParam <- estimation$optimalParam
+> optimalParam
+         [,1]
+[1,] 1.497258
+[2,] 4.817998
+> 
+> # now computing LOO errors for the optimal parameter
+> indices <- rep(1, n) # leave-one-out errors will be computed for all prediction points
+> lastLOOerror <- nestedKriging::looErrors(X=X,Y=Y,clusters=clusters, covType=covType,
++                  indices=indices,param=estimation$optimalParam, krigingType=krigingType,
++                  sd2=sd2, numThreads=4,verboseLevel=0)
+> meanSquareError <- lastLOOerror$LOOErrors$looErrorDefaultMethod
+> 
+> message('optimal param = (', paste0(round(optimalParam, digits=4),collapse=","), '),
++           having Mean Square Error=', round(meanSquareError,digits=8))
+optimal param = (1.4973,4.818),
+          having Mean Square Error=7.669e-05
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("estimParam", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("estimSigma2")
+> ### * estimSigma2
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: estimSigma2
+> ### Title: Estimate the prior variance of the underlying random field.
+> ### Aliases: estimSigma2
+> 
+> ### ** Examples
+> 
+> ##---- see the example of looErrors and also demo 'demoK'
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("estimSigma2", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("looErrors")
+> ### * looErrors
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: looErrors
+> ### Title: Function to compute leave-one-out prediction errors.
+> ### Aliases: looErrors
+> ### Keywords: spatial models & Statistical Models & regression
+> 
+> ### ** Examples
+> 
+> library(nestedKriging)
+> testFunction <- function(x) { x[2] + (x[1]-5*cos(x[2]))^2 + cos(3*x[1]) }
+> 
+> set.seed(8)
+> d <- 2
+> n <- 10000
+> X <- matrix(runif(n*d) , ncol=d)
+> Y <- apply(X=X,MARGIN = 1,FUN=testFunction)
+> 
+> covType <- "exp"
+> param <- c(1,1.6)
+> sd2 <- 150
+> 
+> N <- 100
+> clusters <- kmeans(x = X,centers = N)$cluster
+> 
+> q <- 100
+> index <- c(1:q)  # This is the choice of the points for which we compute a LOO error
+> indices <- rep(0,times=n)
+> indices[index] <- 1  # we built a vector with a 1 in positions 1,...,100 and 0 otherwise.
+> 
+> krigingType <- "ordinary"
+> 
+> t1 <- Sys.time()
+> estimation <- nestedKriging::looErrors(X=X, Y=Y, clusters=clusters, indices=indices ,
++                   covType=covType, param=param, sd2=sd2, krigingType=krigingType,
++                   tagAlgo='nested Kriging LOO', numThreads=8, verboseLevel=0,
++                   outputLevel=0, globalOptions = c(0), nugget=0.0)
+> t2 <- Sys.time()
+> difftime(t2,t1)
+Time difference of 2.265453 secs
+> predictedMeans <- estimation$mean
+> expectedValues <- estimation$LOOexpectedPrediction
+> meanSquareErrorMethod1 <- mean((predictedMeans-expectedValues)^2)
+> meanSquareErrorMethod2 <- estimation$LOOErrors$looErrorNestedKriging
+> 
+> message('the obtained mean square error is ',meanSquareErrorMethod1,' = ',meanSquareErrorMethod2)
+the obtained mean square error is 1.34988983895933e-05 = 1.34988983895933e-05
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("looErrors", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("looErrorsDirect")
+> ### * looErrorsDirect
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: looErrorsDirect
+> ### Title: Compute leave-one-out mean square error with minimal export.
+> ### Aliases: looErrorsDirect
+> 
+> ### ** Examples
+> 
+> ## see example of looErrors and demo 'demoK'
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("looErrorsDirect", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("nestedKriging-package")
+> ### * nestedKriging-package
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: nestedKriging-package
+> ### Title: Nested Kriging Predictions for Large Datasets
+> ### Aliases: nestedKriging-package
+> 
+> ### ** Examples
+> 
+> # first launch some tests of the program
+> tests_run()
+------------- nested Kriging test suite ------------------
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+ failure ratio: 0 / 582 - SUCCESS
+----------------------------------------------------------
+
+$ok
+[1] TRUE
+
+> 
+> # example 1, a simple example of nestedKriging with small datasets
+> library(nestedKriging)
+> set.seed(1)
+> 
+> testFunction <- function(x) { x[2] + (x[1]-5*cos(x[2]))^2 + cos(3*x[1]) }
+> 
+> X <- matrix(runif(1000*2), ncol=2)              # 1000 initial design points, in dimension 2
+> Y <- apply(X=X, MARGIN = 1, FUN=testFunction)   # initial response for each design points
+> x <- matrix(runif(100*2), ncol=2)               # 100 prediction points, in dimension 2
+> clustering <- kmeans(X, centers=20)             # clustering of design points X into 20 groups
+> 
+> prediction <- nestedKriging(X=X, Y=Y, clusters=clustering$cluster, x=x ,
++                             covType="matern5_2", param=c(1,1), sd2=10,
++                             krigingType="simple", tagAlgo='example 1', numThreads=5)
+example 1 => Parallelism is activated. Your system have: 4 logical cores. 
+
+example 1 - starting chrono.-------------------------------------------- 0.00s  total  0.00s 
+example 1 - Part A, first layer, prediction for each group: starting...- 0.00s  total  0.00s 
+example 1   - step  1/10  0.00s  total  0.00s  ended on thread 1/5
+example 1   - step  2/10  0.00s  total  0.00s  ended on thread 4/5
+example 1   - step  3/10  0.00s  total  0.00s  ended on thread 2/5
+example 1   - step  4/10  0.00s  total  0.00s  ended on thread 4/5
+example 1   - step  5/10  0.00s  total  0.00s  ended on thread 2/5
+example 1   - step  6/10  0.00s  total  0.00s  ended on thread 1/5
+example 1   - step  7/10  0.00s  total  0.00s  ended on thread 3/5
+example 1   - step  8/10  0.00s  total  0.01s  ended on thread 2/5
+example 1   - step  9/10  0.00s  total  0.01s  ended on thread 2/5
+example 1   - step 10/10  0.00s  total  0.01s  ended on thread 1/5
+example 1 - Part A, first layer, prediction for each group: done.------- 0.00s  total  0.01s 
+example 1 - Part B inter-groups covariances: starting...---------------- 0.00s  total  0.01s 
+example 1   - step  1/10  0.00s  total  0.01s  ended on thread 5/5
+example 1   - step  2/10  0.00s  total  0.01s  ended on thread 3/5
+example 1   - step  3/10  0.00s  total  0.01s  ended on thread 3/5
+example 1   - step  4/10  0.00s  total  0.02s  ended on thread 4/5
+example 1   - step  5/10  0.00s  total  0.02s  ended on thread 3/5
+example 1   - step  6/10  0.00s  total  0.02s  ended on thread 3/5
+example 1   - step  7/10  0.00s  total  0.02s  ended on thread 5/5
+example 1   - step  8/10  0.00s  total  0.02s  ended on thread 4/5
+example 1   - step  9/10  0.00s  total  0.03s  ended on thread 4/5
+example 1   - step 10/10  0.00s  total  0.03s  ended on thread 1/5
+example 1 - Part B inter-groups covariances: done.---------------------- 0.00s  total  0.03s 
+example 1 - Part C, aggregation first layer: starting...---------------- 0.00s  total  0.03s 
+example 1 - Part C, aggregation first layer: done.---------------------- 0.00s  total  0.03s 
+> 
+> 
+> realvalues <- apply(x, MARGIN = 1, FUN = testFunction) #real values to be predicted
+> pred_errors <- abs(realvalues - prediction$mean)
+> mean_error_Nested <- mean(pred_errors)
+> message("mean error Nested Kriging = ", mean_error_Nested)
+mean error Nested Kriging = 1.62943543913041e-05
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("nestedKriging-package", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("nestedKriging")
+> ### * nestedKriging
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: nestedKriging
+> ### Title: Compute Nested Kriging Mean and Variance Predictions
+> ### Aliases: nestedKriging
+> ### Keywords: spatial models & Statistical Models & regression
+> 
+> ### ** Examples
+> 
+> # example 1, a simple example of nestedKriging with small datasets
+> library(nestedKriging)
+> set.seed(1)
+> 
+> testFunction <- function(x) { x[2] + (x[1]-5*cos(x[2]))^2 + cos(3*x[1]) }
+> 
+> X <- matrix(runif(1000*2), ncol=2)              # 1000 initial design points, in dimension 2
+> Y <- apply(X=X, MARGIN = 1, FUN=testFunction)   # initial response for each design points
+> x <- matrix(runif(100*2), ncol=2)               # 100 prediction points, in dimension 2
+> clustering <- kmeans(X, centers=20)             # clustering of design points X into 20 groups
+> 
+> prediction <- nestedKriging(X=X, Y=Y, clusters=clustering$cluster, x=x ,
++                             covType="matern5_2", param=c(1,1), sd2=10,
++                             krigingType="simple", tagAlgo='example 1', numThreads=5)
+example 1 => Parallelism is activated. Your system have: 4 logical cores. 
+
+example 1 - starting chrono.-------------------------------------------- 0.00s  total  0.00s 
+example 1 - Part A, first layer, prediction for each group: starting...- 0.00s  total  0.00s 
+example 1   - step  1/10  0.00s  total  0.00s  ended on thread 4/5
+example 1   - step  2/10  0.00s  total  0.00s  ended on thread 5/5
+example 1   - step  3/10  0.00s  total  0.00s  ended on thread 3/5
+example 1   - step  4/10  0.00s  total  0.00s  ended on thread 5/5
+example 1   - step  5/10  0.00s  total  0.00s  ended on thread 3/5
+example 1   - step  6/10  0.00s  total  0.00s  ended on thread 4/5
+example 1   - step  7/10  0.00s  total  0.00s  ended on thread 2/5
+example 1   - step  8/10  0.00s  total  0.00s  ended on thread 4/5
+example 1   - step  9/10  0.00s  total  0.01s  ended on thread 2/5
+example 1   - step 10/10  0.00s  total  0.01s  ended on thread 5/5
+example 1 - Part A, first layer, prediction for each group: done.------- 0.00s  total  0.01s 
+example 1 - Part B inter-groups covariances: starting...---------------- 0.00s  total  0.01s 
+example 1   - step  1/10  0.00s  total  0.01s  ended on thread 4/5
+example 1   - step  2/10  0.00s  total  0.01s  ended on thread 3/5
+example 1   - step  3/10  0.00s  total  0.01s  ended on thread 3/5
+example 1   - step  4/10  0.00s  total  0.01s  ended on thread 3/5
+example 1   - step  5/10  0.00s  total  0.02s  ended on thread 3/5
+example 1   - step  6/10  0.00s  total  0.02s  ended on thread 4/5
+example 1   - step  7/10  0.00s  total  0.02s  ended on thread 5/5
+example 1   - step  8/10  0.00s  total  0.02s  ended on thread 5/5
+example 1   - step  9/10  0.00s  total  0.02s  ended on thread 3/5
+example 1   - step 10/10  0.00s  total  0.03s  ended on thread 1/5
+example 1 - Part B inter-groups covariances: done.---------------------- 0.00s  total  0.03s 
+example 1 - Part C, aggregation first layer: starting...---------------- 0.00s  total  0.03s 
+example 1 - Part C, aggregation first layer: done.---------------------- 0.00s  total  0.03s 
+> 
+> 
+> realvalues <- apply(x, MARGIN = 1, FUN = testFunction) #real values to be predicted
+> pred_errors <- abs(realvalues - prediction$mean)
+> mean_error_Nested <- mean(pred_errors)
+> message("mean error Nested Kriging = ", mean_error_Nested)
+mean error Nested Kriging = 1.6294353064259e-05
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("nestedKriging", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("setNumThreadsBLAS")
+> ### * setNumThreadsBLAS
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: setNumThreadsBLAS
+> ### Title: Set the Number of Threads Used by External Linear Algebra
+> ###   Libraries (BLAS)
+> ### Aliases: setNumThreadsBLAS
+> 
+> ### ** Examples
+> 
+> library(nestedKriging)
+> setNumThreadsBLAS(1)
+linear algebra libray BLAS threads set to 1
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("setNumThreadsBLAS", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("tests_getCaseStudy")
+> ### * tests_getCaseStudy
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: tests_getCaseStudy
+> ### Title: Returns a Case Study Example for Manual Testing of the Package
+> ### Aliases: tests_getCaseStudy
+> 
+> ### ** Examples
+> 
+> library(nestedKriging)
+> caseStudyOne <- tests_getCaseStudy(1, "gauss")
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("tests_getCaseStudy", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("tests_getCodeValues")
+> ### * tests_getCodeValues
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: tests_getCodeValues
+> ### Title: Returns the Nested Kriging Predicion for a Selected Case Study,
+> ###   for Manual Testing of the Package
+> ### Aliases: tests_getCodeValues
+> 
+> ### ** Examples
+> 
+> library(nestedKriging)
+> myResults <- tests_getCodeValues(1, "gauss", forceSimpleKriging = TRUE)
+our code: [[[ values from code nestedKriging v0.1.5 built 47
+mean: 9.09250066813 -2.16209819079 0.0341859074311 0.682200808437 0.42520895145 -0.358825347683 0.0838039861629 0.251432662089 -0.462140082622 
+sd2: 0.00800828323642 0.717510127216 2.62384489095 1.28776484283 0.310303532083 1.2546970103 2.05053679682 2.58957113494 0.0326674713504 
+end code nestedKriging v0.1.5 built 47 ]]]
+
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("tests_getCodeValues", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("tests_run")
+> ### * tests_run
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: tests_run
+> ### Title: Run all Implemented Tests for the 'nestedKriging' Package
+> ### Aliases: tests_run
+> 
+> ### ** Examples
+> 
+> library(nestedKriging)
+> tests_run(showSuccess = TRUE)
+------------- nested Kriging test suite ------------------
+ ok: 2.0.1 0_ unchanged random number generator (tests.h)  value of rank 999
+ ok: 2.0.2 0_ unchanged random number generator (tests.h)  value of rank 1
+ ok: 3.1.1 0_ unmodified and platform independent case Study (tests.h) unchanged case study one d
+ ok: 3.1.2 0_ unmodified and platform independent case Study (tests.h) unchanged case study one X(6,1)
+ ok: 3.1.3 0_ unmodified and platform independent case Study (tests.h) unchanged case study one n
+ ok: 3.1.4 0_ unmodified and platform independent case Study (tests.h) unchanged case study one param0
+ ok: 3.1.5 0_ unmodified and platform independent case Study (tests.h) unchanged case study one param1
+ ok: 3.1.6 0_ unmodified and platform independent case Study (tests.h) unchanged case study one Y(34)
+ ok: 4.0.1 I_ Progress bar ticks (messages.h)  doneOK, k=0
+ ok: 4.0.2 I_ Progress bar ticks (messages.h)  ticksA == ticksB, k=0
+ ok: 4.0.3 I_ Progress bar ticks (messages.h)  ticksA == ticksC, k=0
+ ok: 4.0.4 I_ Progress bar ticks (messages.h)  doneOK, k=1
+ ok: 4.0.5 I_ Progress bar ticks (messages.h)  ticksA == ticksB, k=1
+ ok: 4.0.6 I_ Progress bar ticks (messages.h)  ticksA == ticksC, k=1
+ ok: 4.0.7 I_ Progress bar ticks (messages.h)  doneOK, k=2
+ ok: 4.0.8 I_ Progress bar ticks (messages.h)  ticksA == ticksB, k=2
+ ok: 4.0.9 I_ Progress bar ticks (messages.h)  ticksA == ticksC, k=2
+ ok: 4.0.10 I_ Progress bar ticks (messages.h)  doneOK, k=3
+ ok: 4.0.11 I_ Progress bar ticks (messages.h)  ticksA == ticksB, k=3
+ ok: 4.0.12 I_ Progress bar ticks (messages.h)  ticksA == ticksC, k=3
+ ok: 4.0.13 I_ Progress bar ticks (messages.h)  doneOK, k=4
+ ok: 4.0.14 I_ Progress bar ticks (messages.h)  ticksA == ticksB, k=4
+ ok: 4.0.15 I_ Progress bar ticks (messages.h)  ticksA == ticksC, k=4
+ ok: 4.0.16 I_ Progress bar ticks (messages.h)  doneOK, k=5
+ ok: 4.0.17 I_ Progress bar ticks (messages.h)  ticksA == ticksB, k=5
+ ok: 4.0.18 I_ Progress bar ticks (messages.h)  ticksA == ticksC, k=5
+ ok: 4.0.19 I_ Progress bar ticks (messages.h)  doneOK, k=6
+ ok: 4.0.20 I_ Progress bar ticks (messages.h)  ticksA == ticksB, k=6
+ ok: 4.0.21 I_ Progress bar ticks (messages.h)  ticksA == ticksC, k=6
+ ok: 4.0.22 I_ Progress bar ticks (messages.h)  doneOK, k=7
+ ok: 4.0.23 I_ Progress bar ticks (messages.h)  ticksA == ticksB, k=7
+ ok: 4.0.24 I_ Progress bar ticks (messages.h)  ticksA == ticksC, k=7
+ ok: 5.0.1 I_ Test Points (covariance.h)  dimension
+ ok: 5.0.2 I_ Test Points (covariance.h)  size of P
+ ok: 5.0.3 I_ Test Points (covariance.h)  size of Q
+ ok: 5.0.4 I_ Test Points (covariance.h)  P[2]==Q[0]
+ ok: 5.0.5 I_ Test Points (covariance.h)  P[3]==Q[1]
+ ok: 5.0.6 I_ Test Points (covariance.h)  P[2]!=Q[1]
+ ok: 6.0.1 I_ Symmetric correlation matrix with diagonal==ones (covariance.h)  K=K.t()
+ ok: 6.0.2 I_ Symmetric correlation matrix with diagonal==ones (covariance.h)  K.diag()==ones()
+ ok: 6.0.3 I_ Symmetric correlation matrix with diagonal==ones (covariance.h)  kernel values <= +1
+ ok: 6.0.4 I_ Symmetric correlation matrix with diagonal==ones (covariance.h)  kernel values >= -1
+ ok: 7.1.1 I_ kernel Gauss dim 2 (covariance.h) test fill Corr Matrix (covariance.h) 
+ ok: 7.1.2 I_ kernel Gauss dim 2 (covariance.h) test fill Corr Matrix (covariance.h) 
+ ok: 7.2.1 I_ kernel Gauss dim 2 (covariance.h) test fill CrossCorr 
+ ok: 7.2.2 I_ kernel Gauss dim 2 (covariance.h) test fill CrossCorr 
+ ok: 7.2.3 I_ kernel Gauss dim 2 (covariance.h) test fill CrossCorr 
+ ok: 7.2.4 I_ kernel Gauss dim 2 (covariance.h) test fill CrossCorr 
+ ok: 7.2.5 I_ kernel Gauss dim 2 (covariance.h) test fill CrossCorr K3.n_rows
+ ok: 7.2.6 I_ kernel Gauss dim 2 (covariance.h) test fill CrossCorr K3.n_cols
+ ok: 7.2.7 I_ kernel Gauss dim 2 (covariance.h) test fill CrossCorr 
+ ok: 7.2.8 I_ kernel Gauss dim 2 (covariance.h) test fill CrossCorr 
+ ok: 8.0.1 I_ kernel Gauss with nugget (covariance.h)  
+ ok: 8.0.2 I_ kernel Gauss with nugget (covariance.h)  
+ ok: 8.0.3 I_ kernel Gauss with nugget (covariance.h)  
+ ok: 8.0.4 I_ kernel Gauss with nugget (covariance.h)  
+ ok: 9.0.1 I_ CrossCorr Matrix(X,X) = Corr (covariance.h)  
+ ok: 10.0.1 I_ CrossCorr with equivalent nuggets (covariance.h)  K0==K1, value=0.000000
+ ok: 10.0.2 I_ CrossCorr with equivalent nuggets (covariance.h)  K1==K2, value=0.000000
+ ok: 10.0.3 I_ CrossCorr with equivalent nuggets (covariance.h)  K1==K3, value=0.000000
+ ok: 10.0.4 I_ CrossCorr with equivalent nuggets (covariance.h)  K4==K5, value=0.000000
+ ok: 10.0.5 I_ CrossCorr with equivalent nuggets (covariance.h)  
+ ok: 10.0.6 I_ CrossCorr with equivalent nuggets (covariance.h)  
+ ok: 10.0.7 I_ CrossCorr with equivalent nuggets (covariance.h)  K1==K2, value=0.543000
+ ok: 10.0.8 I_ CrossCorr with equivalent nuggets (covariance.h)  K1==K3, value=0.543000
+ ok: 10.0.9 I_ CrossCorr with equivalent nuggets (covariance.h)  K4==K5, value=0.543000
+ ok: 10.0.10 I_ CrossCorr with equivalent nuggets (covariance.h)  
+ ok: 10.0.11 I_ CrossCorr with equivalent nuggets (covariance.h)  
+ ok: 10.0.12 I_ CrossCorr with equivalent nuggets (covariance.h)  K1==K2, value=1.000000
+ ok: 10.0.13 I_ CrossCorr with equivalent nuggets (covariance.h)  K1==K3, value=1.000000
+ ok: 10.0.14 I_ CrossCorr with equivalent nuggets (covariance.h)  K4==K5, value=1.000000
+ ok: 10.0.15 I_ CrossCorr with equivalent nuggets (covariance.h)  
+ ok: 10.0.16 I_ CrossCorr with equivalent nuggets (covariance.h)  
+ ok: 11.1.1 I_ Kernel, corr as Nicolas Python code (covariance.h) gauss K(2,3)
+ ok: 11.1.2 I_ Kernel, corr as Nicolas Python code (covariance.h) gauss K(5,6)
+ ok: 11.1.3 I_ Kernel, corr as Nicolas Python code (covariance.h) gauss K(2,3)
+ ok: 11.1.4 I_ Kernel, corr as Nicolas Python code (covariance.h) gauss K(5,6)
+ ok: 11.2.1 I_ Kernel, corr as Nicolas Python code (covariance.h) matern3_2 K(2,3)
+ ok: 11.2.2 I_ Kernel, corr as Nicolas Python code (covariance.h) matern3_2 K(5,6)
+ ok: 11.3.1 I_ Kernel, corr as Nicolas Python code (covariance.h) matern5_2 K(2,3)
+ ok: 11.3.2 I_ Kernel, corr as Nicolas Python code (covariance.h) matern5_2 K(5,6)
+ ok: 11.4.1 I_ Kernel, corr as Nicolas Python code (covariance.h) exp K(2,3)
+ ok: 11.4.2 I_ Kernel, corr as Nicolas Python code (covariance.h) exp K(5,6)
+ ok: 12.1.1 I_ Ranks (splitter.h) distinct values ranks, distinct values
+ ok: 12.2.1 I_ Ranks (splitter.h) values by rank ranks, countByRank(0)
+ ok: 12.2.2 I_ Ranks (splitter.h) values by rank ranks, countByRank(1)
+ ok: 12.2.3 I_ Ranks (splitter.h) values by rank ranks, countByRank(2)
+ ok: 12.2.4 I_ Ranks (splitter.h) values by rank ranks, countByRank(3)
+ ok: 12.2.5 I_ Ranks (splitter.h) values by rank ranks, total count
+ ok: 12.3.1 I_ Ranks (splitter.h) values by rank rankOf(3)
+ ok: 12.3.2 I_ Ranks (splitter.h) values by rank rankOf(3)
+ ok: 12.3.3 I_ Ranks (splitter.h) values by rank rankOf(3)
+ ok: 12.3.4 I_ Ranks (splitter.h) values by rank rankOf(3)
+ ok: 12.3.5 I_ Ranks (splitter.h) values by rank expected rank vector
+ ok: 13.1.1 I_ WithInterface (splitter.h) WithInterface<arma::mat> WithInterface<arma::mat>::ncols(M1)
+ ok: 13.1.2 I_ WithInterface (splitter.h) WithInterface<arma::mat> WithInterface<arma::mat>::ncols(M2)
+ ok: 13.1.3 I_ WithInterface (splitter.h) WithInterface<arma::mat> WithInterface<arma::mat>::identify
+ ok: 13.1.4 I_ WithInterface (splitter.h) WithInterface<arma::mat> WithInterface<arma::mat>::reserve, rows
+ ok: 13.1.5 I_ WithInterface (splitter.h) WithInterface<arma::mat> WithInterface<arma::mat>::reserve, cols
+ ok: 13.2.1 I_ WithInterface (splitter.h) WithInterface<arma::vec> WithInterface<arma::vec>::ncols(V1)
+ ok: 13.2.2 I_ WithInterface (splitter.h) WithInterface<arma::vec> WithInterface<arma::vec>::ncols(V2)
+ ok: 13.2.3 I_ WithInterface (splitter.h) WithInterface<arma::vec> WithInterface<arma::vec>::identify
+ ok: 13.2.4 I_ WithInterface (splitter.h) WithInterface<arma::vec> WithInterface<arma::vec>::reserve
+ ok: 13.3.1 I_ WithInterface (splitter.h) WithInterface<std::vector<double> WithInterface<vector<double>>::ncols(V1)
+ ok: 13.3.2 I_ WithInterface (splitter.h) WithInterface<std::vector<double> WithInterface<vector<double>>::ncols(V2)
+ ok: 13.3.3 I_ WithInterface (splitter.h) WithInterface<std::vector<double> WithInterface<vector<double>>::identify
+ ok: 13.3.4 I_ WithInterface (splitter.h) WithInterface<std::vector<double> WithInterface<vector<double> >::reserve
+ ok: 14.1.1 I_ Splitter A - split vectors (splitter.h) correct splitted vectors user groups group 0
+ ok: 14.1.2 I_ Splitter A - split vectors (splitter.h) correct splitted vectors user groups group 1
+ ok: 14.1.3 I_ Splitter A - split vectors (splitter.h) correct splitted vectors user groups group 2
+ ok: 14.2.1 I_ Splitter A - split vectors (splitter.h) correct splitted vectors modulo scheme group 0
+ ok: 14.2.2 I_ Splitter A - split vectors (splitter.h) correct splitted vectors modulo scheme group 1
+ ok: 14.2.3 I_ Splitter A - split vectors (splitter.h) correct splitted vectors modulo scheme group 2
+ ok: 14.2.4 I_ Splitter A - split vectors (splitter.h) correct splitted vectors modulo scheme group 3
+ ok: 15.1.1 I_ Splitter B - rowvec, split and merge (splitter.h) correct splitted vectors arma::rowvec group 0
+ ok: 15.1.2 I_ Splitter B - rowvec, split and merge (splitter.h) correct splitted vectors arma::rowvec group 1
+ ok: 15.1.3 I_ Splitter B - rowvec, split and merge (splitter.h) correct splitted vectors arma::rowvec group 2
+ ok: 15.2.1 I_ Splitter B - rowvec, split and merge (splitter.h) split and merge merge rowvec
+ ok: 15.2.2 I_ Splitter B - rowvec, split and merge (splitter.h) split and merge merge vec
+ ok: 16.1.1 I_ Splitter C - matrices (splitter.h) correct splitted and remerged matrices group 0
+ ok: 16.1.2 I_ Splitter C - matrices (splitter.h) correct splitted and remerged matrices group 1
+ ok: 16.1.3 I_ Splitter C - matrices (splitter.h) correct splitted and remerged matrices remerged matrix
+ ok: 17.1.1 I_ Splitter D - with empty groups, allocation (splitter.h) tight allocation a
+ ok: 17.1.2 I_ Splitter D - with empty groups, allocation (splitter.h) tight allocation b
+ ok: 17.1.3 I_ Splitter D - with empty groups, allocation (splitter.h) tight allocation c
+ ok: 17.2.1 I_ Splitter D - with empty groups, allocation (splitter.h) test with empty groups get_N
+ ok: 17.2.2 I_ Splitter D - with empty groups, allocation (splitter.h) test with empty groups group 0
+ ok: 17.2.3 I_ Splitter D - with empty groups, allocation (splitter.h) test with empty groups group 1
+ ok: 17.2.4 I_ Splitter D - with empty groups, allocation (splitter.h) test with empty groups group 2
+ ok: 18.0.1 I_ Splitter E - splitting unknown new types (splitter.h)  split 0
+ ok: 18.0.2 I_ Splitter E - splitting unknown new types (splitter.h)  split 1
+ ok: 19.1.1 I_ LOO Scheme with CleanScheme test extracted predictions points and expected predictions use LOO
+ ok: 19.1.2 I_ LOO Scheme with CleanScheme test extracted predictions points and expected predictions expected pred points x
+ ok: 19.1.3 I_ LOO Scheme with CleanScheme test extracted predictions points and expected predictions expected predicted values Y
+ ok: 19.2.1 I_ LOO Scheme with CleanScheme test expected position of each point in its group  position, m=0
+ ok: 19.2.2 I_ LOO Scheme with CleanScheme test expected position of each point in its group  position, m=1
+ ok: 19.2.3 I_ LOO Scheme with CleanScheme test expected position of each point in its group  position, m=2
+ ok: 19.3.1 I_ LOO Scheme with CleanScheme test points belonging to groups and correct position when excluded.  isPointInGroup m=0, i=0
+ ok: 19.3.2 I_ LOO Scheme with CleanScheme test points belonging to groups and correct position when excluded.  is point excluded m=0, i=0
+ ok: 19.3.3 I_ LOO Scheme with CleanScheme test points belonging to groups and correct position when excluded.  isPointInGroup m=1, i=0
+ ok: 19.3.4 I_ LOO Scheme with CleanScheme test points belonging to groups and correct position when excluded.  is point excluded m=1, i=0
+ ok: 19.3.5 I_ LOO Scheme with CleanScheme test points belonging to groups and correct position when excluded.  position  m=1, i=0
+ ok: 19.3.6 I_ LOO Scheme with CleanScheme test points belonging to groups and correct position when excluded.  isPointInGroup m=2, i=0
+ ok: 19.3.7 I_ LOO Scheme with CleanScheme test points belonging to groups and correct position when excluded.  is point excluded m=2, i=0
+ ok: 19.3.8 I_ LOO Scheme with CleanScheme test points belonging to groups and correct position when excluded.  position  m=2, i=0
+ ok: 19.3.9 I_ LOO Scheme with CleanScheme test points belonging to groups and correct position when excluded.  isPointInGroup m=0, i=1
+ ok: 19.3.10 I_ LOO Scheme with CleanScheme test points belonging to groups and correct position when excluded.  is point excluded m=0, i=1
+ ok: 19.3.11 I_ LOO Scheme with CleanScheme test points belonging to groups and correct position when excluded.  isPointInGroup m=1, i=1
+ ok: 19.3.12 I_ LOO Scheme with CleanScheme test points belonging to groups and correct position when excluded.  is point excluded m=1, i=1
+ ok: 19.3.13 I_ LOO Scheme with CleanScheme test points belonging to groups and correct position when excluded.  isPointInGroup m=2, i=1
+ ok: 19.3.14 I_ LOO Scheme with CleanScheme test points belonging to groups and correct position when excluded.  is point excluded m=2, i=1
+ ok: 19.3.15 I_ LOO Scheme with CleanScheme test points belonging to groups and correct position when excluded.  isPointInGroup m=0, i=2
+ ok: 19.3.16 I_ LOO Scheme with CleanScheme test points belonging to groups and correct position when excluded.  is point excluded m=0, i=2
+ ok: 19.3.17 I_ LOO Scheme with CleanScheme test points belonging to groups and correct position when excluded.  position  m=0, i=2
+ ok: 19.3.18 I_ LOO Scheme with CleanScheme test points belonging to groups and correct position when excluded.  isPointInGroup m=1, i=2
+ ok: 19.3.19 I_ LOO Scheme with CleanScheme test points belonging to groups and correct position when excluded.  is point excluded m=1, i=2
+ ok: 19.3.20 I_ LOO Scheme with CleanScheme test points belonging to groups and correct position when excluded.  isPointInGroup m=2, i=2
+ ok: 19.3.21 I_ LOO Scheme with CleanScheme test points belonging to groups and correct position when excluded.  is point excluded m=2, i=2
+ ok: 20.0.1 I_ Submodels (nestedKriging.h)  cmax
+ ok: 20.0.2 I_ Submodels (nestedKriging.h)  d
+ ok: 20.0.3 I_ Submodels (nestedKriging.h)  N
+ ok: 20.0.4 I_ Submodels (nestedKriging.h)  splittedNugget
+ ok: 20.0.5 I_ Submodels (nestedKriging.h)  splittedX.size()
+ ok: 20.0.6 I_ Submodels (nestedKriging.h)  splittedX[0].d
+ ok: 20.0.7 I_ Submodels (nestedKriging.h)  splittedX[0]
+ ok: 20.0.8 I_ Submodels (nestedKriging.h)  splittedX[1]
+ ok: 20.0.9 I_ Submodels (nestedKriging.h)  splittedX[2]
+ ok: 20.0.10 I_ Submodels (nestedKriging.h)  predPoints
+ ok: 20.0.11 I_ Submodels (nestedKriging.h)  splittedY[0]
+ ok: 20.0.12 I_ Submodels (nestedKriging.h)  splittedY[1]
+ ok: 20.0.13 I_ Submodels (nestedKriging.h)  splittedY[2]
+ ok: 21.0.1 I_ test initializer  initialization of std::vector<arma::vec>, min
+ ok: 21.0.2 I_ test initializer  initialization of std::vector<arma::vec>, max
+ ok: 21.0.3 I_ test initializer  initialization of std::vector<arma::vec>, min
+ ok: 21.0.4 I_ test initializer  initialization of std::vector<arma::vec>, max
+ ok: 21.0.5 I_ test initializer  initialization of std::vector<arma::vec>, min
+ ok: 21.0.6 I_ test initializer  initialization of std::vector<arma::vec>, max
+ ok: 21.0.7 I_ test initializer  initialization of std::vector<arma::vec>, min
+ ok: 21.0.8 I_ test initializer  initialization of std::vector<arma::vec>, max
+ ok: 21.0.9 I_ test initializer  initialization of std::vector<arma::vec>, min
+ ok: 21.0.10 I_ test initializer  initialization of std::vector<arma::vec>, max
+ ok: 21.0.11 I_ test initializer  initialization of arma::vec
+ ok: 21.0.12 I_ test initializer  initialization of double
+ ok: 22.0.1 I_ testSubmodelsCovariances_kM_and_KM  basic calculations when outputLevel=2
+ ok: 22.0.2 I_ testSubmodelsCovariances_kM_and_KM  nbElem kM sans calculs cross-cov
+ ok: 22.0.3 I_ testSubmodelsCovariances_kM_and_KM  nbRows KM sans calculs cross-cov
+ ok: 22.0.4 I_ testSubmodelsCovariances_kM_and_KM  nbCols KM sans calculs cross-cov
+ ok: 22.0.5 I_ testSubmodelsCovariances_kM_and_KM  nbElem kM sans calculs cross-cov
+ ok: 22.0.6 I_ testSubmodelsCovariances_kM_and_KM  nbRows KM sans calculs cross-cov
+ ok: 22.0.7 I_ testSubmodelsCovariances_kM_and_KM  nbCols KM sans calculs cross-cov
+ ok: 22.0.8 I_ testSubmodelsCovariances_kM_and_KM  kM reasonable values sans calculs cross-cov
+ ok: 22.0.9 I_ testSubmodelsCovariances_kM_and_KM  kM <1 sans calculs cross-cov
+ ok: 22.0.10 I_ testSubmodelsCovariances_kM_and_KM  kM >-1 sans calculs cross-cov
+ ok: 22.0.11 I_ testSubmodelsCovariances_kM_and_KM  KM reasonable values sans calculs cross-cov
+ ok: 22.0.12 I_ testSubmodelsCovariances_kM_and_KM  KM <1 sans calculs cross-cov
+ ok: 22.0.13 I_ testSubmodelsCovariances_kM_and_KM  KM >-1 sans calculs cross-cov
+ ok: 22.0.14 I_ testSubmodelsCovariances_kM_and_KM  KM symmetric sans calculs cross-cov
+ ok: 22.0.15 I_ testSubmodelsCovariances_kM_and_KM  should compute all cross-corr when outputLevel=12
+ ok: 22.0.16 I_ testSubmodelsCovariances_kM_and_KM  nbElem kM avec calculs cross-cov
+ ok: 22.0.17 I_ testSubmodelsCovariances_kM_and_KM  nbRows KM avec calculs cross-cov
+ ok: 22.0.18 I_ testSubmodelsCovariances_kM_and_KM  nbCols KM avec calculs cross-cov
+ ok: 22.0.19 I_ testSubmodelsCovariances_kM_and_KM  nbElem kM avec calculs cross-cov
+ ok: 22.0.20 I_ testSubmodelsCovariances_kM_and_KM  nbRows KM avec calculs cross-cov
+ ok: 22.0.21 I_ testSubmodelsCovariances_kM_and_KM  nbCols KM avec calculs cross-cov
+ ok: 22.0.22 I_ testSubmodelsCovariances_kM_and_KM  kM reasonable values avec calculs cross-cov
+ ok: 22.0.23 I_ testSubmodelsCovariances_kM_and_KM  kM <1 avec calculs cross-cov
+ ok: 22.0.24 I_ testSubmodelsCovariances_kM_and_KM  kM >-1 avec calculs cross-cov
+ ok: 22.0.25 I_ testSubmodelsCovariances_kM_and_KM  KM reasonable values avec calculs cross-cov
+ ok: 22.0.26 I_ testSubmodelsCovariances_kM_and_KM  KM <1 avec calculs cross-cov
+ ok: 22.0.27 I_ testSubmodelsCovariances_kM_and_KM  KM >-1 avec calculs cross-cov
+ ok: 22.0.28 I_ testSubmodelsCovariances_kM_and_KM  KM symmetric avec calculs cross-cov
+ ok: 22.0.29 I_ testSubmodelsCovariances_kM_and_KM  kM unchanged when computing cross-cov
+ ok: 22.0.30 I_ testSubmodelsCovariances_kM_and_KM  KM unchanged when computing cross-cov
+ ok: 22.0.31 I_ testSubmodelsCovariances_kM_and_KM  basic calculations when outputLevel=2
+ ok: 22.0.32 I_ testSubmodelsCovariances_kM_and_KM  nbElem kM sans calculs cross-cov
+ ok: 22.0.33 I_ testSubmodelsCovariances_kM_and_KM  nbRows KM sans calculs cross-cov
+ ok: 22.0.34 I_ testSubmodelsCovariances_kM_and_KM  nbCols KM sans calculs cross-cov
+ ok: 22.0.35 I_ testSubmodelsCovariances_kM_and_KM  nbElem kM sans calculs cross-cov
+ ok: 22.0.36 I_ testSubmodelsCovariances_kM_and_KM  nbRows KM sans calculs cross-cov
+ ok: 22.0.37 I_ testSubmodelsCovariances_kM_and_KM  nbCols KM sans calculs cross-cov
+ ok: 22.0.38 I_ testSubmodelsCovariances_kM_and_KM  kM reasonable values sans calculs cross-cov
+ ok: 22.0.39 I_ testSubmodelsCovariances_kM_and_KM  kM <1 sans calculs cross-cov
+ ok: 22.0.40 I_ testSubmodelsCovariances_kM_and_KM  kM >-1 sans calculs cross-cov
+ ok: 22.0.41 I_ testSubmodelsCovariances_kM_and_KM  KM reasonable values sans calculs cross-cov
+ ok: 22.0.42 I_ testSubmodelsCovariances_kM_and_KM  KM <1 sans calculs cross-cov
+ ok: 22.0.43 I_ testSubmodelsCovariances_kM_and_KM  KM >-1 sans calculs cross-cov
+ ok: 22.0.44 I_ testSubmodelsCovariances_kM_and_KM  KM symmetric sans calculs cross-cov
+ ok: 22.0.45 I_ testSubmodelsCovariances_kM_and_KM  should compute all cross-corr when outputLevel=12
+ ok: 22.0.46 I_ testSubmodelsCovariances_kM_and_KM  nbElem kM avec calculs cross-cov
+ ok: 22.0.47 I_ testSubmodelsCovariances_kM_and_KM  nbRows KM avec calculs cross-cov
+ ok: 22.0.48 I_ testSubmodelsCovariances_kM_and_KM  nbCols KM avec calculs cross-cov
+ ok: 22.0.49 I_ testSubmodelsCovariances_kM_and_KM  nbElem kM avec calculs cross-cov
+ ok: 22.0.50 I_ testSubmodelsCovariances_kM_and_KM  nbRows KM avec calculs cross-cov
+ ok: 22.0.51 I_ testSubmodelsCovariances_kM_and_KM  nbCols KM avec calculs cross-cov
+ ok: 22.0.52 I_ testSubmodelsCovariances_kM_and_KM  kM reasonable values avec calculs cross-cov
+ ok: 22.0.53 I_ testSubmodelsCovariances_kM_and_KM  kM <1 avec calculs cross-cov
+ ok: 22.0.54 I_ testSubmodelsCovariances_kM_and_KM  kM >-1 avec calculs cross-cov
+ ok: 22.0.55 I_ testSubmodelsCovariances_kM_and_KM  KM reasonable values avec calculs cross-cov
+ ok: 22.0.56 I_ testSubmodelsCovariances_kM_and_KM  KM <1 avec calculs cross-cov
+ ok: 22.0.57 I_ testSubmodelsCovariances_kM_and_KM  KM >-1 avec calculs cross-cov
+ ok: 22.0.58 I_ testSubmodelsCovariances_kM_and_KM  KM symmetric avec calculs cross-cov
+ ok: 22.0.59 I_ testSubmodelsCovariances_kM_and_KM  kM unchanged when computing cross-cov
+ ok: 22.0.60 I_ testSubmodelsCovariances_kM_and_KM  KM unchanged when computing cross-cov
+ ok: 22.0.61 I_ testSubmodelsCovariances_kM_and_KM  ordinary Kriging case was tested
+ ok: 22.0.62 I_ testSubmodelsCovariances_kM_and_KM  simple Kriging case was tested
+ ok: 23.0.1 I_ testSubmodelsCovariances_kM_and_KM  bool compute all cross-corr when outputLevel>10
+ ok: 23.0.2 I_ testSubmodelsCovariances_kM_and_KM  first item diag(KM)=kM  sans calculs cross-cov
+ ok: 23.0.3 I_ testSubmodelsCovariances_kM_and_KM  diag(KM)=kM  sans calculs cross-cov
+ ok: 23.0.4 I_ testSubmodelsCovariances_kM_and_KM  diag(KM)=1-sd2_M/sd2  sans calculs cross-cov
+ ok: 23.0.5 I_ testSubmodelsCovariances_kM_and_KM  diag(KM)=kM  sans calculs cross-cov
+ ok: 23.0.6 I_ testSubmodelsCovariances_kM_and_KM  diag(KM)=1-sd2_M/sd2  sans calculs cross-cov
+ ok: 23.0.7 I_ testSubmodelsCovariances_kM_and_KM  bool compute all cross-corr when outputLevel>10
+ ok: 23.0.8 I_ testSubmodelsCovariances_kM_and_KM  first item diag(KM)=kM  avec calculs cross-cov
+ ok: 23.0.9 I_ testSubmodelsCovariances_kM_and_KM  diag(KM)=kM  avec calculs cross-cov
+ ok: 23.0.10 I_ testSubmodelsCovariances_kM_and_KM  diag(KM)=1-sd2_M/sd2  avec calculs cross-cov
+ ok: 23.0.11 I_ testSubmodelsCovariances_kM_and_KM  diag(KM)=kM  avec calculs cross-cov
+ ok: 23.0.12 I_ testSubmodelsCovariances_kM_and_KM  diag(KM)=1-sd2_M/sd2  avec calculs cross-cov
+ ok: 23.0.13 I_ testSubmodelsCovariances_kM_and_KM  bool compute all cross-corr when outputLevel>10
+ ok: 23.0.14 I_ testSubmodelsCovariances_kM_and_KM  first item diag(KM)=kM  sans calculs cross-cov
+ ok: 23.0.15 I_ testSubmodelsCovariances_kM_and_KM  diag(KM)=kM  sans calculs cross-cov
+ ok: 23.0.16 I_ testSubmodelsCovariances_kM_and_KM  diag(KM)=1-sd2_M/sd2  sans calculs cross-cov
+ ok: 23.0.17 I_ testSubmodelsCovariances_kM_and_KM  diag(KM)=kM  sans calculs cross-cov
+ ok: 23.0.18 I_ testSubmodelsCovariances_kM_and_KM  diag(KM)=1-sd2_M/sd2  sans calculs cross-cov
+ ok: 23.0.19 I_ testSubmodelsCovariances_kM_and_KM  bool compute all cross-corr when outputLevel>10
+ ok: 23.0.20 I_ testSubmodelsCovariances_kM_and_KM  first item diag(KM)=kM  avec calculs cross-cov
+ ok: 23.0.21 I_ testSubmodelsCovariances_kM_and_KM  diag(KM)=kM  avec calculs cross-cov
+ ok: 23.0.22 I_ testSubmodelsCovariances_kM_and_KM  diag(KM)=1-sd2_M/sd2  avec calculs cross-cov
+ ok: 23.0.23 I_ testSubmodelsCovariances_kM_and_KM  diag(KM)=kM  avec calculs cross-cov
+ ok: 23.0.24 I_ testSubmodelsCovariances_kM_and_KM  diag(KM)=1-sd2_M/sd2  avec calculs cross-cov
+ ok: 24.0.1 I_ testOutputCovariances_kkM_and_KKM  nbElem kkM
+ ok: 24.0.2 I_ testOutputCovariances_kkM_and_KKM  nbRows KKM
+ ok: 24.0.3 I_ testOutputCovariances_kkM_and_KKM  nbCols KKM
+ ok: 24.0.4 I_ testOutputCovariances_kkM_and_KKM  kkM[x][x']=cov(M_i(x),Y(x'))=cov(M_i(x),Y(x))=kM[x] when x=x'
+ ok: 24.0.5 I_ testOutputCovariances_kkM_and_KKM  KKM[x][x']=cov(M_i(x),M_j(x'))=cov(M_i(x),M_j(x))=KM[x] when x=x'
+ ok: 24.0.6 I_ testOutputCovariances_kkM_and_KKM  nbElem kkM
+ ok: 24.0.7 I_ testOutputCovariances_kkM_and_KKM  nbRows KKM
+ ok: 24.0.8 I_ testOutputCovariances_kkM_and_KKM  nbCols KKM
+ ok: 24.0.9 I_ testOutputCovariances_kkM_and_KKM  kkM[x][x']=cov(M_i(x),Y(x'))=cov(M_i(x),Y(x))=kM[x] when x=x'
+ ok: 24.0.10 I_ testOutputCovariances_kkM_and_KKM  KKM[x][x']=cov(M_i(x),M_j(x'))=cov(M_i(x),M_j(x))=KM[x] when x=x'
+ ok: 24.0.11 I_ testOutputCovariances_kkM_and_KKM  diag(KM)=kM
+ ok: 24.0.12 I_ testOutputCovariances_kkM_and_KKM  diag(KKM)=kkM when x=x'
+ ok: 24.0.13 I_ testOutputCovariances_kkM_and_KKM  diag(KKM)=kkM when x, x' distinct (i)
+ ok: 24.0.14 I_ testOutputCovariances_kkM_and_KKM  diag(KKM)=kkM when x, x' distinct (ii)
+ ok: 24.0.15 I_ testOutputCovariances_kkM_and_KKM  KKM symmetric in x,x' when transpose
+ ok: 24.0.16 I_ testOutputCovariances_kkM_and_KKM  KKM symmetric in i,j when x=x'
+ ok: 25.0.1 I_ test predicted covariances cagg, kagg()  kagg symmetric in x,x'
+ ok: 25.0.2 I_ test predicted covariances cagg, kagg()  kagg reasonable values
+ ok: 25.0.3 I_ test predicted covariances cagg, kagg()  kagg <sd2
+ ok: 25.0.4 I_ test predicted covariances cagg, kagg()  kagg >-sd2
+ ok: 25.0.5 I_ test predicted covariances cagg, kagg()  cagg(x,x')=vagg(x) when x=x'
+ ok: 25.0.6 I_ test predicted covariances cagg, kagg()  cagg symmetric in x,x'
+ ok: 25.0.7 I_ test predicted covariances cagg, kagg()  cagg reasonable values
+ ok: 25.0.8 I_ test predicted covariances cagg, kagg()  cagg <sd2
+ ok: 25.0.9 I_ test predicted covariances cagg, kagg()  cagg >-sd2
+ ok: 26.0.1 I_ test predicted covariances cagg, kagg as DiceKriging  when N=1, as DiceKriging (case 1)
+ ok: 26.0.2 I_ test predicted covariances cagg, kagg as DiceKriging  when N=1, as DiceKriging (case 2)
+ ok: 27.0.1 I_ test predicted covariances cagg, kagg as DiceKriging  when N=1, covPrior as expected calculation
+ ok: 27.0.2 I_ test predicted covariances cagg, kagg as DiceKriging  when N=1, cov as expected calculation
+ ok: 27.0.3 I_ test predicted covariances cagg, kagg as DiceKriging  check case has changed to N=n
+ ok: 27.0.4 I_ test predicted covariances cagg, kagg as DiceKriging  when N=1 or N=n, covPrior unchanged
+ ok: 27.0.5 I_ test predicted covariances cagg, kagg as DiceKriging  when N=1 or N=n, cov unchanged
+ ok: 28.0.1 I_ testOutputCovariances_asPreviousRun  kM[0](0)
+ ok: 28.0.2 I_ testOutputCovariances_asPreviousRun  KM[0](0,1)
+ ok: 28.0.3 I_ testOutputCovariances_asPreviousRun  KM[0](1,0)
+ ok: 28.0.4 I_ testOutputCovariances_asPreviousRun  kkM[0][1](0,1)
+ ok: 28.0.5 I_ testOutputCovariances_asPreviousRun  kkM[0][1](0,1)
+ ok: 28.0.6 I_ testOutputCovariances_asPreviousRun  KKM[0][1](1,0)
+ ok: 28.0.7 I_ testOutputCovariances_asPreviousRun  kkM[1][0](0)
+ ok: 28.0.8 I_ testOutputCovariances_asPreviousRun  test also ordinaryKriging
+ ok: 28.0.9 I_ testOutputCovariances_asPreviousRun  Bis_kM[0](0)
+ ok: 28.0.10 I_ testOutputCovariances_asPreviousRun  Bis_KM[0](0,1)
+ ok: 28.0.11 I_ testOutputCovariances_asPreviousRun  Bis_KM[0](1,0)
+ ok: 28.0.12 I_ testOutputCovariances_asPreviousRun  Bis_kkM[0][1](0,1)
+ ok: 28.0.13 I_ testOutputCovariances_asPreviousRun  Bis_kkM[0][1](0,1)
+ ok: 28.0.14 I_ testOutputCovariances_asPreviousRun  Bis_KKM[0][1](1,0)
+ ok: 28.0.15 I_ testOutputCovariances_asPreviousRun  Bis_kkM[1][0](0)
+ ok: 29.0.1 II_ mean_M as Nicolas Python code. caseStudy 1, SimpleK  pick0
+ ok: 29.0.2 II_ mean_M as Nicolas Python code. caseStudy 1, SimpleK  pick1
+ ok: 30.0.1 II_ mean_M as Nicolas Python code. caseStudy 2, SimpleK (nestedKriging.h)  pick0
+ ok: 30.0.2 II_ mean_M as Nicolas Python code. caseStudy 2, SimpleK (nestedKriging.h)  pick1
+ ok: 31.0.1 II_ mean_M as Clement code, case 2  pick0
+ ok: 31.0.2 II_ mean_M as Clement code, case 2  pick1
+ ok: 32.0.1 II_ mean_M as Clement code, case 2, small LengthScales  pick0
+ ok: 32.0.2 II_ mean_M as Clement code, case 2, small LengthScales  pick1
+ ok: 33.0.1 II_ mean_M as Nicolas Python code. caseStudy 1, SimpleK, small lengthscales (nestedKriging.h)  pick 0
+ ok: 33.0.2 II_ mean_M as Nicolas Python code. caseStudy 1, SimpleK, small lengthscales (nestedKriging.h)  pick 1
+ ok: 34.0.1 II_ Correlation matrices K as Clement C++ code, pickx=0  fragment A
+ ok: 34.0.2 II_ Correlation matrices K as Clement C++ code, pickx=0  fragment B
+ ok: 35.0.1 II_ Cross correlation matrices k as Clement C++ code  pickx=0
+ ok: 35.0.2 II_ Cross correlation matrices k as Clement C++ code  pickx=1
+ ok: 36.0.1 II_ Correlation matrices K as Clement C++ code, pickx=0, small lengthscales  fragment A
+ ok: 36.0.2 II_ Correlation matrices K as Clement C++ code, pickx=0, small lengthscales  fragment B
+ ok: 37.0.1 II_ Cross correlation matrices k as Clement code, small lengthscales  pickx=0
+ ok: 37.0.2 II_ Cross correlation matrices k as Clement code, small lengthscales  pickx=1
+ ok: 38.0.1 II_ Weights as Clement C++ code, case 2  pickx=0
+ ok: 38.0.2 II_ Weights as Clement C++ code, case 2  pickx=1
+ ok: 39.0.1 II_ Weights solve matrix equation: K_M weights= k_M  pickx=0
+ ok: 39.0.2 II_ Weights solve matrix equation: K_M weights= k_M  pickx=1
+ ok: 40.1.1 III_ Test with only one design point case 1 mean_0
+ ok: 40.1.2 III_ Test with only one design point case 1 sd2_0
+ ok: 40.1.3 III_ Test with only one design point case 1 mean_1
+ ok: 40.1.4 III_ Test with only one design point case 1 sd2_1
+ ok: 40.2.1 III_ Test with only one design point case 2 mean_0
+ ok: 40.2.2 III_ Test with only one design point case 2 sd2_0
+ ok: 40.2.3 III_ Test with only one design point case 2 mean_1
+ ok: 40.2.4 III_ Test with only one design point case 2 sd2_1
+ ok: 40.3.1 III_ Test with only one design point case 3 mean_0
+ ok: 40.3.2 III_ Test with only one design point case 3 sd2_0
+ ok: 40.3.3 III_ Test with only one design point case 3 mean_1
+ ok: 40.3.4 III_ Test with only one design point case 3 sd2_1
+ ok: 40.4.1 III_ Test with only one design point case 4 mean_0
+ ok: 40.4.2 III_ Test with only one design point case 4 sd2_0
+ ok: 40.4.3 III_ Test with only one design point case 4 mean_1
+ ok: 40.4.4 III_ Test with only one design point case 4 sd2_1
+ ok: 40.4.5 III_ Test with only one design point case 4 mean_2
+ ok: 40.4.6 III_ Test with only one design point case 4 sd2_2
+ ok: 40.4.7 III_ Test with only one design point case 4 mean_3
+ ok: 40.4.8 III_ Test with only one design point case 4 sd2_3
+ ok: 40.4.9 III_ Test with only one design point case 4 mean_4
+ ok: 40.4.10 III_ Test with only one design point case 4 sd2_4
+ ok: 40.4.11 III_ Test with only one design point case 4 mean_5
+ ok: 40.4.12 III_ Test with only one design point case 4 sd2_5
+ ok: 40.4.13 III_ Test with only one design point case 4 mean_6
+ ok: 40.4.14 III_ Test with only one design point case 4 sd2_6
+ ok: 40.4.15 III_ Test with only one design point case 4 mean_7
+ ok: 40.4.16 III_ Test with only one design point case 4 sd2_7
+ ok: 40.4.17 III_ Test with only one design point case 4 mean_8
+ ok: 40.4.18 III_ Test with only one design point case 4 sd2_8
+ ok: 41.1.1 III_ test permutation and cluster labels has no impact case 1 Y has been changed, as expected
+ ok: 41.1.2 III_ test permutation and cluster labels has no impact case 1 Y rotated by one step
+ ok: 41.1.3 III_ test permutation and cluster labels has no impact case 1 mean are unchanged
+ ok: 41.1.4 III_ test permutation and cluster labels has no impact case 1 sd2 are unchanged
+ ok: 41.2.1 III_ test permutation and cluster labels has no impact case 2 Y has been changed, as expected
+ ok: 41.2.2 III_ test permutation and cluster labels has no impact case 2 Y rotated by one step
+ ok: 41.2.3 III_ test permutation and cluster labels has no impact case 2 mean are unchanged
+ ok: 41.2.4 III_ test permutation and cluster labels has no impact case 2 sd2 are unchanged
+ ok: 41.3.1 III_ test permutation and cluster labels has no impact case 3 Y has been changed, as expected
+ ok: 41.3.2 III_ test permutation and cluster labels has no impact case 3 Y rotated by one step
+ ok: 41.3.3 III_ test permutation and cluster labels has no impact case 3 mean are unchanged
+ ok: 41.3.4 III_ test permutation and cluster labels has no impact case 3 sd2 are unchanged
+ ok: 41.4.1 III_ test permutation and cluster labels has no impact case 4 Y has been changed, as expected
+ ok: 41.4.2 III_ test permutation and cluster labels has no impact case 4 Y rotated by one step
+ ok: 41.4.3 III_ test permutation and cluster labels has no impact case 4 mean are unchanged
+ ok: 41.4.4 III_ test permutation and cluster labels has no impact case 4 sd2 are unchanged
+ ok: 42.1.1 III_ testWithRotatedPredPoints case 1 means are rotated
+ ok: 42.1.2 III_ testWithRotatedPredPoints case 1 sd2 are rotated
+ ok: 42.2.1 III_ testWithRotatedPredPoints case 2 means are rotated
+ ok: 42.2.2 III_ testWithRotatedPredPoints case 2 sd2 are rotated
+ ok: 42.3.1 III_ testWithRotatedPredPoints case 3 means are rotated
+ ok: 42.3.2 III_ testWithRotatedPredPoints case 3 sd2 are rotated
+ ok: 42.4.1 III_ testWithRotatedPredPoints case 4 means are rotated
+ ok: 42.4.2 III_ testWithRotatedPredPoints case 4 sd2 are rotated
+ ok: 42.5.1 III_ testWithRotatedPredPoints case 5 means are rotated
+ ok: 42.5.2 III_ testWithRotatedPredPoints case 5 sd2 are rotated
+ ok: 42.6.1 III_ testWithRotatedPredPoints case 6 means are rotated
+ ok: 42.6.2 III_ testWithRotatedPredPoints case 6 sd2 are rotated
+ ok: 42.7.1 III_ testWithRotatedPredPoints case 7 means are rotated
+ ok: 42.7.2 III_ testWithRotatedPredPoints case 7 sd2 are rotated
+ ok: 43.1.1 III_ testInterpolating case 1 pred mean are interpolating when x=X
+ ok: 43.1.2 III_ testInterpolating case 1 sd2 are zeros when x=X
+ ok: 43.2.1 III_ testInterpolating case 2 pred mean are interpolating when x=X
+ ok: 43.2.2 III_ testInterpolating case 2 sd2 are zeros when x=X
+ ok: 43.3.1 III_ testInterpolating case 3 pred mean are interpolating when x=X
+ ok: 43.3.2 III_ testInterpolating case 3 sd2 are zeros when x=X
+ ok: 43.4.1 III_ testInterpolating case 4 pred mean are interpolating when x=X
+ ok: 43.4.2 III_ testInterpolating case 4 sd2 are zeros when x=X
+ ok: 43.5.1 III_ testInterpolating case 5 pred mean are interpolating when x=X
+ ok: 43.5.2 III_ testInterpolating case 5 sd2 are zeros when x=X
+ ok: 43.6.1 III_ testInterpolating case 6 pred mean are interpolating when x=X
+ ok: 43.6.2 III_ testInterpolating case 6 sd2 are zeros when x=X
+ ok: 43.7.1 III_ testInterpolating case 7 pred mean are interpolating when x=X
+ ok: 43.7.2 III_ testInterpolating case 7 sd2 are zeros when x=X
+ ok: 44.1.1 III_ (result with N=1) is equal to (result with N=n) gauss means
+ ok: 44.1.2 III_ (result with N=1) is equal to (result with N=n) gauss sd2
+ ok: 44.2.1 III_ (result with N=1) is equal to (result with N=n) matern5_2 means
+ ok: 44.2.2 III_ (result with N=1) is equal to (result with N=n) matern5_2 sd2
+ ok: 44.3.1 III_ (result with N=1) is equal to (result with N=n) matern3_2 means
+ ok: 44.3.2 III_ (result with N=1) is equal to (result with N=n) matern3_2 sd2
+ ok: 44.4.1 III_ (result with N=1) is equal to (result with N=n) exp means
+ ok: 44.4.2 III_ (result with N=1) is equal to (result with N=n) exp sd2
+ ok: 45.0.1 III_ Compiled with multithread, with activated parallelism  
+ ok: 46.1.1 III_ test no thread Impact  gauss mean
+ ok: 46.1.2 III_ test no thread Impact  gauss sd2
+ ok: 46.1.3 III_ test no thread Impact  gauss mean
+ ok: 46.1.4 III_ test no thread Impact  gauss sd2
+ ok: 46.1.5 III_ test no thread Impact  gauss mean
+ ok: 46.1.6 III_ test no thread Impact  gauss sd2
+ ok: 46.2.1 III_ test no thread Impact  matern5_2 mean
+ ok: 46.2.2 III_ test no thread Impact  matern5_2 sd2
+ ok: 46.2.3 III_ test no thread Impact  matern5_2 mean
+ ok: 46.2.4 III_ test no thread Impact  matern5_2 sd2
+ ok: 46.2.5 III_ test no thread Impact  matern5_2 mean
+ ok: 46.2.6 III_ test no thread Impact  matern5_2 sd2
+ ok: 46.3.1 III_ test no thread Impact  matern3_2 mean
+ ok: 46.3.2 III_ test no thread Impact  matern3_2 sd2
+ ok: 46.3.3 III_ test no thread Impact  matern3_2 mean
+ ok: 46.3.4 III_ test no thread Impact  matern3_2 sd2
+ ok: 46.3.5 III_ test no thread Impact  matern3_2 mean
+ ok: 46.3.6 III_ test no thread Impact  matern3_2 sd2
+ ok: 46.4.1 III_ test no thread Impact  exp mean
+ ok: 46.4.2 III_ test no thread Impact  exp sd2
+ ok: 46.4.3 III_ test no thread Impact  exp mean
+ ok: 46.4.4 III_ test no thread Impact  exp sd2
+ ok: 46.4.5 III_ test no thread Impact  exp mean
+ ok: 46.4.6 III_ test no thread Impact  exp sd2
+ ok: 47.0.1 III (zones)_ MergeOutputInAlgoZone  mean_M, pickx=0
+ ok: 47.0.2 III (zones)_ MergeOutputInAlgoZone  knu, pickx=0
+ ok: 47.0.3 III (zones)_ MergeOutputInAlgoZone  Knu, pickx=0
+ ok: 47.0.4 III (zones)_ MergeOutputInAlgoZone  mean_M, pickx=1
+ ok: 47.0.5 III (zones)_ MergeOutputInAlgoZone  knu, pickx=1
+ ok: 47.0.6 III (zones)_ MergeOutputInAlgoZone  Knu, pickx=1
+ ok: 47.0.7 III (zones)_ MergeOutputInAlgoZone  mean_M, pickx=2
+ ok: 47.0.8 III (zones)_ MergeOutputInAlgoZone  knu, pickx=2
+ ok: 47.0.9 III (zones)_ MergeOutputInAlgoZone  Knu, pickx=2
+ ok: 47.0.10 III (zones)_ MergeOutputInAlgoZone  mean_M, pickx=3
+ ok: 47.0.11 III (zones)_ MergeOutputInAlgoZone  knu, pickx=3
+ ok: 47.0.12 III (zones)_ MergeOutputInAlgoZone  Knu, pickx=3
+ ok: 47.0.13 III (zones)_ MergeOutputInAlgoZone  mean_M, pickx=4
+ ok: 47.0.14 III (zones)_ MergeOutputInAlgoZone  knu, pickx=4
+ ok: 47.0.15 III (zones)_ MergeOutputInAlgoZone  Knu, pickx=4
+ ok: 47.0.16 III (zones)_ MergeOutputInAlgoZone  mean_M, pickx=5
+ ok: 47.0.17 III (zones)_ MergeOutputInAlgoZone  knu, pickx=5
+ ok: 47.0.18 III (zones)_ MergeOutputInAlgoZone  Knu, pickx=5
+ ok: 47.0.19 III (zones)_ MergeOutputInAlgoZone  mean_M, pickx=6
+ ok: 47.0.20 III (zones)_ MergeOutputInAlgoZone  knu, pickx=6
+ ok: 47.0.21 III (zones)_ MergeOutputInAlgoZone  Knu, pickx=6
+ ok: 47.0.22 III (zones)_ MergeOutputInAlgoZone  mean_M, pickx=7
+ ok: 47.0.23 III (zones)_ MergeOutputInAlgoZone  knu, pickx=7
+ ok: 47.0.24 III (zones)_ MergeOutputInAlgoZone  Knu, pickx=7
+ ok: 47.0.25 III (zones)_ MergeOutputInAlgoZone  mean_M, pickx=8
+ ok: 47.0.26 III (zones)_ MergeOutputInAlgoZone  knu, pickx=8
+ ok: 47.0.27 III (zones)_ MergeOutputInAlgoZone  Knu, pickx=8
+ ok: 48.1.1 III (zones)_ test no thread Impact (Basic) - AlgoZone gauss mean
+ ok: 48.1.2 III (zones)_ test no thread Impact (Basic) - AlgoZone gauss sd2
+ ok: 49.1.1 III (zones)_ test no thread Impact - AlgoZone gauss mean
+ ok: 49.1.2 III (zones)_ test no thread Impact - AlgoZone gauss sd2
+ ok: 49.1.3 III (zones)_ test no thread Impact - AlgoZone gauss mean
+ ok: 49.1.4 III (zones)_ test no thread Impact - AlgoZone gauss sd2
+ ok: 49.1.5 III (zones)_ test no thread Impact - AlgoZone gauss mean
+ ok: 49.1.6 III (zones)_ test no thread Impact - AlgoZone gauss sd2
+ ok: 49.1.7 III (zones)_ test no thread Impact - AlgoZone gauss mean
+ ok: 49.1.8 III (zones)_ test no thread Impact - AlgoZone gauss sd2
+ ok: 49.1.9 III (zones)_ test no thread Impact - AlgoZone gauss mean
+ ok: 49.1.10 III (zones)_ test no thread Impact - AlgoZone gauss sd2
+ ok: 49.1.11 III (zones)_ test no thread Impact - AlgoZone gauss mean
+ ok: 49.1.12 III (zones)_ test no thread Impact - AlgoZone gauss sd2
+ ok: 49.2.1 III (zones)_ test no thread Impact - AlgoZone matern5_2 mean
+ ok: 49.2.2 III (zones)_ test no thread Impact - AlgoZone matern5_2 sd2
+ ok: 49.2.3 III (zones)_ test no thread Impact - AlgoZone matern5_2 mean
+ ok: 49.2.4 III (zones)_ test no thread Impact - AlgoZone matern5_2 sd2
+ ok: 49.2.5 III (zones)_ test no thread Impact - AlgoZone matern5_2 mean
+ ok: 49.2.6 III (zones)_ test no thread Impact - AlgoZone matern5_2 sd2
+ ok: 49.2.7 III (zones)_ test no thread Impact - AlgoZone matern5_2 mean
+ ok: 49.2.8 III (zones)_ test no thread Impact - AlgoZone matern5_2 sd2
+ ok: 49.2.9 III (zones)_ test no thread Impact - AlgoZone matern5_2 mean
+ ok: 49.2.10 III (zones)_ test no thread Impact - AlgoZone matern5_2 sd2
+ ok: 49.2.11 III (zones)_ test no thread Impact - AlgoZone matern5_2 mean
+ ok: 49.2.12 III (zones)_ test no thread Impact - AlgoZone matern5_2 sd2
+ ok: 49.3.1 III (zones)_ test no thread Impact - AlgoZone matern3_2 mean
+ ok: 49.3.2 III (zones)_ test no thread Impact - AlgoZone matern3_2 sd2
+ ok: 49.3.3 III (zones)_ test no thread Impact - AlgoZone matern3_2 mean
+ ok: 49.3.4 III (zones)_ test no thread Impact - AlgoZone matern3_2 sd2
+ ok: 49.3.5 III (zones)_ test no thread Impact - AlgoZone matern3_2 mean
+ ok: 49.3.6 III (zones)_ test no thread Impact - AlgoZone matern3_2 sd2
+ ok: 49.3.7 III (zones)_ test no thread Impact - AlgoZone matern3_2 mean
+ ok: 49.3.8 III (zones)_ test no thread Impact - AlgoZone matern3_2 sd2
+ ok: 49.3.9 III (zones)_ test no thread Impact - AlgoZone matern3_2 mean
+ ok: 49.3.10 III (zones)_ test no thread Impact - AlgoZone matern3_2 sd2
+ ok: 49.3.11 III (zones)_ test no thread Impact - AlgoZone matern3_2 mean
+ ok: 49.3.12 III (zones)_ test no thread Impact - AlgoZone matern3_2 sd2
+ ok: 49.4.1 III (zones)_ test no thread Impact - AlgoZone exp mean
+ ok: 49.4.2 III (zones)_ test no thread Impact - AlgoZone exp sd2
+ ok: 49.4.3 III (zones)_ test no thread Impact - AlgoZone exp mean
+ ok: 49.4.4 III (zones)_ test no thread Impact - AlgoZone exp sd2
+ ok: 49.4.5 III (zones)_ test no thread Impact - AlgoZone exp mean
+ ok: 49.4.6 III (zones)_ test no thread Impact - AlgoZone exp sd2
+ ok: 49.4.7 III (zones)_ test no thread Impact - AlgoZone exp mean
+ ok: 49.4.8 III (zones)_ test no thread Impact - AlgoZone exp sd2
+ ok: 49.4.9 III (zones)_ test no thread Impact - AlgoZone exp mean
+ ok: 49.4.10 III (zones)_ test no thread Impact - AlgoZone exp sd2
+ ok: 49.4.11 III (zones)_ test no thread Impact - AlgoZone exp mean
+ ok: 49.4.12 III (zones)_ test no thread Impact - AlgoZone exp sd2
+ ok: 50.0.1 III (zones)_ testTooManyThreads  mean_M1, pickx=0
+ ok: 50.0.2 III (zones)_ testTooManyThreads  mean_M2, pickx=0
+ ok: 50.0.3 III (zones)_ testTooManyThreads  mean_M3, pickx=0
+ ok: 50.0.4 III (zones)_ testTooManyThreads  mean_M1, pickx=1
+ ok: 50.0.5 III (zones)_ testTooManyThreads  mean_M2, pickx=1
+ ok: 50.0.6 III (zones)_ testTooManyThreads  mean_M3, pickx=1
+ ok: 50.0.7 III (zones)_ testTooManyThreads  mean_M1, pickx=2
+ ok: 50.0.8 III (zones)_ testTooManyThreads  mean_M2, pickx=2
+ ok: 50.0.9 III (zones)_ testTooManyThreads  mean_M3, pickx=2
+ ok: 50.0.10 III (zones)_ testTooManyThreads  mean_M1, pickx=3
+ ok: 50.0.11 III (zones)_ testTooManyThreads  mean_M2, pickx=3
+ ok: 50.0.12 III (zones)_ testTooManyThreads  mean_M3, pickx=3
+ ok: 50.0.13 III (zones)_ testTooManyThreads  mean_M1, pickx=4
+ ok: 50.0.14 III (zones)_ testTooManyThreads  mean_M2, pickx=4
+ ok: 50.0.15 III (zones)_ testTooManyThreads  mean_M3, pickx=4
+ ok: 50.0.16 III (zones)_ testTooManyThreads  mean_M1, pickx=5
+ ok: 50.0.17 III (zones)_ testTooManyThreads  mean_M2, pickx=5
+ ok: 50.0.18 III (zones)_ testTooManyThreads  mean_M3, pickx=5
+ ok: 50.0.19 III (zones)_ testTooManyThreads  mean_M1, pickx=6
+ ok: 50.0.20 III (zones)_ testTooManyThreads  mean_M2, pickx=6
+ ok: 50.0.21 III (zones)_ testTooManyThreads  mean_M3, pickx=6
+ ok: 50.0.22 III (zones)_ testTooManyThreads  mean_M1, pickx=7
+ ok: 50.0.23 III (zones)_ testTooManyThreads  mean_M2, pickx=7
+ ok: 50.0.24 III (zones)_ testTooManyThreads  mean_M3, pickx=7
+ ok: 50.0.25 III (zones)_ testTooManyThreads  mean_M1, pickx=8
+ ok: 50.0.26 III (zones)_ testTooManyThreads  mean_M2, pickx=8
+ ok: 50.0.27 III (zones)_ testTooManyThreads  mean_M3, pickx=8
+ ok: 51.0.1 IV_ mean and sd2 as Clement C++ code.  mean gauss
+ ok: 51.0.2 IV_ mean and sd2 as Clement C++ code.  sd2 gauss
+ ok: 51.0.3 IV_ mean and sd2 as Clement C++ code.  mean matern5_2
+ ok: 51.0.4 IV_ mean and sd2 as Clement C++ code.  sd2 matern5_2
+ ok: 51.0.5 IV_ mean and sd2 as Clement C++ code.  mean matern3_2
+ ok: 51.0.6 IV_ mean and sd2 as Clement C++ code.  sd2 matern3_2
+ ok: 51.0.7 IV_ mean and sd2 as Clement C++ code.  mean exp
+ ok: 51.0.8 IV_ mean and sd2 as Clement C++ code.  sd2 exp
+ ok: 52.0.1 IV_ mean and sd2 as Clement C++ code, Simple Kriging  mean_SK gauss
+ ok: 52.0.2 IV_ mean and sd2 as Clement C++ code, Simple Kriging  sd2_SK gauss
+ ok: 53.0.1 IV_ mean and sd2 as Nicolas Python code, case 1, SimpleK  Simple Kriging, pickx=0..1, mean_SK gauss
+ ok: 53.0.2 IV_ mean and sd2 as Nicolas Python code, case 1, SimpleK  Simple Kriging, pickx=0..1, sd2_SK gauss
+ ok: 54.0.1 IV_ mean and sd2 as Nicolas Python code, case 2, SimpleK  Simple Kriging, pickx=0..1, mean_SK gauss
+ ok: 54.0.2 IV_ mean and sd2 as Nicolas Python code, case 2, SimpleK  Simple Kriging, pickx=0..1, sd2_SK gauss
+ ok: 55.1.1 IV_ mean and sd2 as DiceKriging Case 1, Simple Kriging case N=1, gauss mean
+ ok: 55.1.2 IV_ mean and sd2 as DiceKriging Case 1, Simple Kriging case N=1, gauss variance
+ ok: 55.2.1 IV_ mean and sd2 as DiceKriging Case 1, Simple Kriging case N=n, gauss mean
+ ok: 55.2.2 IV_ mean and sd2 as DiceKriging Case 1, Simple Kriging case N=n, gauss variance
+ ok: 56.0.1 test LOO Errors  case 1 = ordinary Kriging
+ ok: 56.0.2 test LOO Errors  looError as in previous run
+ ok: 56.0.3 test LOO Errors  identical to Clement LOO Code, MSE case 1
+ ok: 56.0.4 test LOO Errors  case 2 = simple Kriging
+ ok: 56.0.5 test LOO Errors  looError as in previous run
+ ok: 56.0.6 test LOO Errors  identical to Clement LOO Code, MSE case 2
+ ok: 56.0.7 test LOO Errors  case 3 = ordinary Kriging
+ ok: 56.0.8 test LOO Errors  looError as in previous run
+ ok: 56.0.9 test LOO Errors  identical to Clement LOO Code, MSE case 3
+ ok: 56.0.10 test LOO Errors  case 4 = simple Kriging
+ ok: 56.0.11 test LOO Errors  looError as in previous run
+ ok: 56.0.12 test LOO Errors  identical to Clement LOO Code, MSE case 4
+ ok: 56.0.13 test LOO Errors  identical to Clement when all indices = 1
+ ok: 57.0.1 IV_ no critical Stop with larger Data  Simple Kriging, pickx=0..1, mean_SK gauss
+ ok: 57.0.2 IV_ no critical Stop with larger Data  Simple Kriging, pickx=0..1, sd2_SK gauss
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+ failure ratio: 0 / 582 - SUCCESS
+----------------------------------------------------------
+
+$ok
+[1] TRUE
+
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("tests_run", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("versionInfo")
+> ### * versionInfo
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: versionInfo
+> ### Title: Gives Information about the Version of this Package
+> ### Aliases: versionInfo
+> 
+> ### ** Examples
+> 
+> library(nestedKriging)
+> myinformations <- versionInfo()
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("versionInfo", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> ### * <FOOTER>
+> ###
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  30.5 2.69 12.35 NA NA 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

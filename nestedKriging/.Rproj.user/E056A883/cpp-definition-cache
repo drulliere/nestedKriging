@@ -123,7 +123,7 @@
             }
         ],
         "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/common.h",
-        "file_last_write" : 1559914231
+        "file_last_write" : 1561100852
     },
     {
         "definitions" : [
@@ -296,7 +296,7 @@
                 "usr" : "c:@N@nestedKrig@C@CorrGauss"
             },
             {
-                "column" : 10,
+                "column" : 18,
                 "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
                 "kind" : 7,
                 "line" : 139,
@@ -576,90 +576,81 @@
             }
         ],
         "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/covariance.h",
-        "file_last_write" : 1559914231
+        "file_last_write" : 1561100795
     },
     {
         "definitions" : [
             {
-                "column" : 8,
-                "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
-                "kind" : 3,
-                "line" : 22,
-                "name" : "SolverChoice",
-                "parent_name" : "",
-                "usr" : "c:@N@nestedKrig@S@SolverChoice"
-            },
-            {
-                "column" : 28,
+                "column" : 12,
                 "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
                 "kind" : 4,
-                "line" : 22,
-                "name" : "Family",
+                "line" : 21,
+                "name" : "SolverChoice",
                 "parent_name" : "",
-                "usr" : "c:@N@nestedKrig@S@SolverChoice@E@Family"
+                "usr" : "c:@N@nestedKrig@E@SolverChoice"
             },
             {
                 "column" : 8,
                 "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
                 "kind" : 2,
-                "line" : 26,
+                "line" : 25,
                 "name" : "LinearSolver<SOLVER>",
                 "parent_name" : "",
-                "usr" : "c:@N@nestedKrig@ST>1#NI@LinearSolver"
+                "usr" : "c:@N@nestedKrig@ST>1#N$@N@nestedKrig@E@SolverChoice@LinearSolver"
             },
             {
                 "column" : 8,
                 "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
                 "kind" : 3,
-                "line" : 29,
+                "line" : 28,
                 "name" : "LinearSolver<SolverChoice::InvSympd>",
                 "parent_name" : "",
-                "usr" : "c:@N@nestedKrig@S@LinearSolver>#VI0"
+                "usr" : "c:@N@nestedKrig@S@LinearSolver>#V$@N@nestedKrig@E@SolverChoice0"
             },
             {
                 "column" : 15,
                 "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
                 "kind" : 7,
-                "line" : 30,
+                "line" : 29,
                 "name" : "findWeights(const arma::mat &, const arma::mat &, arma::mat &)",
                 "parent_name" : "LinearSolver<SolverChoice::InvSympd>",
-                "usr" : "c:@N@nestedKrig@S@LinearSolver>#VI0@F@findWeights#&1$@N@arma@C@Mat>#d#S0_#&S1_#S"
+                "usr" : "c:@N@nestedKrig@S@LinearSolver>#V$@N@nestedKrig@E@SolverChoice0@F@findWeights#&1$@N@arma@C@Mat>#d#S1_#&S2_#S"
             },
             {
                 "column" : 8,
                 "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
                 "kind" : 3,
-                "line" : 39,
+                "line" : 38,
                 "name" : "LinearSolver<SolverChoice::Cholesky>",
                 "parent_name" : "",
-                "usr" : "c:@N@nestedKrig@S@LinearSolver>#VI1"
+                "usr" : "c:@N@nestedKrig@S@LinearSolver>#V$@N@nestedKrig@E@SolverChoice1"
             },
             {
                 "column" : 15,
                 "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
                 "kind" : 7,
-                "line" : 40,
+                "line" : 39,
                 "name" : "findWeights(const arma::mat &, const arma::mat &, arma::mat &)",
                 "parent_name" : "LinearSolver<SolverChoice::Cholesky>",
-                "usr" : "c:@N@nestedKrig@S@LinearSolver>#VI1@F@findWeights#&1$@N@arma@C@Mat>#d#S0_#&S1_#S"
+                "usr" : "c:@N@nestedKrig@S@LinearSolver>#V$@N@nestedKrig@E@SolverChoice1@F@findWeights#&1$@N@arma@C@Mat>#d#S1_#&S2_#S"
             },
             {
                 "column" : 8,
                 "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
                 "kind" : 3,
-                "line" : 48,
+                "line" : 47,
                 "name" : "LinearSolver<SolverChoice::Solve>",
                 "parent_name" : "",
-                "usr" : "c:@N@nestedKrig@S@LinearSolver>#VI2"
+                "usr" : "c:@N@nestedKrig@S@LinearSolver>#V$@N@nestedKrig@E@SolverChoice2"
             },
             {
                 "column" : 15,
                 "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
                 "kind" : 7,
-                "line" : 49,
+                "line" : 48,
                 "name" : "findWeights(const arma::mat &, const arma::mat &, arma::mat &)",
                 "parent_name" : "LinearSolver<SolverChoice::Solve>",
-                "usr" : "c:@N@nestedKrig@S@LinearSolver>#VI2@F@findWeights#&1$@N@arma@C@Mat>#d#S0_#&S1_#S"
+                "usr" : "c:@N@nestedKrig@S@LinearSolver>#V$@N@nestedKrig@E@SolverChoice2@F@findWeights#&1$@N@arma@C@Mat>#d#S1_#&S2_#S"
             },
             {
                 "column" : 7,
@@ -716,7 +707,7 @@
                 "usr" : "c:@N@nestedKrig@C@OrdinaryKrigingPredictor@S@Precomputations"
             },
             {
-                "column" : 16,
+                "column" : 8,
                 "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
                 "kind" : 7,
                 "line" : 135,
@@ -725,7 +716,7 @@
                 "usr" : "c:@N@nestedKrig@C@OrdinaryKrigingPredictor@F@fillResultsHelper#&$@N@arma@C@Mat>#d#&$@N@arma@C@Row>#d#&$@N@std@C@vector>#d#$@N@std@C@allocator>#d#S4_#&1S1_#&1$@N@nestedKrig@C@OrdinaryKrigingPredictor@S@Precomputations#1"
             },
             {
-                "column" : 16,
+                "column" : 8,
                 "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
                 "kind" : 7,
                 "line" : 147,
@@ -807,7 +798,7 @@
             }
         ],
         "file" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging/src/kriging.h",
-        "file_last_write" : 1559914231
+        "file_last_write" : 1561101256
     },
     {
         "definitions" : [

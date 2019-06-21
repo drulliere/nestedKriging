@@ -1,0 +1,10 @@
+{
+    "dialog-state" : {
+        "caseSensitive" : false,
+        "filePatterns" : [
+        ],
+        "path" : "C:/Users/User1/Desktop/nestedKriging/nestedKriging/nestedKriging",
+        "query" : "virtual",
+        "regex" : false
+    }
+}
