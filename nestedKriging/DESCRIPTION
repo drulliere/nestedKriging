@@ -6,7 +6,7 @@ Author: Didier Rullière, Clément Chevalier. Contributors: Nicolas Durrande, Fr
 Maintainer: Didier Rullière <didier.rulliere@univ-lyon1.fr>
 Description: Compute nested Kriging mean and variance predictions, based on submodels aggregation. Allows to deal with larger number of observations than classical Kriging techniques.
 Note: Internal package of the Chair OQUAIDO.
-License: GPL-3
+License: LGPL-3
 Encoding: UTF-8
 LazyData: true
 Imports: Rcpp (>= 0.12.11)
