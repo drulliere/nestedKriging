@@ -5,6 +5,7 @@
 # Repository : sources created during build process
 src-x64/
 src-i386/
+build/
 
 # Repository: Output files from R CMD check
 /*.Rcheck/
