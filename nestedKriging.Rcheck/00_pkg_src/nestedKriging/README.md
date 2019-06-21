@@ -1,2 +1,0 @@
-# nestedKriging
-nestedKriging R package
