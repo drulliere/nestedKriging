@@ -1,0 +1,24 @@
+
+# Repository : RStudio files
+.Rproj.user/
+
+# Repository : sources created during build process
+src-x64/
+src-i386/
+
+# Repository: Output files from R CMD check
+/*.Rcheck/
+
+# History files
+*.Rhistory
+*.Rapp.history
+
+# Session Data files
+*.RData
+
+# User-specific files
+*.Ruserdata
+
+# Windows binary in src
+src/*.dll
+
