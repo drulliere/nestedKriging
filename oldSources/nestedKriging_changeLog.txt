@@ -1,0 +1,86 @@
+
+***********************************************************
+
+nestedKriging v0.1.5 (June 2019, 26)
+
+- first public realease
+
+- tiny code improvements
+
+***********************************************************
+
+nestedKriging v0.1.4 (may 2019, 13)
+
+- added: leave-one-out prediction errors, functions looErrors...
+
+- added: estimation of hyperparameters, functions estimParam, estimSigma2...
+
+- related help
+
+***********************************************************
+
+nestedKriging v0.1.3 (march 2019)
+
+- interface change, new names for output value Yhat which becomes mean_M
+
+- interface change, some output values by cluster are now given in a matrix
+
+- added: calculation of some alternative aggregators
+
+- added: calculation of prediction covariances
+
+- added: some tests on prediction covariances 
+
+- added: some output values : cov, covPrior, sd2_M
+
+- small refactorings (ChronoReport, Initializer, Show, ...)
+
+***********************************************************
+
+nestedKriging v0.1.2 (february 2019)
+
+- fix unexpected crash due to Rcout calls on some systems (Rcout is not thread safe)
+
+- add nugget implementation 
+
+- interface change, new nugget parameter in nestedKriging and nestedKrigingDirect
+
+- some code refactoring (split of the code in separate units, more genericity on point storage)
+
+- more unit tests in link with the new nugget feature and the changes in the code
+
+- more exception handling
+
+- better stability of matrices inversion
+
+***********************************************************
+nestedKriging v0.1.1 (january 2018)
+
+- small details (help pages, portable compilation flags...) 
+
+- small internal changes (progression messages implementation, sandBox)
+
+- interface change in functions nestedKriging and nestedKrigingDirect
+covtype	=> covType
+verboseDetails => verboseLevel
+outputDetailLevel => outputLevel
+numThreadsGroups => numThreads
+numThreadsPredPoints => numThreadsZones
+
+- interface change in function versionInfos:
+versionInfos => versionInfo
+
+- interface change in function tests_getCodeValues
+force_simpleKriging => forceSimpleKriging
+
+- interface change in function tests_getCaseStudy
+getCaseStudy$gp	=> getCaseStudy$clusters
+getCaseStudy$gpsize => getCaseStudy$clustersSize
+
+- note:
+probably due to Operating System patches in jan 2018 on some processor vulnerabilities (meltdown, spectre),
+all versions of the package may now run more slowly on affected systems (up to 2 times on an affected system).
+
+*********************************************************************
+nestedKriging v0.1.0 (1st december 2017)
+initial version
