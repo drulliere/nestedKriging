@@ -35,13 +35,13 @@ prediction <- nestedKriging(X=X, Y=Y, clusters=clustering$cluster, x=x ,
                             krigingType="simple", tagAlgo='example 1', numThreads=4)
 
 mu <- prediction$mean                         # mean of the predictor, vector of size q
-sd2 <- prediction$ sd2                        # variance of the predictor, vector of size q
-sigma <- prediction$cov                       # covariance of the predictor, q x q matrix
+sd2 <- prediction$sd2                         # variance of the predictor, vector of size q
+sigma <- prediction$cov                       # covariance of the predictor, q x q matrix. (COVARIANCES)
 realvalues <- apply(x, MARGIN = 1, FUN = f)   # real values to be predicted
 message("mean error Nested Kriging = ", mean(abs(realvalues - mu))) #average error of the prediction
 
-# Generate 6 sample paths from the conditional process, using conditional cross-covariances sigma
-MASS_loaded <- require(MASS)
+# Generate sample paths from the conditional process, using conditional cross-covariances sigma
+MASS_loaded <- require(MASS) # for multivariate normal sampling
 ggplot2_loaded <- require(ggplot2)
 packages_loaded <- MASS_loaded && ggplot2_loaded
 
@@ -52,7 +52,8 @@ if (!packages_loaded) {
 } else {
 
   n.samples <- 7
-  trajec <- MASS::mvrnorm(n=n.samples, mu=mu, Sigma=sigma)
+  #generate n.samples sample paths having the same size as mu
+  trajec <- MASS::mvrnorm(n=n.samples, mu=mu, Sigma=sigma) #sample paths of multivariate normal, uses (COVARIANCES)
 
   # Collect data for graphic
   dftrajec <- data.frame(x=rep(x[,1],n.samples), y=matrix(t(trajec), byrow = TRUE, ncol=1), label=rep(1:n.samples, each=length(mu)))
@@ -63,14 +64,11 @@ if (!packages_loaded) {
 # Plot sample paths, observation points and realValues
 linesize <- 1.2
 
-
-
 xkcd_loaded <- FALSE
 #xkcd_loaded <- require(xkcd) # uncomment to get xkcd style, if fonts are installed
-
 myplot <- ggplot(dftrajec, aes(x)) +
+  geom_line(data= dftrajec, aes(x=x, y=y, group=label, colour=as.factor(label)),  size=linesize, show.legend = FALSE) +
   geom_ribbon(data= dfkrig, aes(x=x, ymin=lwr,ymax=upr), alpha=0.1, fill="blue") +
-  geom_line(data= dftrajec, aes(x=x, y=y, group=label),  colour=as.factor(dftrajec$label), size=linesize) +
   geom_line(data = dfexpected, aes(x=x, y=y), size=1, colour="black", linetype = "dashed") +
   scale_fill_brewer(palette = "Set1") +
   geom_point(data = dfpoints, mapping = aes(x = x, y = y, fill=factor(z)), size=5, shape = 21, colour = "black", stroke = 2) +
@@ -88,6 +86,7 @@ myplot <- ggplot(dftrajec, aes(x)) +
     myplot <- myplot +   theme_gray()
   }
   print(myplot)
+  message("done, see plots.")
 
 }
 
