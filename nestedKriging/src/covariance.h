@@ -16,7 +16,7 @@
 //   Points pointsX(matrixX, covParams)
 //   covariance.fillCorrMatrix(K, pointsX); // fill K with correlations matrix of X
 
-#include <cmath> // exp, pow, sqrt...
+#include <cmath> // exp, pow, sqrt... C++11 exp2
 #include "common.h"
 #include "messages.h"
 
@@ -143,11 +143,12 @@ public:
       double t = x1[k] - x2[k];
       s += t*t;
     }
-    return std::exp(-s);
+    //exp2(s)=2^{-s}, slightly faster than exp(), hence logl(2.0L) in scaling_factor
+    return std::exp2(-s); 
   }
 
   virtual Double scaling_factor() const override {
-    return sqrtl(2.0L)/2.0L;
+    return sqrtl(2.0L/logl(2.0L))/2.0L;
   }
 };
 
@@ -163,11 +164,12 @@ public:
     double s = tinyNuggetOffDiag;
     //#pragma omp simd  reduction (+:s)
     for (PointDimension k = 0; k < d; ++k) s += std::fabs(x1[k] - x2[k]);
-    return(std::exp(-s));
+    //exp2(s)=2^{-s}, slightly faster than exp(), hence logl(2.0L) in scaling_factor
+    return(std::exp2(-s));
   }
 
   virtual Double scaling_factor() const override {
-    return 1.0L;
+    return 1.0L/logl(2.0L);
   }
 };
 

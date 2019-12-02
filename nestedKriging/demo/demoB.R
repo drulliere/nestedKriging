@@ -11,7 +11,6 @@ rm(list=ls(all=TRUE))
 
 library(nestedKriging)
 library(DiceKriging)
-library(randtoolbox)
 
 ############## global parameters for optimization
 
@@ -24,8 +23,7 @@ numThreads <- 4
 ############### rough estimation of covariance parameters
 
 n0Estim <- 500                 # design point size for parameter estimation
-X <- sobol(n=n0Estim, dim=d)   # initial input design for covariance estimation
-X <- matrix(runif(n0Estim*d), ncol=d) 
+X <- matrix(runif(n0Estim*d), ncol=d)    # initial input design for covariance estimation
 Y <- apply(X=X, MARGIN = 1, FUN=testFunction)  # initial response
 krigingModel <- km(design=X, response = Y, covtype= covType) # DiceKriging model
 param <- coef(krigingModel, "range")      # estimation of lengthscales
@@ -63,6 +61,7 @@ naive_EGO <- function(q, p, nstep, n0=1, seed=1, pickProportional=TRUE)  {
   nestedKriging::setNumThreadsBLAS(1)  #avoid using parallel computing inside linear algebra tools
   
   for(step in 1:nstep) {
+    # VERY naive research of new design point candidate, for simplifying the demo only
     xnew <- matrix(runif(q*d), ncol=d)          # q new design points
     n <- nrow(X)                                # current number of observations
     N <- floor(sqrt(n))                         # number of clusters
