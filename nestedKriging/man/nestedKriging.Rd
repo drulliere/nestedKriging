@@ -48,7 +48,7 @@ Cluster index of each input points. \code{clusters} is a vector of size  \eqn{n}
 Prediction points. \code{x} is a \eqn{q \times d}{q x d} matrix, where \eqn{q} is the number of points where we want to predict the function \code{f}, and \eqn{d} is the dimension of each point (each line of \code{x} is a prediction point).
 }
   \item{covType}{
-Covariance kernel family used by Kriging predictors (the multivariate kernel is obtained using a tensor product). Must be one of the following: \code{"exp"} (exponential kernel), \code{"gauss"} (gaussian square exponential kernel), \code{"matern3_2"} (Matern 3/2), \code{"matern5_2"} (Matern 5/2), \code{"powexp"} (power exponential kernel), \code{"white_noise"} (white noise kernel).
+Covariance kernel family used by Kriging predictors (the multivariate kernel is obtained using a tensor product). Must be one of the following: \code{"exp"} (exponential kernel), \code{"gauss"} (gaussian square exponential kernel), \code{"matern3_2"} (Matern 3/2), \code{"matern5_2"} (Matern 5/2), \code{"powexp"} (power exponential kernel), \code{"white_noise"} (white noise kernel), \code{"rational"} (fast rational quadratic kernel, with power 1).
 }
   \item{param}{
 Lengthscale parameters of the covariance kernel. \code{param} is a vector of size \eqn{d}{d}, where \eqn{d} is the dimension of input points. These parameter correspond to the lengthscale parameters of the chosen covariance kernel.

@@ -29,7 +29,7 @@ Cluster index of each input points. \code{clusters} is a vector of size  \eqn{n}
 vector of \eqn{n}{n} values containing either \code{1} if a point is selected to compute leave-one-out error, or \code{0} otherwise.
 }
   \item{covType}{
-Covariance kernel family used by Kriging predictors (the multivariate kernel is obtained using a tensor product). Must be one of the following: \code{"exp"} (exponential kernel), \code{"gauss"} (gaussian square exponential kernel), \code{"matern3_2"} (Matern 3/2), \code{"matern5_2"} (Matern 5/2), \code{"powexp"} (power exponential kernel), \code{"white_noise"} (white noise kernel).
+Covariance kernel family used by Kriging predictors (the multivariate kernel is obtained using a tensor product). Must be one of the following: \code{"exp"} (exponential kernel), \code{"gauss"} (gaussian square exponential kernel), \code{"matern3_2"} (Matern 3/2), \code{"matern5_2"} (Matern 5/2), \code{"powexp"} (power exponential kernel), \code{"white_noise"} (white noise kernel), \code{"rational"} (fast rational quadratic kernel, with power 1).
 }
   \item{param}{
 Lengthscale parameters of the covariance kernel. \code{param} is a vector of size \eqn{d}{d}, where \eqn{d} is the dimension of input points. These parameter correspond to the lengthscale parameters of the chosen covariance kernel.

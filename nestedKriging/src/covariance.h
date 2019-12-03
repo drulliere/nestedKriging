@@ -151,6 +151,29 @@ public:
     return sqrtl(2.0L/logl(2.0L))/2.0L;
   }
 };
+//-------------- Rational
+class CorrRational : public CorrelationFunction {
+  static constexpr double tinyNuggetOffDiagPlusOne = tinyNuggetOffDiag + 1.0;
+  
+public:
+  CorrRational(const PointDimension d) :
+  CorrelationFunction(d)  {
+  }
+  
+  double corr(const Point& x1, const Point& x2) const noexcept {
+    double s = tinyNuggetOffDiagPlusOne;
+    // #pragma omp simd reduction (+:s) aligned(x1, x2:32)
+    for (PointDimension k = 0; k < d; ++k) {
+      double t = x1[k] - x2[k];
+      s += t*t;
+    }
+    return 1.0/s;
+  }
+  
+  virtual Double scaling_factor() const {
+    return sqrtl(2.0L)/2.0L;
+  }
+};
 
 
 //-------------- exp
@@ -261,6 +284,7 @@ private:
 
   CorrelationFunction* getCorrelationFunction(std::string& covType) const {
     if (covType.compare("gauss")==0) {return new CorrGauss(d);}
+    else if (covType.compare("rational") == 0) {return new CorrRational(d);}
     else if (covType.compare("exp")==0) {return new Correxp(d);}
     else if (covType.compare("matern3_2") == 0) {return new CorrMatern32(d);}
     else if (covType.compare("matern5_2") == 0) {return new CorrMatern52(d);}
