@@ -35,7 +35,7 @@ nestedKriging <- function(X, Y, clusters, x, covType, param, sd2, krigingType="s
   if (!all(is.finite(x))) stop("'x' must contain finite values")
   if (ncol(X)!=ncol(x)) stop("error: 'X' and 'x' must have the same number of columns")
 
-  validCovType = c("gauss", "matern5_2", "matern3_2", "exp", "powexp", "white_noise")
+  validCovType = c("gauss", "matern5_2", "matern3_2", "exp", "powexp", "white_noise", "rational")
   if(class(covType)!="character") stop("'covType' must be one of the following:", paste(validCovType, collapse=", ") )
   if(!(covType) %in% validCovType) stop("'covType' must be one of the following:", paste(validCovType, collapse=", ") )
 
