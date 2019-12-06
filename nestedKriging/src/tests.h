@@ -537,6 +537,20 @@ Test testKernelSym() {
   return test;
 }
 
+Test testApproxTools(){
+  Test test("I_ approx tools (for Gauss Approx kernel, unit covariance)");
+  test.assertClose(ApproximationTools::raiseToPower_TwoPower<0>(1.27),1.27, "a");
+  test.assertClose(ApproximationTools::raiseToPower_TwoPower<3>(1.27),std::pow(1.27,8), "b");
+  test.assertClose(ApproximationTools::raiseToPower_TwoPower<2>(0.87),std::pow(0.87,4), "c");
+  test.assertClose(ApproximationTools::raiseToPower_TwoPower<2>(2), 16 , "d");
+  test.assertClose(ApproximationTools::exponentialOfMinus<3>(1.12), std::pow(1/(1+1.12/8),8), "e");
+  test.assertClose(ApproximationTools::exponentialOfMinus<0>(3.12), 1/(1+3.12), "f");
+  test.assertClose(ApproximationTools::exponentialOfMinus<16>(0.12), std::exp(-0.12), "g");
+  test.assertClose(ApproximationTools::exponentialOfMinus<16>(1.12), std::exp(-1.12), "h");
+  test.assertClose(ApproximationTools::exponentialOfMinus<20>(2.22), std::exp(-2.22), "i");
+  return(test);
+}
+
 double slowGaussCovariance(const arma::rowvec& x1, const arma::rowvec& x2, const arma::vec& param, const double sd2) {
   double S=0;
   if (x1.size()!=x2.size()) return -1.0;
@@ -1712,6 +1726,7 @@ Rcpp::List runAllTests(bool showSuccess=false, bool debugMode=false) {
     test.append(testProgressBar());
     test.append(testPoints());
     test.append(testKernelSym());
+    test.append(testApproxTools());
     test.append(testKernelGaussDimTwo());
     test.append(testKernelGaussWithNugget());
     test.append(testRetrieveCorrFromCrossCorr());

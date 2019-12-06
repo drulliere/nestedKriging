@@ -90,7 +90,34 @@ using ScaledParameters = std::vector<Double> ;
 constexpr double tinyNuggetOnDiag = 256 * std::numeric_limits<double>::epsilon(); // 5.684...e-014
 constexpr double tinyNuggetOffDiag = 0.0; // 256 * std::numeric_limits<double>::epsilon();
 
+//========================================================== ApproximationTools
+// Small utility functions to approximate exponential by a PSD function
+//  . N is the order of the approximation
+//  . raiseToPower_TwoPower<N>(double x) computes x^(2^N), unrolled loop at compilation time
+//  . exponentialOfMinus(double x) approximate exp(-x) for positive values of x
+//    it computes (1+x/m)^m where m = 2^N
+//    furthermore fastExpMinus(-x^2) is a positive semi-definite (PSD) covariance function
+//    thus this approx can be used, e.g., for Gaussian covariance kernel
 
+struct ApproximationTools {
+  template <int N>
+  static inline double raiseToPower_TwoPower(double x) {
+    x *= x;
+    return raiseToPower_TwoPower<N-1>(x);
+  }
+  
+  template <int N >
+  static inline double exponentialOfMinus(double x) {
+    constexpr unsigned long twoPowerN = 1<<N;
+    return raiseToPower_TwoPower<N>( 1/(1 + x / twoPowerN) );
+    // as x is a double, divisions are not integer divisions
+  }
+};
+
+template <>
+double ApproximationTools::raiseToPower_TwoPower<0>(double x) {
+  return x;
+}
 
 //========================================================== CorrelationFunction
 // Correlation functions
@@ -149,6 +176,30 @@ public:
 
   virtual Double scaling_factor() const override {
     return sqrtl(2.0L/logl(2.0L))/2.0L;
+  }
+};
+//-------------- CorrApproxGauss
+class CorrApproxGauss : public CorrelationFunction {
+  // approximation of exp(-x). It preserves Positive Semidefinite property of the exp(-x^2) approximation
+  static constexpr int approxOrder = 4;
+  
+public:
+  CorrApproxGauss(const PointDimension d) :
+  CorrelationFunction(d)  {
+  }
+  
+  double corr(const Point& x1, const Point& x2) const noexcept {
+    double s = tinyNuggetOffDiag;
+    // #pragma omp simd reduction (+:s) aligned(x1, x2:32)
+    for (PointDimension k = 0; k < d; ++k) {
+      double t = x1[k] - x2[k];
+      s += t*t;
+    }
+    return ApproximationTools::exponentialOfMinus<approxOrder>(s);
+  }
+  
+  virtual Double scaling_factor() const {
+    return sqrtl(2.0L)/2.0L;
   }
 };
 //-------------- Rational
@@ -283,8 +334,9 @@ private:
   }
 
   CorrelationFunction* getCorrelationFunction(std::string& covType) const {
-    if (covType.compare("gauss")==0) {return new CorrGauss(d);}
-    else if (covType.compare("rational") == 0) {return new CorrRational(d);}
+    if (covType.compare("rational") == 0) {return new CorrRational(d);}
+    else if (covType.compare("approx.gauss") == 0) {return new CorrApproxGauss(d);}
+    else if (covType.compare("gauss")==0) {return new CorrGauss(d);}
     else if (covType.compare("exp")==0) {return new Correxp(d);}
     else if (covType.compare("matern3_2") == 0) {return new CorrMatern32(d);}
     else if (covType.compare("matern5_2") == 0) {return new CorrMatern52(d);}
