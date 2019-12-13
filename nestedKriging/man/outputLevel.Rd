@@ -6,10 +6,12 @@ Get outputLevel parameter value as a function of the desired output.
 %%  ~~function to do ... ~~
 }
 \description{
-Get outputLevel parameter value as a function of the desired output. The user set boolean values of what must be computed, and the function returns an integer summarizing these needs, to be used in the \link{nestedKriging} function.
+Get outputLevel parameter value as a function of the desired output.
+The user set boolean values of what must be computed, and the function returns an integer summarizing these needs, to be used in the \link{nestedKriging} function.
 }
 \usage{
-outputLevel(nestedKrigingPredictions = FALSE, alternatives = FALSE, predictionBySubmodel = FALSE, covariancesBySubmodel = FALSE, covariances = FALSE)
+outputLevel(nestedKrigingPredictions = FALSE, alternatives = FALSE, 
+  predictionBySubmodel = FALSE, covariancesBySubmodel = FALSE, covariances = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

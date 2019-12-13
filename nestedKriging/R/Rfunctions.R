@@ -105,10 +105,10 @@ nestedKriging <- function(X, Y, clusters, x, covType, param, sd2, krigingType="s
 
 ############################################################# Utility OutputLevel
 
-outputLevel <- function(nestedKrigingPredictions=TRUE, alternatives=FALSE, predictionBySubmodel=FALSE, covariancesBySubmodel=FALSE, covariances=FALSE) {
-    value= 0;
-    if (nestedKrigingPredictions) value <- value - 2;
+outputLevel <- function(nestedKrigingPredictions=FALSE, alternatives=FALSE, predictionBySubmodel=FALSE, covariancesBySubmodel=FALSE, covariances=FALSE) {
+    value <- 0;
     if (alternatives) value <- value - 1;
+    if (nestedKrigingPredictions) value <- value - 2;
     if (predictionBySubmodel) value <- value - 4;
     if (covariancesBySubmodel) value <- value - 8;
     if (covariances) value <- value - 16; 
