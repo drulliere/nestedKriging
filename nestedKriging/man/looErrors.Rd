@@ -52,8 +52,8 @@ Optional. Number of threads used for parallel execution on subgroups (clusters),
   \item{verboseLevel}{
 Optional. Number of intermediate messages shown during the calculation. Default=\code{10}. 0= no messages, but eventual warnings. Negative= no messages, no warnings. Large number may be suited for very long calculations, small number for repeated calls of \code{nestedKriging}. Positive values may induce a slight computational overhead.
 }
-\item{outputLevel}{
-Optional. Number giving the detail level of the function output. It is recommended to export only needed values in order to fasten computations. \code{0}: only gives prediction mean, variance and some durations, \code{1}: gives also intermediate predictions and weights affected to each of the \eqn{N} subgroup, for each of the \eqn{q} prediction points, \code{2}: gives potentially huge correlation and cross-covariance matrices among submodels, for each prediction point (total size of order \eqn{qN^2}).
+  \item{outputLevel}{
+Optional. Number giving the detail level of the function output. It is recommended to export only needed values in order to fasten computations. The function \link{outputLevel} may help you to find the right value. \code{0}: only gives prediction mean, variance and some durations, \code{1}: gives also intermediate predictions and weights affected to each of the \eqn{N} subgroup, for each of the \eqn{q} prediction points, \code{2}: gives potentially huge correlation and cross-covariance matrices among submodels, for each prediction point (total size of order \eqn{qN^2}).
 Add the value \code{10} to get the conditional \eqn{q \times q}{q x q} covariance matrix between prediction points, which also involves more computation and \eqn{O(nq^2)} storage. Use a value \code{-1} to get alternative predictors (PoE, GPoE, BCM, RBCM, SPV...) or \code{-3} to get both alternatives and nested Kriging predictions. Default=\code{0}.
 }
   \item{globalOptions}{

@@ -92,9 +92,14 @@ Optional, a vector containing variances that will be added to the diagonal of th
 Optional, a string containing the default method to be used for evaluating Leave-One-Out errors: \code{"NK"} for nested Kriging, or \code{"POE"}, \code{"GPOE"}, \code{"GPOE_1N"}, \code{"BCM"}, \code{"RBCM"}, \code{"SPV"} for fast less precise alternatives (see output \code{alternatives} of the function \code{\link{nestedKriging}}, and also \url{http://proceedings.mlr.press/v37/deisenroth15.pdf}). Computed alternatives predictors: (Generalised) Product of Expert (POE/GPOE), (Robust) Bayesian Comittee Machine (BCM/RBCM) and Smallest Predictive Variance (SPV). Weights of GPOE are summing to one, they are proportional to the one of RBCM (differential entropy difference between the prior and the posterior), or set to \eqn{1/N}{1/N} for the result GPOE_1N. SPV gives the prediction of the submodel having the smallest conditional variance.
 }
 }
-%%\details{
-%%  ~~ If necessary, more details than the description above ~~
-%%}
+\details{
+The algorithm uses a stochastic gradient descent (see bathnagar et al., chapter 5). It is highly recommended to tune the parameters \eqn{a}{a}, \eqn{c}{c} and \eqn{A}{A} on small samples of the data before using the procedure.
+
+At step \eqn{n}{n}, the estimated parameter moves in the chosen direction proportionally to the length \eqn{a/(A+n+1)^\alpha}{a/(A+n+1)^\alpha}; if messages show that the proposed parameter is rejected at many step, you should try to reduce \eqn{a}{a} for example. Conversly, if the evolution of the current parameter seems too slow, you may try to increase \eqn{a}{a}.
+
+At step \eqn{n}{n}, the gradient is estimated using a length proportional to \eqn{c/(n+1)^\gamma}{c/(n+1)^\gamma}. If messages show too different values in LOO vector, you may try to reduce \eqn{c}{c}.
+
+}
 \value{
 A list containg the following items:
 \item{allParamIterations}{A matrix containing all iterations. Each line number \eqn{i}{i} contains the current parameter at iteration \eqn{i}{i}.}
