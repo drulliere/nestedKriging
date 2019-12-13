@@ -1,26 +1,16 @@
 
 
-
-setNumThreadsBLAS <-function(numThreadsBLAS=1, showMessage=TRUE) {
-  ##library(RhpcBLASctl)
-  RhpcBLASctl::blas_set_num_threads(numThreadsBLAS)
-  if (showMessage) {  message("linear algebra libray BLAS threads set to ", numThreadsBLAS) }
-}
-
-nestedKriging <- function(X, Y, clusters, x, covType, param, sd2, krigingType="simple", tagAlgo = "", numThreadsZones = 1L, numThreads = 16L, verboseLevel = 10L, outputLevel = 0L, numThreadsBLAS = 1L, globalOptions= as.integer( c(0)), nugget = c(0.0)) {
-
-  ################################################### basic check of input arguments validity
-
+.checkModel <- function(X, Y, clusters, krigingType, nugget) {
   if (class(X)!="matrix") stop("'X' must be a matrix")
   if ((nrow(X)<1)||(ncol(X)<1)) stop("'X' must have at least one raw and one column")
   if (!is.numeric(X)) stop("'X' must contain numeric values")
   if (!all(is.finite(X))) stop("'X' must contain finite values")
-
+  
   if(!is.numeric(Y)) stop("'Y' must be a vector of numeric values")
   if (length(Y)<1) stop("'Y' must contain at least one value")
   if (!all(is.finite(Y))) stop("'Y' must contain finite values")
   if(!(length(Y)==nrow(X))) stop("'Y' must have the same length as the number of rows in 'X'")
-
+  
   if (!is.numeric(clusters)) stop("'clusters' must be a vector of integer values")
   if (length(clusters)<1) stop("'clusters' must contain at least one value")
   if (!all(is.finite(clusters))) stop("'clusters' must contain finite values")
@@ -29,30 +19,36 @@ nestedKriging <- function(X, Y, clusters, x, covType, param, sd2, krigingType="s
   if (!(length(clusters)==nrow(X))) stop("'clusters' must have the same length as the number of rows in X")
   clusters <- as.integer(round(clusters,0))
 
-  if (class(x)!="matrix") stop("'x' must be a matrix")
-  if ((nrow(x)<1)||(ncol(x)<1)) stop("'x' must have at least one raw and one column")
-  if (!is.numeric(x)) stop("'x' must contain numeric values")
-  if (!all(is.finite(x))) stop("'x' must contain finite values")
-  if (ncol(X)!=ncol(x)) stop("error: 'X' and 'x' must have the same number of columns")
-
-  validCovType = c("gauss", "matern5_2", "matern3_2", "exp", "powexp", "white_noise", "rational", "approx.gauss")
-  if(class(covType)!="character") stop("'covType' must be one of the following:", paste(validCovType, collapse=", ") )
-  if(!(covType) %in% validCovType) stop("'covType' must be one of the following:", paste(validCovType, collapse=", ") )
-
-  if(!is.numeric(param)) stop("'param' must be a vector of numeric values")
-  if (!all(is.finite(param))) stop("'param' must contain finite values")
-  if (length(param)<1) stop("'param' must contain at least one value")
-  if(!(length(param)==ncol(X))) stop("'param' must have the same length as the number of columns in X")
-
-  if(!is.numeric(sd2)) stop("'sd2' must be a numeric value")
-  if(sd2<0.0) stop("'sd2' must be a positive value")
-
   validKrigingType = c("simple", "ordinary")
   if(class(krigingType)!="character") stop("'krigingType' must be one of the following:", paste(validKrigingType, collapse=", ") )
   if(!(krigingType) %in% validKrigingType) stop("'krigingType' must be one of the following:", paste(validKrigingType, collapse=", ") )
 
-  if (!(is.character(tagAlgo))) stop("'tagAlgo' must be a character string")
+  if(!is.numeric(nugget)) stop("'nugget' must be a vector of numeric values")
+  if (!all(is.finite(nugget))) stop("'nugget' must contain finite values")
+  if (!all(nugget>=0)) stop("'nugget' must contain nonnegative real values")
+}
 
+
+.checkCovariances <- function(covType, param, sd2, expectedDimension) {
+  validCovType = c("gauss", "matern5_2", "matern3_2", "exp", "powexp", "white_noise", "rational", "approx.gauss")
+  if(class(covType)!="character") stop("'covType' must be one of the following:", paste(validCovType, collapse=", ") )
+  if(!(covType) %in% validCovType) stop("'covType' must be one of the following:", paste(validCovType, collapse=", ") )
+  
+  if(!is.numeric(param)) stop("'param' must be a vector of numeric values")
+  if (!all(is.finite(param))) stop("'param' must contain finite values")
+  if (length(param)<1) stop("'param' must contain at least one value")
+  if(covType=="powexp") {
+    if(!(length(param)==(2 * expectedDimension))) stop(paste("with covType='powexp', param must have the length ", expectedDimension, " = 2 * number of columns in X"))
+  } else { 
+    if(!(length(param)==expectedDimension)) stop(paste("'param' must have the length ", expectedDimension, " = number of columns in X"))
+  }
+  if(!is.numeric(sd2)) stop("'sd2' must be a numeric value")
+  if(sd2<0.0) stop("'sd2' must be a positive value")
+}
+
+.checkEnvironment <- function(tagAlgo, numThreads, numThreadsZones, verboseLevel, outputLevel, numThreadsBLAS, globalOptions) {
+  if (!(is.character(tagAlgo))) stop("'tagAlgo' must be a character string")
+  
   integerList=list(numThreadsZones, numThreads, numThreadsBLAS, verboseLevel, outputLevel)
   integerListStr=list("'numThreadsZones'", "'numThreads'", "'numThreadsBLAS'", "'verboseLevel'", "'outputLevel'")
   for(i in 1:length(integerList)) {
@@ -60,34 +56,64 @@ nestedKriging <- function(X, Y, clusters, x, covType, param, sd2, krigingType="s
     if (!(length(integerList[[i]])==1)) stop(integerListStr[[i]], " must be ONE integer")
     if (abs(integerList[[i]]-as.integer(integerList[[i]]))>1e-5) stop(integerListStr[[i]], " must be an integer")
   }
+  if (numThreadsZones<1) stop("'numThreadsZones' must be at least 1")
+  if (numThreads<1) stop("'numThreads' must be at least 1")
+  if (numThreadsBLAS<1) stop("'numThreadsBLAS' must be at least 1")
+  
+  if(!is.numeric(globalOptions)) stop("'globalOptions' must be a vector of numeric values")
+  if (length(globalOptions)<1) stop("'globalOptions' must contain at least one value")
+  if (!all(is.finite(globalOptions))) stop("'globalOptions' must contain finite values")
+}
 
+.checkPredPoints <- function(x, expectedColumns) {
+  if (class(x)!="matrix") stop("'x' must be a matrix")
+  if ((nrow(x)<1)||(ncol(x)<1)) stop("'x' must have at least one raw and one column")
+  if (!is.numeric(x)) stop("'x' must contain numeric values")
+  if (!all(is.finite(x))) stop("'x' must contain finite values")
+  if (expectedColumns!=ncol(x)) stop("error: 'X' and 'x' must have the same number of columns")
+}
+
+setNumThreadsBLAS <-function(numThreadsBLAS=1, showMessage=TRUE) {
+  RhpcBLASctl::blas_set_num_threads(numThreadsBLAS)
+  if (showMessage) {  message("linear algebra libray BLAS threads set to ", numThreadsBLAS) }
+}
+
+nestedKriging <- function(X, Y, clusters, x, covType, param, sd2, krigingType="simple", tagAlgo = "", numThreadsZones = 1L, numThreads = 16L, verboseLevel = 10L, outputLevel = 0L, numThreadsBLAS = 1L, globalOptions= as.integer( c(0)), nugget = c(0.0)) {
+
+  ################################################### basic check of input arguments validity
+  .checkModel(X, Y, clusters, krigingType, nugget)
+  dimension <- ncol(X)
+  .checkPredPoints(x, dimension)
+  .checkCovariances(covType, param, sd2, dimension)
+  .checkEnvironment(tagAlgo, numThreads, numThreadsZones, verboseLevel, outputLevel, numThreadsBLAS, globalOptions)
+  
+  ################################################### (long 32 bits) integers
+
+  clusters <- as.integer(round(clusters,0))
   numThreadsZones <- as.integer(round(numThreadsZones,0))
   numThreads <- as.integer(round(numThreads,0))
   numThreadsBLAS <- as.integer(round(numThreadsBLAS,0))
   verboseLevel <- as.integer(round(verboseLevel,0))
   outputLevel <- as.integer(round(outputLevel,0))
 
-  if (numThreadsZones<1) stop("'numThreadsZones' must be at least 1")
-  if (numThreads<1) stop("'numThreads' must be at least 1")
-  if (numThreadsBLAS<1) stop("'numThreadsBLAS' must be at least 1")
-
-  if(!is.numeric(globalOptions)) stop("'globalOptions' must be a vector of numeric values")
-  if (length(globalOptions)<1) stop("'globalOptions' must contain at least one value")
-  if (!all(is.finite(globalOptions))) stop("'globalOptions' must contain finite values")
-
-  if(!is.numeric(nugget)) stop("'nugget' must be a vector of numeric values")
-  if (!all(is.finite(nugget))) stop("'nugget' must contain finite values")
-  if (!all(nugget>=0)) stop("'nugget' must contain nonnegative integer values")
-
   ################################################### Set BLAS Threads and launch algo
 
   setNumThreadsBLAS(numThreadsBLAS, FALSE)
-  #.Call('_nestedKriging_nestedKrigingDirect', PACKAGE = 'nestedKriging', X, Y, clusters, x, covType, param, sd2, krigingType, tagAlgo, numThreadsZones, numThreads, verboseLevel, outputLevel, globalOptions)
-  #.Call('_nestedKriging_nestedKrigingDirect', X, Y, clusters, x, covType, param, sd2, krigingType, tagAlgo, numThreadsZones, numThreads, verboseLevel, outputLevel, globalOptions)
   .Call(`_nestedKriging_nestedKrigingDirect`, X, Y, clusters, x, covType, param, sd2, krigingType, tagAlgo, numThreadsZones, numThreads, verboseLevel, outputLevel, globalOptions, nugget)
 
 }
 
+############################################################# Utility OutputLevel
+
+outputLevel <- function(nestedKrigingPredictions=TRUE, alternatives=FALSE, predictionBySubmodel=FALSE, covariancesBySubmodel=FALSE, covariances=FALSE) {
+    value= 0;
+    if (nestedKrigingPredictions) value <- value - 2;
+    if (alternatives) value <- value - 1;
+    if (predictionBySubmodel) value <- value - 4;
+    if (covariancesBySubmodel) value <- value - 8;
+    if (covariances) value <- value - 16; 
+    return (value);
+  }
 
 ############################################################# HYPER PARAMETERS ESTIMATION
 
@@ -221,6 +247,10 @@ estimSigma2 <- function(X, Y, q, clusters, covType, krigingType, param, numThrea
   n <- nrow(X)
   d <- ncol(X)
   set.seed(seed)
+  
+  .checkModel(X, Y, clusters, krigingType, nugget)
+  .checkCovariances(covType, param, 1.0, d)
+  #.checkEnvironment(tagAlgo, numThreads, numThreadsZones, verboseLevel, outputLevel, numThreadsBLAS, globalOptions)
 
   # compute uniquely required quantities, depending on the chosen method
   if (method=="NK") outputLevel <- 0  else outputLevel <- -1
@@ -235,5 +265,10 @@ estimSigma2 <- function(X, Y, q, clusters, covType, krigingType, param, numThrea
   return( mean( ((Y[chosenIndices]-res$LOOErrors$meanDefaultMethod)^2) / res$LOOErrors$sd2DefaultMethod ) )
 }
 
-
+#looErrors <- function(X, Y, clusters, indices, covType, param, sd2, krigingType = "simple", tagAlgo = "", numThreadsZones = 1L, numThreads = 16L, verboseLevel = 10L, outputLevel = 1L, globalOptions = as.integer( c(0)), nugget = as.numeric( c(0)), method = "NK") {
+#  .Call(`_nestedKriging_looErr#ors`, X, Y, clusters, indices, covType, param, sd2, krigingType, tagAlgo, numThreadsZones, numThreads, verboseLevel, outputLevel, globalOptions, nugget, method)
+#}
+#looErrorsDirect <- function(X, Y, clusters, indices, covType, param, sd2, krigingType = "simple", tagAlgo = "", numThreadsZones = 1L, numThreads = 16L, verboseLevel = 10L, outputLevel = 1L, globalOptions = as.integer( c(0)), nugget = as.numeric( c(0)), method = "NK") {
+#  .Call(`_nestedKriging_looErrorsDirect`, X, Y, clusters, indices, covType, param, sd2, krigingType, tagAlgo, numThreadsZones, numThreads, verboseLevel, outputLevel, globalOptions, nugget, method)
+#}
 
