@@ -176,7 +176,10 @@ Rcpp::List estimParamCpp(
     allLooErrors.push_back(meanMSE);
     bool newTick = progressBar.signalingNext();
     if (newTick) {
-      screen.printContainer<double>(deltai, "   step size = ");
+      std::vector<double> length = {deltai, ai};
+      std::vector<double> indic = { (LOOMSEplus - LOOMSEminus )/(2*deltai), ai*( LOOMSEplus - LOOMSEminus )/(2*deltai)};
+      screen.printContainer(length, "   ...(derivation length, step length) = ");
+      screen.printContainer(indic,  "   ...(LOO derivative, log param variation) = ");
       screen.printContainer(paramCurrent, "   current estimation = ");
       screen.printContainer(std::vector<double> {LOOMSEplus, LOOMSEminus}, "   loo MSE vector = ");
       if (!acceptedProposal)  screen.printContainer(paramProposal, "   rejected proposal = ");
