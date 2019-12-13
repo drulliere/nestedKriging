@@ -167,7 +167,8 @@ Rcpp::List estimParamCpp(
    paramProposal = exp( log(paramCurrent) - ai*( LOOMSEplus - LOOMSEminus )/( 2*deltaiDeltai )   );
     //lproposal.print();
     // ... which is accepted if within the bounds
-    if (withinBound(paramLower, paramProposal, paramUpper)) paramCurrent = paramProposal;
+    bool acceptedProposal = withinBound(paramLower, paramProposal, paramUpper);
+    if (acceptedProposal) paramCurrent = paramProposal;
     // we keep track of the current proposal and its LOO-MSE
 
     allParams.row(i-1) = paramCurrent.t();
@@ -178,8 +179,8 @@ Rcpp::List estimParamCpp(
       screen.printContainer<double>(deltai, "   step size = ");
       screen.printContainer(paramCurrent, "   current estimation = ");
       screen.printContainer(std::vector<double> {LOOMSEplus, LOOMSEminus}, "   loo MSE vector = ");
+      if (!acceptedProposal)  screen.printContainer(paramProposal, "   rejected proposal = ");
       }
-
   }
   // The final estimate is the last proposal in allParams
   Parameter optimalParam = (allParams.row(niter-1)).t();
