@@ -701,7 +701,7 @@ template <int ShowProgress, bool ComputeCov>
 
 template <int ShowProgress>
 void partC_agregateFirstLayer() {
-  const bool storeWeights = out.requiredByUser.predictionBySubmodel();
+  const bool storeWeights = (out.requiredByUser.predictionBySubmodel()) || (out.requiredByUser.covariances());
   chrono.print("Part C, aggregation first layer: starting...");
   //parallelism.switchToContext<Parallelism::innerContext>();
   //#pragma omp parallel for schedule(static, 1) if (q>50) //avoid dynamic for Loo repeated calls
