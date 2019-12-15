@@ -28,8 +28,9 @@ x <- matrix(runif(q*d)*2-0.8, ncol=d) # prediction points, in dimension d
 N <- floor(sqrt(n))                   # number of clusters, sqrt(n) gives fast results
 clustering <- kmeans(X, centers=N)    # clustering of design points X into 2 groups
 
+desiredOutput <- outputLevel(nestedKrigingPredictions = TRUE, predictionBySubmodel = TRUE, covariancesBySubmodel = TRUE)
 prediction <- nestedKriging(X=X, Y=Y, clusters=clustering$cluster, x=x ,
-                            covType="matern3_2", param=rep(lengthscale,d), sd2=variance, outputLevel = 2, verboseLevel=0,
+                            covType="matern3_2", param=rep(lengthscale,d), sd2=variance, outputLevel = desiredOutput, verboseLevel=0,
                             krigingType="simple", tagAlgo='demo I', numThreads=4, nugget=nugget)
 
 mu <- prediction$mean                         # mean of the predictor, vector of size q
@@ -38,8 +39,9 @@ realvalues <- apply(x, MARGIN = 1, FUN = f)   # real values to be predicted
 message("mean error Nested Kriging = ", mean(abs(realvalues - mu))) #average error of the prediction
 
 #use outputLevel = -1 to get Alternative predictors (PoE, GPoE, BCM, RBCM)
+desiredOutput=outputLevel(alternatives = TRUE)
 predictAlt <- nestedKriging(X=X, Y=Y, clusters=clustering$cluster, x=x ,
-                            covType="matern3_2", param=rep(lengthscale,d), sd2=variance, outputLevel = -1, verboseLevel=0,
+                            covType="matern3_2", param=rep(lengthscale,d), sd2=variance, outputLevel = desiredOutput, verboseLevel=0,
                             krigingType="simple", tagAlgo='demo I alternatives', numThreads=4, nugget=nugget)
 
 dfpoints <- data.frame(x=X[,1], y=Y, z=clustering$cluster)

@@ -51,10 +51,13 @@ clusters <- kmeans(X, centers=N, iter.max=30) # clustering of X into N groups
 t1 <- Sys.time()
 # notice that outputLevel >= 10 is required to get predicted covariances
 # in that case, computation time and storage needed are increased
+# or we can use the function outputLevel to indicate what we need:
+desiredOutput = outputLevel(nestedKrigingPredictions = TRUE, covariances = TRUE)
+
 # see demoH for a practical use of prediction covariances
 prediction <- nestedKrigingDirect(X=X, Y=Y, clusters=clusters$cluster, x=x , covType=covType, param=param, sd2=sd2,
                              krigingType=krigingType, tagAlgo='demo G',
-                             numThreads=4, verboseLevel=7, outputLevel=10, globalOptions = c(0), nugget=0.0, numThreadsZones = 1)
+                             numThreads=4, verboseLevel=7, outputLevel=desiredOutput, globalOptions = c(0), nugget=0.0, numThreadsZones = 1)
 
 t2 <- Sys.time()
 duration_Nested <- difftime(t2, t1, units = "secs")
@@ -69,3 +72,4 @@ mean_error_Nested <- mean(pred_errors)
 message("mean error Nested Kriging = ", mean_error_Nested)
 message("nested algo duration = ", duration_Nested, " secs")
 
+prediction$cov[1,2]

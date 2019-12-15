@@ -246,7 +246,7 @@ public:
   int getOutputLevel() const { return outputLevel; }
 
   bool alternatives() const {
-    return (outputLevel<0)||(outputLevelContains(-1));
+    return (outputLevel<0)&&(outputLevelContains(-1));
   }
 
   bool nestedKrigingPredictions() const {

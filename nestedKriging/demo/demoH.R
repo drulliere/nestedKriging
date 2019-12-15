@@ -29,9 +29,11 @@ N <- floor(sqrt(n))                  # number of clusters, sqrt(n) gives fast re
 clustering <- kmeans(X, centers=N)   # clustering of design points X into 2 groups
 
 # notice that outputLevel >= 10 is required to get predicted covariances
+
+desiredOutput = outputLevel(nestedKrigingPredictions = TRUE, covariances = TRUE)
 # in that case, computation time and storage needed are increased
 prediction <- nestedKriging(X=X, Y=Y, clusters=clustering$cluster, x=x ,
-                            covType="matern3_2", param=rep(lengthscale,d), sd2=variance, outputLevel = 12, verboseLevel=0,
+                            covType="matern3_2", param=rep(lengthscale,d), sd2=variance, outputLevel = desiredOutput, verboseLevel=0,
                             krigingType="simple", tagAlgo='example 1', numThreads=4)
 
 mu <- prediction$mean                         # mean of the predictor, vector of size q

@@ -58,9 +58,10 @@ x <- X[selectedPredictions,]
 # Nested kriging algorithm
 
 t1 <- Sys.time()
+desiredOutput <- outputLevel(nestedKrigingPredictions = TRUE, alternatives = TRUE)
 prediction <- looErrors(X=X, Y=Y, clusters=clusters$cluster, indices=indices , covType=covType, param=param, sd2=sd2,
                         krigingType=krigingType, tagAlgo='demo J',
-                        numThreads=4, verboseLevel=8, outputLevel=-3, globalOptions = c(0), nugget=0.0, numThreadsZones = 1, method = "NK")
+                        numThreads=4, verboseLevel=8, outputLevel=desiredOutput, globalOptions = c(0), nugget=0.0, numThreadsZones = 1, method = "NK")
 
 t2 <- Sys.time()
 duration_Nested <- difftime(t2, t1, units = "secs")
