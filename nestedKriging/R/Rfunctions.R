@@ -30,7 +30,7 @@
 
 
 .checkCovariances <- function(covType, param, sd2, expectedDimension) {
-  validCovType = c("gauss", "matern5_2", "matern3_2", "exp", "powexp", "white_noise", "rational", "approx.gauss")
+  validCovType = c("approx.exp", "approx.gauss", "rational1", "rational2", "gauss", "matern5_2", "matern3_2", "exp", "powexp", "white_noise")
   if(class(covType)!="character") stop("'covType' must be one of the following:", paste(validCovType, collapse=", ") )
   if(!(covType) %in% validCovType) stop("'covType' must be one of the following:", paste(validCovType, collapse=", ") )
   
@@ -38,7 +38,7 @@
   if (!all(is.finite(param))) stop("'param' must contain finite values")
   if (length(param)<1) stop("'param' must contain at least one value")
   if(covType=="powexp") {
-    if(!(length(param)==(2 * expectedDimension))) stop(paste("with covType='powexp', param must have the length ", expectedDimension, " = 2 * number of columns in X"))
+    if(!(length(param)==(2 * expectedDimension))) stop(paste("with covType='powexp', param must have the length ", expectedDimension, " = 2 * number of columns in X = (lengthscales, powers)"))
   } else { 
     if(!(length(param)==expectedDimension)) stop(paste("'param' must have the length ", expectedDimension, " = number of columns in X"))
   }

@@ -10,7 +10,7 @@
 // PointsStorage, CorrelationFunction, CovarianceParameters, Covariance, Points
 //===============================================================================
 //
-// e.g. typical use:
+// e.g. typical use: 
 //   CovarianceParameters covParams(dimension, lengthscales, variance, covFamilyString);
 //   Covariance covariance(covParams);
 //   Points pointsX(matrixX, covParams)
@@ -96,8 +96,10 @@ constexpr double tinyNuggetOffDiag = 0.0; // 256 * std::numeric_limits<double>::
 //  . raiseToPower_TwoPower<N>(double x) computes x^(2^N), unrolled loop at compilation time
 //  . exponentialOfMinus(double x) approximate exp(-x) for positive values of x
 //    it computes (1+x/m)^m where m = 2^N
-//    furthermore fastExpMinus(-x^2) is a positive semi-definite (PSD) covariance function
-//    thus this approx can be used, e.g., for Gaussian covariance kernel
+//
+//    furthermore fastExpMinus(-x) and fastExpMinus(-x^2) are positive semi-definite (PSD)
+//    thus valid covariance functions for x Euclidean or Manhattan distance
+//    thus this approx can be used, e.g., for Gaussian or Exp covariance kernel
 
 struct ApproximationTools {
   template <int N>
@@ -127,9 +129,28 @@ double ApproximationTools::raiseToPower_TwoPower<0>(double x) {
 class CorrelationFunction {
 public:
   const PointDimension d;
-
-  CorrelationFunction(const PointDimension d) : d(d)  {
+  
+  double norm1(const Point& x1, const Point& x2) const noexcept {
+    double s = tinyNuggetOffDiag;
+    //#pragma omp simd  reduction (+:s)
+    for (PointDimension k = 0; k < d; ++k) s += std::fabs(x1[k] - x2[k]);
+    return s;
   }
+  double norm2square(const Point& x1, const Point& x2) const noexcept {
+    double s = tinyNuggetOffDiag;
+    // #pragma omp simd reduction (+:s) aligned(x1, x2:32)
+    for (PointDimension k = 0; k < d; ++k) {
+      double t = x1[k] - x2[k];
+      s += t*t;
+    }
+    return s;
+  }
+  double norm2(const Point& x1, const Point& x2) const noexcept {
+    return std::sqrt(norm2square(x1,x2));
+  }
+
+public:
+  CorrelationFunction(const PointDimension d) : d(d)  {  }
 
   virtual double corr(const Point& x1,const Point& x2) const noexcept =0;
   virtual Double scaling_factor() const =0;
@@ -144,8 +165,7 @@ public:
   }
 
   virtual double corr(const Point& x1,const Point& x2) const noexcept override {
-    double s = 0.0;
-    for (PointDimension k = 0; k < d; ++k) s += std::fabs((x1[k] - x2[k]));
+    double s = norm1(x1,x2);
     if (s < 0.000000000000001) return(1.0);
     else return(0.0);
   }
@@ -164,14 +184,7 @@ public:
   }
 
   virtual double corr(const Point& x1, const Point& x2) const noexcept override{
-    double s = tinyNuggetOffDiag;
-    // #pragma omp simd reduction (+:s) aligned(x1, x2:32)
-    for (PointDimension k = 0; k < d; ++k) {
-      double t = x1[k] - x2[k];
-      s += t*t;
-    }
-    //exp2(s)=2^{-s}, slightly faster than exp(), hence logl(2.0L) in scaling_factor
-    return std::exp2(-s); 
+    return std::exp2(-norm2square(x1,x2)); 
   }
 
   virtual Double scaling_factor() const override {
@@ -189,61 +202,79 @@ public:
   }
   
   double corr(const Point& x1, const Point& x2) const noexcept {
-    double s = tinyNuggetOffDiag;
-    // #pragma omp simd reduction (+:s) aligned(x1, x2:32)
-    for (PointDimension k = 0; k < d; ++k) {
-      double t = x1[k] - x2[k];
-      s += t*t;
-    }
-    return ApproximationTools::exponentialOfMinus<approxOrder>(s);
+    return ApproximationTools::exponentialOfMinus<approxOrder>(norm2square(x1,x2));
   }
   
   virtual Double scaling_factor() const {
     return sqrtl(2.0L)/2.0L;
   }
 };
-//-------------- Rational
-class CorrRational : public CorrelationFunction {
-  static constexpr double tinyNuggetOffDiagPlusOne = tinyNuggetOffDiag + 1.0;
+//-------------- Rational 2
+class CorrRational2 : public CorrelationFunction {
+  //static constexpr double tinyNuggetOffDiagPlusOne = tinyNuggetOffDiag + 1.0;
   
 public:
-  CorrRational(const PointDimension d) :
+  CorrRational2(const PointDimension d) :
   CorrelationFunction(d)  {
   }
   
   double corr(const Point& x1, const Point& x2) const noexcept {
-    double s = tinyNuggetOffDiagPlusOne;
-    // #pragma omp simd reduction (+:s) aligned(x1, x2:32)
-    for (PointDimension k = 0; k < d; ++k) {
-      double t = x1[k] - x2[k];
-      s += t*t;
-    }
-    return 1.0/s;
+    return 1.0/(1.0+norm2square(x1,x2));
   }
   
   virtual Double scaling_factor() const {
     return sqrtl(2.0L)/2.0L;
   }
 };
-
+//-------------- Rational 1
+class CorrRational1 : public CorrelationFunction {
+  //static constexpr double tinyNuggetOffDiagPlusOne = tinyNuggetOffDiag + 1.0;
+  
+public:
+  CorrRational1(const PointDimension d) :
+  CorrelationFunction(d)  {
+  }
+  
+  double corr(const Point& x1, const Point& x2) const noexcept {
+    return 1.0/(1.0+norm1(x1,x2));
+  }
+  
+  virtual Double scaling_factor() const {
+    return 1.0L;
+  }
+};
 
 //-------------- exp
-class Correxp : public CorrelationFunction {
+class CorrExp : public CorrelationFunction {
 public:
-  Correxp(const PointDimension d) :
+  CorrExp(const PointDimension d) :
   CorrelationFunction(d)  {
   }
 
   virtual double corr(const Point& x1, const Point& x2) const noexcept override {
-    double s = tinyNuggetOffDiag;
-    //#pragma omp simd  reduction (+:s)
-    for (PointDimension k = 0; k < d; ++k) s += std::fabs(x1[k] - x2[k]);
     //exp2(s)=2^{-s}, slightly faster than exp(), hence logl(2.0L) in scaling_factor
-    return(std::exp2(-s));
+    return(std::exp2(-norm1(x1,x2)));
   }
 
   virtual Double scaling_factor() const override {
     return 1.0L/logl(2.0L);
+  }
+};
+//-------------- exp
+class CorrApproxExp : public CorrelationFunction {
+  static constexpr int approxOrder = 4;
+  
+public:
+  CorrApproxExp(const PointDimension d) :
+  CorrelationFunction(d)  {
+  }
+  
+  virtual double corr(const Point& x1, const Point& x2) const noexcept override {
+    return ApproximationTools::exponentialOfMinus<approxOrder>(norm1(x1,x2));
+  }
+  
+  virtual Double scaling_factor() const override {
+    return 1.0L;
   }
 };
 
@@ -255,8 +286,8 @@ public:
 
   virtual double corr(const Point& x1, const Point& x2) const noexcept override {
     double s = tinyNuggetOffDiag;
-    double ecart = 0.;
-    double prod = 1.;
+    double ecart = 0.0;
+    double prod = 1.0;
     for (PointDimension k = 0; k < d; ++k) {
       ecart = std::fabs(x1[k] - x2[k]);
       s += ecart;
@@ -305,12 +336,14 @@ public:
 
   virtual double corr(const Point& x1, const Point& x2) const noexcept override {
     double s = 0.;
-    for (PointDimension k = 0; k < d; ++k) s += std::pow(std::fabs(x1[k] - x2[k]) / param[k], param[k+d]);
+    for (PointDimension k = 0; k < d; ++k) s += std::pow(std::fabs(x1[k] - x2[k]), param[k+d]);
     return(std::exp(-s));
   }
 
   virtual Double scaling_factor() const override {
-    return 1.0L; //TODO: Optimization still possible with param[k]
+    return 1.0L; 
+    // tests: powerexp with alpha=(2,2, ...) should correspond to Gauss with factor 2
+    // tests: powerexp with alpha=(1,1, ...) should correspond to Exp
   }
 };
 
@@ -334,17 +367,19 @@ private:
   }
 
   CorrelationFunction* getCorrelationFunction(std::string& covType) const {
-    if (covType.compare("rational") == 0) {return new CorrRational(d);}
+    if (covType.compare("rational2") == 0) {return new CorrRational2(d);}
+    else if (covType.compare("rational1") == 0) {return new CorrRational1(d);}
     else if (covType.compare("approx.gauss") == 0) {return new CorrApproxGauss(d);}
     else if (covType.compare("gauss")==0) {return new CorrGauss(d);}
-    else if (covType.compare("exp")==0) {return new Correxp(d);}
+    else if (covType.compare("approx.exp") == 0) {return new CorrApproxExp(d);}
+    else if (covType.compare("exp")==0) {return new CorrExp(d);}
     else if (covType.compare("matern3_2") == 0) {return new CorrMatern32(d);}
     else if (covType.compare("matern5_2") == 0) {return new CorrMatern52(d);}
     else if (covType.compare("powexp") == 0) {return new CorrPowerexp(d, param);}
     else if (covType.compare("white_noise") == 0) {return new CorrWhiteNoise(d);}
     else {
       //screen.warning("covType wrongly written, using exponential kernel");
-      return new Correxp(d);}
+      return new CorrExp(d);}
   }
 
 public:
@@ -365,7 +400,7 @@ public:
   ~CovarianceParameters() {
     delete corrFunction;
   }
-  //-------------- this object is not copied
+  //-------------- this object is not copied nor moved
   CovarianceParameters (const CovarianceParameters &) = delete;
   CovarianceParameters& operator= (const CovarianceParameters &) = delete;
 
