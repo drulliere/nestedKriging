@@ -457,6 +457,18 @@ Test test("0_ unmodified and platform independent case Study (tests.h)");
   return test;
 }
 
+Test testMathConstants() {
+  //in <cmath> logl, sqrtl are often in global namespace, but should be in std
+  using namespace std; 
+  Test test("0_ test math constants (covariance.h)");
+  Double maxError = 10*std::numeric_limits<Double>::epsilon();
+  test.assertTrue(fabsl(Math::ln2-logl(2.0L))<maxError, "long double value ln2");
+  test.assertTrue(fabsl(Math::sqrt2-sqrtl(2.0L))<maxError, "long double value sqrt2");
+  test.assertTrue(fabsl(Math::sqrt3-sqrtl(3.0L))<maxError, "long double value sqrt3");
+  test.assertTrue(fabsl(Math::sqrt5-sqrtl(5.0L))<maxError, "long double value sqrt5");
+  return test;
+}
+
 //==================================================== Part I, Unit Tests
 
 //---------------------------------------------------- test ProgressBar
@@ -1721,6 +1733,7 @@ Rcpp::List runAllTests(bool showSuccess=false, bool debugMode=false) {
     test.setDebugMode(debugMode);
     //=== Part 0, test environment
     test.append(testPlatformIndependentRng());
+    test.append(testMathConstants());
     test.append(testPlatformIndependentCaseStudy());
     //=== Part I, Unit Tests
     test.append(testProgressBar());

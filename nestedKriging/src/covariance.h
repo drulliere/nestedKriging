@@ -110,8 +110,10 @@ struct ApproximationTools {
   
   template <int N >
   static inline double exponentialOfMinus(double x) {
-    constexpr unsigned long twoPowerN = 1<<N;
-    return raiseToPower_TwoPower<N>( 1/(1 + x / twoPowerN) );
+    //constexpr unsigned long twoPowerN = 1<<N;
+    //return raiseToPower_TwoPower<N>( 1/(1 + x / twoPowerN) );
+    constexpr double oneOverTwoPowerN = 1.0 / (1<<N);
+    return raiseToPower_TwoPower<N>( 1/(1 + x * oneOverTwoPowerN) );
     // as x is a double, divisions are not integer divisions
   }
 };
@@ -120,6 +122,43 @@ template <>
 double ApproximationTools::raiseToPower_TwoPower<0>(double x) {
   return x;
 }
+//========================================================== Constants
+//here use of constants because they are usually not constexpr in <cmath>
+struct Math {
+  static constexpr Double ln2          = 0.69314718055994530941723212145817656807550013436025L;
+  static constexpr Double sqrt2        = 1.41421356237309504880168872420969807856967187537694L;
+  static constexpr Double sqrt3        = 1.73205080756887729352744634150587236694280525381038L;
+  static constexpr Double sqrt5        = 2.23606797749978969640917366873127623544061835961152L;
+};
+
+//========================================================== ExponentialAlgorithm
+
+struct Expo {
+  inline static double expOfMinus(double x) { return std::exp(-x); }
+  template <typename T>
+  inline static constexpr T scale(const T x) { return x; };
+  template <typename T>
+  inline static constexpr T unscale(const T x) { return x; };
+};
+
+struct ExpoBase2  {
+  //exp2(s)=2^{-s}, slightly faster than exp()
+  //hence scale=logl(2.0L) to be applied to values within expo
+  inline static double expOfMinus(double x) { return std::exp2(-x); }
+  template <typename T>
+  inline static constexpr T scale(const T x) { return x/Math::ln2; };
+  template <typename T>
+  inline static constexpr T unscale(const T x) { return x*Math::ln2; };
+};
+
+template <int N>
+struct ExpoApprox {
+  inline static double expOfMinus(double x) { return ApproximationTools::exponentialOfMinus<N>(x); }
+  template <typename T>
+  inline static constexpr T scale(const T x) { return x; };
+  template <typename T>
+  inline static constexpr T unscale(const T x) { return x; };
+};
 
 //========================================================== CorrelationFunction
 // Correlation functions
@@ -131,8 +170,8 @@ public:
   const PointDimension d;
   
   double norm1(const Point& x1, const Point& x2) const noexcept {
-    double s = tinyNuggetOffDiag;
-    //#pragma omp simd  reduction (+:s)
+    double s = std::max(tinyNuggetOffDiag, 256 * std::numeric_limits<double>::epsilon());
+    // #pragma omp simd reduction (+:s) aligned(x1, x2:32)
     for (PointDimension k = 0; k < d; ++k) s += std::fabs(x1[k] - x2[k]);
     return s;
   }
@@ -165,8 +204,9 @@ public:
   }
 
   virtual double corr(const Point& x1,const Point& x2) const noexcept override {
+    constexpr double treshold = tinyNuggetOffDiag + 256 * std::numeric_limits<double>::epsilon();
     double s = norm1(x1,x2);
-    if (s < 0.000000000000001) return(1.0);
+    if (s < treshold) return(1.0);
     else return(0.0);
   }
 
@@ -176,42 +216,27 @@ public:
 };
 
 //-------------- Gauss
+template <typename ExpoAlgo>
 class CorrGauss : public CorrelationFunction {
-
+  
 public:
+  
   CorrGauss(const PointDimension d) :
   CorrelationFunction(d)  {
   }
-
-  virtual double corr(const Point& x1, const Point& x2) const noexcept override{
-    return std::exp2(-norm2square(x1,x2)); 
+  
+  virtual double corr(const Point& x1, const Point& x2) const noexcept override {
+    return ExpoAlgo::expOfMinus(CorrelationFunction::norm2square(x1,x2)); 
   }
-
+  
   virtual Double scaling_factor() const override {
-    return sqrtl(2.0L/logl(2.0L))/2.0L;
+    return sqrtl(ExpoAlgo::scale(2.0L))/2.0L;
   }
 };
-//-------------- CorrApproxGauss
-class CorrApproxGauss : public CorrelationFunction {
-  // approximation of exp(-x). It preserves Positive Semidefinite property of the exp(-x^2) approximation
-  static constexpr int approxOrder = 4;
-  
-public:
-  CorrApproxGauss(const PointDimension d) :
-  CorrelationFunction(d)  {
-  }
-  
-  double corr(const Point& x1, const Point& x2) const noexcept {
-    return ApproximationTools::exponentialOfMinus<approxOrder>(norm2square(x1,x2));
-  }
-  
-  virtual Double scaling_factor() const {
-    return sqrtl(2.0L)/2.0L;
-  }
-};
+
 //-------------- Rational 2
 class CorrRational2 : public CorrelationFunction {
-  //static constexpr double tinyNuggetOffDiagPlusOne = tinyNuggetOffDiag + 1.0;
+  static constexpr Double sqrt2OverTwo = Math::sqrt2/2.0L;
   
 public:
   CorrRational2(const PointDimension d) :
@@ -223,13 +248,12 @@ public:
   }
   
   virtual Double scaling_factor() const {
-    return sqrtl(2.0L)/2.0L;
+    return sqrt2OverTwo; 
   }
 };
 //-------------- Rational 1
 class CorrRational1 : public CorrelationFunction {
-  //static constexpr double tinyNuggetOffDiagPlusOne = tinyNuggetOffDiag + 1.0;
-  
+
 public:
   CorrRational1(const PointDimension d) :
   CorrelationFunction(d)  {
@@ -245,6 +269,7 @@ public:
 };
 
 //-------------- exp
+template <typename ExpoAlgo>
 class CorrExp : public CorrelationFunction {
 public:
   CorrExp(const PointDimension d) :
@@ -252,38 +277,21 @@ public:
   }
 
   virtual double corr(const Point& x1, const Point& x2) const noexcept override {
-    //exp2(s)=2^{-s}, slightly faster than exp(), hence logl(2.0L) in scaling_factor
-    return(std::exp2(-norm1(x1,x2)));
+      return ExpoAlgo::expOfMinus(norm1(x1,x2));
   }
 
   virtual Double scaling_factor() const override {
-    return 1.0L/logl(2.0L);
-  }
-};
-//-------------- exp
-class CorrApproxExp : public CorrelationFunction {
-  static constexpr int approxOrder = 4;
-  
-public:
-  CorrApproxExp(const PointDimension d) :
-  CorrelationFunction(d)  {
-  }
-  
-  virtual double corr(const Point& x1, const Point& x2) const noexcept override {
-    return ApproximationTools::exponentialOfMinus<approxOrder>(norm1(x1,x2));
-  }
-  
-  virtual Double scaling_factor() const override {
-    return 1.0L;
+    return ExpoAlgo::scale(1.0L);
   }
 };
 
 //-------------- Matern32
+template <typename ExpoAlgo>
 class CorrMatern32 : public CorrelationFunction {
 public:
   CorrMatern32(const PointDimension d) : CorrelationFunction(d)  {
   }
-
+  
   virtual double corr(const Point& x1, const Point& x2) const noexcept override {
     double s = tinyNuggetOffDiag;
     double ecart = 0.0;
@@ -291,37 +299,38 @@ public:
     for (PointDimension k = 0; k < d; ++k) {
       ecart = std::fabs(x1[k] - x2[k]);
       s += ecart;
-      prod *= (1.+ecart);
+      prod *= (1. + ExpoAlgo::unscale(ecart));
     }
-    return(prod*std::exp(-s));
+    return(prod*ExpoAlgo::expOfMinus(s));
   }
-
+  
   virtual Double scaling_factor() const override {
-    return sqrtl(3.0L);
+    return ExpoAlgo::scale(Math::sqrt3);
   }
 };
 
 //-------------- Matern52
+template <typename ExpoAlgo>
 class CorrMatern52 : public CorrelationFunction {
-  constexpr static double oneOverThree = 1.0/3.0;
+  constexpr static double scaledOneOverThree = ExpoAlgo::unscale(ExpoAlgo::unscale(1.0L/3.0L));
 public:
   CorrMatern52(const PointDimension d) : CorrelationFunction(d)  {
   }
-
+  
   virtual double corr(const Point& x1, const Point& x2) const noexcept override {
     double s = tinyNuggetOffDiag, ecart ;
     double prod = 1.0;
     for (PointDimension k = 0; k < d; ++k) {
       s += ecart = std::fabs(x1[k] - x2[k]);
-      prod *= (1 + ecart + ecart*ecart*oneOverThree);
+      prod *= (1 + ExpoAlgo::unscale(ecart) + ecart*ecart*scaledOneOverThree);
       // with fma(x,y,z)=x*y+z, slower or identical, depending on compiler options
       //prod *= std::fma(std::fma(ecart, oneOverThree, 1.0), ecart, 1.0);
     }
-    return prod*std::exp(-s);
+    return prod * ExpoAlgo::expOfMinus(s);
   }
-
+  
   virtual Double scaling_factor() const override {
-    return sqrtl(5.0L);
+    return ExpoAlgo::scale(Math::sqrt5);
   }
 };
 
@@ -359,7 +368,7 @@ private:
   const PointDimension d;
   const arma::vec param; //no &, copy to make kernel independent
 
-  ScalingFactors createScalingFactors() {
+  ScalingFactors createScalingFactors() const {
     ScalingFactors factors(d);
     Double scalingCorr = corrFunction->scaling_factor();
     for(PointDimension k=0;k<d;++k) factors[k] = scalingCorr/param(k);
@@ -369,17 +378,25 @@ private:
   CorrelationFunction* getCorrelationFunction(std::string& covType) const {
     if (covType.compare("rational2") == 0) {return new CorrRational2(d);}
     else if (covType.compare("rational1") == 0) {return new CorrRational1(d);}
-    else if (covType.compare("approx.gauss") == 0) {return new CorrApproxGauss(d);}
-    else if (covType.compare("gauss")==0) {return new CorrGauss(d);}
-    else if (covType.compare("approx.exp") == 0) {return new CorrApproxExp(d);}
-    else if (covType.compare("exp")==0) {return new CorrExp(d);}
-    else if (covType.compare("matern3_2") == 0) {return new CorrMatern32(d);}
-    else if (covType.compare("matern5_2") == 0) {return new CorrMatern52(d);}
+    else if (covType.compare("gauss.approx") == 0) {return new CorrGauss<ExpoApprox<5> >(d);}
+    else if (covType.compare("gauss")==0) {return new CorrGauss<ExpoBase2>(d);}
+    else if (covType.compare("gauss.legacy")==0) {return new CorrGauss<Expo>(d);}
+    else if (covType.compare("exp.approx") == 0) {return new CorrExp<ExpoApprox<5> >(d);}
+    else if (covType.compare("exp")==0) {return new CorrExp<ExpoBase2>(d);}
+    else if (covType.compare("exp.legacy")==0) {return new CorrExp<Expo>(d);}
+    else if (covType.compare("matern3_2.approx") == 0) {return new CorrMatern32<ExpoApprox<12> >(d);}
+    else if (covType.compare("matern3_2") == 0) {return new CorrMatern32<ExpoBase2>(d);}
+    else if (covType.compare("matern3_2.legacy") == 0) {return new CorrMatern32<Expo>(d);}
+    else if (covType.compare("matern5_2.approx") == 0) {return new CorrMatern52<ExpoApprox<18> >(d);}
+    else if (covType.compare("matern5_2") == 0) {return new CorrMatern52<ExpoBase2>(d);}
+    else if (covType.compare("matern5_2.legacy") == 0) {return new CorrMatern52<Expo>(d);}
     else if (covType.compare("powexp") == 0) {return new CorrPowerexp(d, param);}
     else if (covType.compare("white_noise") == 0) {return new CorrWhiteNoise(d);}
+    else if (covType.compare("approx.exp") == 0) {return new CorrExp<ExpoApprox<5> >(d);}
+    else if (covType.compare("approx.gauss") == 0) {return new CorrGauss<ExpoApprox<5> >(d);}
     else {
       //screen.warning("covType wrongly written, using exponential kernel");
-      return new CorrExp(d);}
+      return new CorrExp<ExpoBase2>(d);}
   }
 
 public:

@@ -28,7 +28,7 @@ Cluster index of each input points. \code{clusters} is a vector of size  \eqn{n}
 number of Leave-One-Out points used to optimize the Leave-One-out error, among the \eqn{n}{n} input points.
 }
   \item{covType}{
-Covariance kernel family used by Kriging predictors (unless specified, the multivariate kernel is obtained using a tensor product). Must be one of the following: \code{"exp"} (exponential kernel), \code{"gauss"} (gaussian square exponential kernel), \code{"matern3_2"} (Matern 3/2), \code{"matern5_2"} (Matern 5/2), \code{"powexp"} (power exponential kernel), \code{"white_noise"} (white noise kernel), \code{"rational2"} (fast radial rational quadratic kernel, with power 1), \code{"rational1"} (fast radial rational kernel, with norm 1), \code{"approx.gauss"} (fast approximation of gaussian kernel), \code{"approx.exp"} (fast approximation of exponential kernel).
+Covariance kernel family used by Kriging predictors (unless specified, the multivariate kernel is obtained using a tensor product). Must be one of the following: \code{"exp"} (exponential kernel), \code{"gauss"} (gaussian square exponential kernel), \code{"matern3_2"} (Matern 3/2), \code{"matern5_2"} (Matern 5/2), \code{"powexp"} (power exponential kernel), \code{"white_noise"} (white noise kernel), \code{"rational2"} (fast radial rational quadratic kernel, with power 1), \code{"rational1"} (fast radial rational kernel, with norm 1), \code{"gauss.approx"} (fast approximation of gaussian kernel), \code{"exp.approx"} (fast approximation of exponential kernel).
 }
   \item{niter}{
 Number of iterations of the stochastic gradient descent.

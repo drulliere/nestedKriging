@@ -8,10 +8,10 @@
 // class: Initializer
 //===============================================================================
 
-#define VERSION_CODE "nestedKriging v0.1.6"
-#define BUILT_ID 53
-#define BUILT_DATE 20191217
-#define INTERFACE_VERSION 7
+#define VERSION_CODE "nestedKriging v0.1.7"
+#define BUILT_ID 54
+#define BUILT_DATE 20191224
+#define INTERFACE_VERSION 8
 //========================================================== R - Armadillo =======
 
 #include <RcppArmadillo.h>
