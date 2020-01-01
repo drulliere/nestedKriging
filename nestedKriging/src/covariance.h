@@ -97,19 +97,19 @@ constexpr double tinyNuggetOffDiag = 0.0; // 256 * std::numeric_limits<double>::
 //  . exponentialOfMinus(double x) approximate exp(-x) for positive values of x
 //    it computes (1+x/m)^m where m = 2^N
 //
-//    furthermore fastExpMinus(-x) and fastExpMinus(-x^2) are positive semi-definite (PSD)
+//    furthermore expOfMinus(-x) and expOfMinus(-x^2) are positive semi-definite (PSD)
 //    thus valid covariance functions for x Euclidean or Manhattan distance
 //    thus this approx can be used, e.g., for Gaussian or Exp covariance kernel
 
 struct ApproximationTools {
   template <int N>
-  static inline double raiseToPower_TwoPower(double x) {
+  static inline double raiseToPower_TwoPower(double x) noexcept {
     x *= x;
     return raiseToPower_TwoPower<N-1>(x);
   }
   
   template <int N >
-  static inline double exponentialOfMinus(double x) {
+  static inline double exponentialOfMinus(double x) noexcept {
     //constexpr unsigned long twoPowerN = 1<<N;
     //return raiseToPower_TwoPower<N>( 1/(1 + x / twoPowerN) );
     constexpr double oneOverTwoPowerN = 1.0 / (1<<N);
@@ -119,7 +119,7 @@ struct ApproximationTools {
 };
 
 template <>
-double ApproximationTools::raiseToPower_TwoPower<0>(double x) {
+double ApproximationTools::raiseToPower_TwoPower<0>(double x) noexcept {
   return x;
 }
 //========================================================== Constants
@@ -134,30 +134,30 @@ struct Math {
 //========================================================== ExponentialAlgorithm
 
 struct Expo {
-  inline static double expOfMinus(double x) { return std::exp(-x); }
+  inline static double expOfMinus(double x) noexcept { return std::exp(-x); }
   template <typename T>
-  inline static constexpr T scale(const T x) { return x; };
+  inline static constexpr T scale(const T x) noexcept { return x; };
   template <typename T>
-  inline static constexpr T unscale(const T x) { return x; };
+  inline static constexpr T unscale(const T x) noexcept { return x; };
 };
 
 struct ExpoBase2  {
   //exp2(s)=2^{-s}, slightly faster than exp()
   //hence scale=logl(2.0L) to be applied to values within expo
-  inline static double expOfMinus(double x) { return std::exp2(-x); }
+  inline static double expOfMinus(double x) noexcept { return std::exp2(-x); }
   template <typename T>
-  inline static constexpr T scale(const T x) { return x/Math::ln2; };
+  inline static constexpr T scale(const T x) noexcept { return x/Math::ln2; };
   template <typename T>
-  inline static constexpr T unscale(const T x) { return x*Math::ln2; };
+  inline static constexpr T unscale(const T x) noexcept { return x*Math::ln2; };
 };
 
 template <int N>
 struct ExpoApprox {
-  inline static double expOfMinus(double x) { return ApproximationTools::exponentialOfMinus<N>(x); }
+  inline static double expOfMinus(double x) noexcept { return ApproximationTools::exponentialOfMinus<N>(x); }
   template <typename T>
-  inline static constexpr T scale(const T x) { return x; };
+  inline static constexpr T scale(const T x) noexcept { return x; };
   template <typename T>
-  inline static constexpr T unscale(const T x) { return x; };
+  inline static constexpr T unscale(const T x) noexcept { return x; };
 };
 
 //========================================================== CorrelationFunction
@@ -206,8 +206,8 @@ public:
   virtual double corr(const Point& x1,const Point& x2) const noexcept override {
     constexpr double treshold = tinyNuggetOffDiag + 256 * std::numeric_limits<double>::epsilon();
     double s = norm1(x1,x2);
-    if (s < treshold) return(1.0);
-    else return(0.0);
+    if (s < treshold) return 1.0;
+    else return 0.0;
   }
 
   virtual Double scaling_factor() const override {
@@ -230,6 +230,7 @@ public:
   }
   
   virtual Double scaling_factor() const override {
+    using namespace std; //because sqrtl should be in std, but usually is not
     return sqrtl(ExpoAlgo::scale(2.0L))/2.0L;
   }
 };
@@ -284,6 +285,22 @@ public:
     return ExpoAlgo::scale(1.0L);
   }
 };
+//-------------- exp radial, draft not tested yet
+template <typename ExpoAlgo>
+class CorrExpRadial : public CorrelationFunction {
+public:
+  CorrExpRadial(const PointDimension d) :
+  CorrelationFunction(d)  {
+  }
+  
+  virtual double corr(const Point& x1, const Point& x2) const noexcept override {
+    return ExpoAlgo::expOfMinus(norm2(x1,x2));
+  }
+  
+  virtual Double scaling_factor() const override {
+    return ExpoAlgo::scale(1.0L);
+  }
+};
 
 //-------------- Matern32
 template <typename ExpoAlgo>
@@ -301,7 +318,23 @@ public:
       s += ecart;
       prod *= (1. + ExpoAlgo::unscale(ecart));
     }
-    return(prod*ExpoAlgo::expOfMinus(s));
+    return prod*ExpoAlgo::expOfMinus(s);
+  }
+  
+  virtual Double scaling_factor() const override {
+    return ExpoAlgo::scale(Math::sqrt3);
+  }
+};
+//-------------- Matern32Radial, draft not tested yet
+template <typename ExpoAlgo>
+class CorrMatern32Radial : public CorrelationFunction {
+public:
+  CorrMatern32Radial(const PointDimension d) : CorrelationFunction(d)  {
+  }
+  
+  virtual double corr(const Point& x1, const Point& x2) const noexcept override {
+    const double ecart = norm2(x1,x2);
+    return (1. + ExpoAlgo::unscale(ecart))*ExpoAlgo::expOfMinus(ecart);
   }
   
   virtual Double scaling_factor() const override {
@@ -333,6 +366,23 @@ public:
     return ExpoAlgo::scale(Math::sqrt5);
   }
 };
+//-------------- Matern52Radial, draft not tested yet
+template <typename ExpoAlgo>
+class CorrMatern52Radial : public CorrelationFunction {
+  constexpr static double scaledOneOverThree = ExpoAlgo::unscale(ExpoAlgo::unscale(1.0L/3.0L));
+public:
+  CorrMatern52Radial(const PointDimension d) : CorrelationFunction(d)  {
+  }
+  
+  virtual double corr(const Point& x1, const Point& x2) const noexcept override {
+    const double s = norm2(x1,x2);
+    return (1 + ExpoAlgo::unscale(s) + s*s*scaledOneOverThree)*ExpoAlgo::expOfMinus(s);
+  }
+  
+  virtual Double scaling_factor() const override {
+    return ExpoAlgo::scale(Math::sqrt5);
+  }
+};
 
 //-------------- Powerexp
 class CorrPowerexp : public CorrelationFunction {
@@ -346,7 +396,7 @@ public:
   virtual double corr(const Point& x1, const Point& x2) const noexcept override {
     double s = 0.;
     for (PointDimension k = 0; k < d; ++k) s += std::pow(std::fabs(x1[k] - x2[k]), param[k+d]);
-    return(std::exp(-s));
+    return std::exp(-s);
   }
 
   virtual Double scaling_factor() const override {
@@ -370,7 +420,7 @@ private:
 
   ScalingFactors createScalingFactors() const {
     ScalingFactors factors(d);
-    Double scalingCorr = corrFunction->scaling_factor();
+    const Double scalingCorr = corrFunction->scaling_factor();
     for(PointDimension k=0;k<d;++k) factors[k] = scalingCorr/param(k);
     return factors;
   }
@@ -380,20 +430,28 @@ private:
     else if (covType.compare("rational1") == 0) {return new CorrRational1(d);}
     else if (covType.compare("gauss.approx") == 0) {return new CorrGauss<ExpoApprox<5> >(d);}
     else if (covType.compare("gauss")==0) {return new CorrGauss<ExpoBase2>(d);}
-    else if (covType.compare("gauss.legacy")==0) {return new CorrGauss<Expo>(d);}
     else if (covType.compare("exp.approx") == 0) {return new CorrExp<ExpoApprox<5> >(d);}
     else if (covType.compare("exp")==0) {return new CorrExp<ExpoBase2>(d);}
-    else if (covType.compare("exp.legacy")==0) {return new CorrExp<Expo>(d);}
     else if (covType.compare("matern3_2.approx") == 0) {return new CorrMatern32<ExpoApprox<12> >(d);}
     else if (covType.compare("matern3_2") == 0) {return new CorrMatern32<ExpoBase2>(d);}
-    else if (covType.compare("matern3_2.legacy") == 0) {return new CorrMatern32<Expo>(d);}
     else if (covType.compare("matern5_2.approx") == 0) {return new CorrMatern52<ExpoApprox<18> >(d);}
     else if (covType.compare("matern5_2") == 0) {return new CorrMatern52<ExpoBase2>(d);}
-    else if (covType.compare("matern5_2.legacy") == 0) {return new CorrMatern52<Expo>(d);}
+    else if (covType.compare("exp.radial") == 0) {return new CorrExpRadial<ExpoBase2>(d);}
+    else if (covType.compare("matern3_2.radial") == 0) {return new CorrMatern32Radial<ExpoBase2>(d);}
+    else if (covType.compare("matern5_2.radial") == 0) {return new CorrMatern52Radial<ExpoBase2>(d);}
     else if (covType.compare("powexp") == 0) {return new CorrPowerexp(d, param);}
     else if (covType.compare("white_noise") == 0) {return new CorrWhiteNoise(d);}
-    else if (covType.compare("approx.exp") == 0) {return new CorrExp<ExpoApprox<5> >(d);}
-    else if (covType.compare("approx.gauss") == 0) {return new CorrGauss<ExpoApprox<5> >(d);}
+    //
+    // --- temporary, legacy kernels for benchmarks and compatibility
+    else if (covType.compare("gauss.legacy")==0) {return new CorrGauss<Expo>(d);}
+    else if (covType.compare("exp.legacy")==0) {return new CorrExp<Expo>(d);}
+    else if (covType.compare("matern3_2.legacy") == 0) {return new CorrMatern32<Expo>(d);}
+    else if (covType.compare("matern5_2.legacy") == 0) {return new CorrMatern52<Expo>(d);}
+    else if (covType.compare("exp.radial.legacy") == 0) {return new CorrExpRadial<Expo>(d);}
+    else if (covType.compare("matern3_2.radial.legacy") == 0) {return new CorrMatern32Radial<Expo>(d);}
+    else if (covType.compare("matern5_2.radial.legacy") == 0) {return new CorrMatern52Radial<Expo>(d);}
+    else if (covType.compare("approx.exp") == 0) {return new CorrExp<ExpoApprox<4> >(d);}
+    else if (covType.compare("approx.gauss") == 0) {return new CorrGauss<ExpoApprox<4> >(d);}
     else {
       //screen.warning("covType wrongly written, using exponential kernel");
       return new CorrExp<ExpoBase2>(d);}
