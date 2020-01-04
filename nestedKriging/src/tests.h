@@ -551,6 +551,8 @@ Test testKernelSym() {
 
 Test testApproxTools(){
   Test test("I_ approx tools (for Gauss Approx kernel, unit covariance)");
+  constexpr double expMinus3 = nestedKrig::ApproximationTools::exponentialOfMinus<31>(3.0);
+  test.assertClose(expMinus3, std::exp(-3.0), "expMinus3");
   test.assertClose(ApproximationTools::raiseToPower_TwoPower<0>(1.27),1.27, "a");
   test.assertClose(ApproximationTools::raiseToPower_TwoPower<3>(1.27),std::pow(1.27,8), "b");
   test.assertClose(ApproximationTools::raiseToPower_TwoPower<2>(0.87),std::pow(0.87,4), "c");

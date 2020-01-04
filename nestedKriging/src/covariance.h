@@ -96,6 +96,7 @@ constexpr double tinyNuggetOffDiag = 0.0; // 256 * std::numeric_limits<double>::
 //  . raiseToPower_TwoPower<N>(double x) computes x^(2^N), unrolled loop at compilation time
 //  . exponentialOfMinus(double x) approximate exp(-x) for positive values of x
 //    it computes (1+x/m)^m where m = 2^N
+//  . available for constexpr
 //
 //    furthermore expOfMinus(-x) and expOfMinus(-x^2) are positive semi-definite (PSD)
 //    thus valid covariance functions for x Euclidean or Manhattan distance
@@ -103,25 +104,29 @@ constexpr double tinyNuggetOffDiag = 0.0; // 256 * std::numeric_limits<double>::
 
 struct ApproximationTools {
   template <int N>
-  static inline double raiseToPower_TwoPower(double x) noexcept {
-    x *= x;
-    return raiseToPower_TwoPower<N-1>(x);
+  static inline constexpr double raiseToPower_TwoPower(double x) noexcept {
+    return raiseToPower_TwoPower<N-1>(x * x);
+  }
+  
+  template <int N>
+  static inline constexpr double oneOverTwoPower() noexcept {
+    // returns 1.0/(two power N), limited to 32, but works up to order 64
+    static_assert(N<32, "approx order should be less than 32");
+    return 1.0/(1ULL<<N);
   }
   
   template <int N >
-  static inline double exponentialOfMinus(double x) noexcept {
-    //constexpr unsigned long twoPowerN = 1<<N;
-    //return raiseToPower_TwoPower<N>( 1/(1 + x / twoPowerN) );
-    constexpr double oneOverTwoPowerN = 1.0 / (1<<N);
-    return raiseToPower_TwoPower<N>( 1/(1 + x * oneOverTwoPowerN) );
-    // as x is a double, divisions are not integer divisions
+  static inline constexpr double exponentialOfMinus(double x) noexcept {
+    return raiseToPower_TwoPower<N>( 1/(1 + x * oneOverTwoPower<N>()) );
+    // as x is double, divisions are not integer divisions
   }
 };
 
 template <>
-double ApproximationTools::raiseToPower_TwoPower<0>(double x) noexcept {
+inline constexpr double ApproximationTools::raiseToPower_TwoPower<0>(double x) noexcept {
   return x;
 }
+
 //========================================================== Constants
 //here use of constants because they are usually not constexpr in <cmath>
 struct Math {
