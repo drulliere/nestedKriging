@@ -73,8 +73,6 @@
 namespace nestedKrig {
 
 using Double = long double;
-using ScaledParameters = std::vector<Double> ;
-
 
 //========================================================== Tiny nuggets
 // with tinyNuggetOnDiag, correlation matrix diagonal becomes
@@ -93,8 +91,8 @@ constexpr double tinyNuggetOffDiag = 0.0; // 256 * std::numeric_limits<double>::
 //========================================================== ApproximationTools
 // Small utility functions to approximate exponential by a PSD function
 //  . N is the order of the approximation
-//  . raiseToPower_TwoPower<N>(double x) computes x^(2^N), unrolled loop at compilation time
-//  . exponentialOfMinus(double x) approximate exp(-x) for positive values of x
+//  . raiseToPower_TwoPower<N>(x) computes x^(2^N), unrolled loop at compilation time
+//  . exponentialOfMinus(x) approximate exp(-x) for positive values of x
 //    it computes (1+x/m)^m where m = 2^N
 //  . available for constexpr
 //
@@ -109,7 +107,7 @@ struct ApproximationTools {
   }
   
   template <int N>
-  static inline constexpr double oneOverTwoPower() noexcept {
+  static inline constexpr double oneOver_TwoPower() noexcept {
     // returns 1.0/(two power N), limited to 32, but works up to order 64
     static_assert(N<32, "approx order should be less than 32");
     return 1.0/(1ULL<<N);
@@ -117,8 +115,8 @@ struct ApproximationTools {
   
   template <int N >
   static inline constexpr double exponentialOfMinus(double x) noexcept {
-    return raiseToPower_TwoPower<N>( 1/(1 + x * oneOverTwoPower<N>()) );
-    // as x is double, divisions are not integer divisions
+    return raiseToPower_TwoPower<N>( 1/(1 + x * oneOver_TwoPower<N>()) );
+    // as x is a double, divisions are not integer divisions
   }
 };
 
@@ -134,6 +132,7 @@ struct Math {
   static constexpr Double sqrt2        = 1.41421356237309504880168872420969807856967187537694L;
   static constexpr Double sqrt3        = 1.73205080756887729352744634150587236694280525381038L;
   static constexpr Double sqrt5        = 2.23606797749978969640917366873127623544061835961152L;
+  static constexpr Double inv_ln2      = 1.0L/ln2;
 };
 
 //========================================================== ExponentialAlgorithm
@@ -151,7 +150,7 @@ struct ExpoBase2  {
   //hence scale=logl(2.0L) to be applied to values within expo
   inline static double expOfMinus(double x) noexcept { return std::exp2(-x); }
   template <typename T>
-  inline static constexpr T scale(const T x) noexcept { return x/Math::ln2; };
+  inline static constexpr T scale(const T x) noexcept { return x*Math::inv_ln2; };
   template <typename T>
   inline static constexpr T unscale(const T x) noexcept { return x*Math::ln2; };
 };
@@ -175,7 +174,7 @@ public:
   const PointDimension d;
   
   double norm1(const Point& x1, const Point& x2) const noexcept {
-    double s = std::max(tinyNuggetOffDiag, 256 * std::numeric_limits<double>::epsilon());
+    double s = tinyNuggetOffDiag;
     // #pragma omp simd reduction (+:s) aligned(x1, x2:32)
     for (PointDimension k = 0; k < d; ++k) s += std::fabs(x1[k] - x2[k]);
     return s;
@@ -231,7 +230,7 @@ public:
   }
   
   virtual double corr(const Point& x1, const Point& x2) const noexcept override {
-    return ExpoAlgo::expOfMinus(CorrelationFunction::norm2square(x1,x2)); 
+    return ExpoAlgo::expOfMinus(norm2square(x1,x2)); 
   }
   
   virtual Double scaling_factor() const override {
@@ -316,12 +315,10 @@ public:
   
   virtual double corr(const Point& x1, const Point& x2) const noexcept override {
     double s = tinyNuggetOffDiag;
-    double ecart = 0.0;
+    double t;
     double prod = 1.0;
     for (PointDimension k = 0; k < d; ++k) {
-      ecart = std::fabs(x1[k] - x2[k]);
-      s += ecart;
-      prod *= (1. + ExpoAlgo::unscale(ecart));
+      prod *= (1.0 + ExpoAlgo::unscale(t));
     }
     return prod*ExpoAlgo::expOfMinus(s);
   }
@@ -338,8 +335,8 @@ public:
   }
   
   virtual double corr(const Point& x1, const Point& x2) const noexcept override {
-    const double ecart = norm2(x1,x2);
-    return (1. + ExpoAlgo::unscale(ecart))*ExpoAlgo::expOfMinus(ecart);
+    const double s = norm2(x1,x2);
+    return (1.0 + ExpoAlgo::unscale(s))*ExpoAlgo::expOfMinus(s);
   }
   
   virtual Double scaling_factor() const override {
@@ -356,13 +353,13 @@ public:
   }
   
   virtual double corr(const Point& x1, const Point& x2) const noexcept override {
-    double s = tinyNuggetOffDiag, ecart ;
+    double s = tinyNuggetOffDiag, t ;
     double prod = 1.0;
     for (PointDimension k = 0; k < d; ++k) {
-      s += ecart = std::fabs(x1[k] - x2[k]);
-      prod *= (1 + ExpoAlgo::unscale(ecart) + ecart*ecart*scaledOneOverThree);
+      s += t = std::fabs(x1[k] - x2[k]);
+      prod *= (1 + ExpoAlgo::unscale(t) + t*t*scaledOneOverThree);
       // with fma(x,y,z)=x*y+z, slower or identical, depending on compiler options
-      //prod *= std::fma(std::fma(ecart, oneOverThree, 1.0), ecart, 1.0);
+      //prod *= std::fma(std::fma(t, oneOverThree, 1.0), t, 1.0);
     }
     return prod * ExpoAlgo::expOfMinus(s);
   }
@@ -399,7 +396,7 @@ public:
   }
 
   virtual double corr(const Point& x1, const Point& x2) const noexcept override {
-    double s = 0.;
+    double s = 0.0;
     for (PointDimension k = 0; k < d; ++k) s += std::pow(std::fabs(x1[k] - x2[k]), param[k+d]);
     return std::exp(-s);
   }
@@ -417,7 +414,7 @@ public:
 
 class CovarianceParameters {
 public:
-  using ScalingFactors=std::vector<Double>;
+  using ScalingFactors=std::valarray<Double>;
 
 private:
   const PointDimension d;

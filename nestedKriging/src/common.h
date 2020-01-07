@@ -9,7 +9,7 @@
 //===============================================================================
 
 #define VERSION_CODE "nestedKriging v0.1.7"
-#define BUILT_ID 56
+#define BUILT_ID 57
 #define BUILT_DATE 20200104
 #define INTERFACE_VERSION 8
 //========================================================== R - Armadillo =======
