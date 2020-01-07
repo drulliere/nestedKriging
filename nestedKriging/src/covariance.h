@@ -318,6 +318,7 @@ public:
     double t;
     double prod = 1.0;
     for (PointDimension k = 0; k < d; ++k) {
+      s += t = std::fabs(x1[k] - x2[k]) ;
       prod *= (1.0 + ExpoAlgo::unscale(t));
     }
     return prod*ExpoAlgo::expOfMinus(s);
