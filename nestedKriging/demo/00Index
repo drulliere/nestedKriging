@@ -1,13 +1,13 @@
 demoA     	prediction with few clusters
-demoB     	demo with optimization
-demoC     	demo with medium dataset
-demoD     	demo with large  dataset Matern kernel
+demoB     	optimization
+demoC     	medium dataset
+demoD     	large dataset Matern kernel
 demoE     	version and tests
-demoF     	demo with large dataset Gauss kernel
-demoG     	demo with medium dataset and predicted covariances
-demoH     	demo with predicted covariances and sample paths
-demoI     	demo with bands and alternatives (POE, GPOE, BCM, RBCM)
-demoJ     	demo with LOO predictions
-demoK     	demo with hyperparameter estimation
-demoK     	demo with hyperparameter estimation
-demoL     	demo with small benchmark between options
+demoF     	large dataset Gauss kernel
+demoG     	medium dataset and predicted covariances
+demoH     	predicted covariances and sample paths
+demoI     	bands and alternatives (POE, GPOE, BCM, RBCM)
+demoJ     	LOO predictions
+demoK     	hyperparameter estimation
+demoL     	small benchmark between options
+demoM       side results not directly related to nestedKriging

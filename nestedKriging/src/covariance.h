@@ -86,13 +86,13 @@ using Double = long double;
 // cf. unit appendix_nuggetAnalysis.h
 
 constexpr double tinyNuggetOnDiag = 256 * std::numeric_limits<double>::epsilon(); // 5.684...e-014
-constexpr double tinyNuggetOffDiag = 0.0; // 256 * std::numeric_limits<double>::epsilon();
+constexpr double tinyNuggetOffDiag = 0.0;
 
 //========================================================== ApproximationTools
 // Small utility functions to approximate exponential by a PSD function
 //  . N is the order of the approximation
 //  . raiseToPower_TwoPower<N>(x) computes x^(2^N), unrolled loop at compilation time
-//  . exponentialOfMinus(x) approximate exp(-x) for positive values of x
+//  . exponentialOfMinus(x) approximates exp(-x) for positive values of x
 //    it computes (1+x/m)^m where m = 2^N
 //  . available for constexpr
 //
@@ -404,8 +404,6 @@ public:
 
   virtual Double scaling_factor() const override {
     return 1.0L; 
-    // tests: powerexp with alpha=(2,2, ...) should correspond to Gauss with factor 2
-    // tests: powerexp with alpha=(1,1, ...) should correspond to Exp
   }
 };
 
@@ -429,9 +427,7 @@ private:
   }
 
   CorrelationFunction* getCorrelationFunction(std::string& covType) const {
-    if (covType.compare("rational2") == 0) {return new CorrRational2(d);}
-    else if (covType.compare("rational1") == 0) {return new CorrRational1(d);}
-    else if (covType.compare("gauss.approx") == 0) {return new CorrGauss<ExpoApprox<5> >(d);}
+         if (covType.compare("gauss.approx") == 0) {return new CorrGauss<ExpoApprox<5> >(d);}
     else if (covType.compare("gauss")==0) {return new CorrGauss<ExpoBase2>(d);}
     else if (covType.compare("exp.approx") == 0) {return new CorrExp<ExpoApprox<5> >(d);}
     else if (covType.compare("exp")==0) {return new CorrExp<ExpoBase2>(d);}
@@ -444,6 +440,16 @@ private:
     else if (covType.compare("matern5_2.radial") == 0) {return new CorrMatern52Radial<ExpoBase2>(d);}
     else if (covType.compare("powexp") == 0) {return new CorrPowerexp(d, param);}
     else if (covType.compare("white_noise") == 0) {return new CorrWhiteNoise(d);}
+    else if (covType.compare("rational2") == 0) {return new CorrRational2(d);}
+    else if (covType.compare("rational1") == 0) {return new CorrRational1(d);}
+    //
+    // --- temporary, tests of new kernels
+    else if (covType.compare("rational2.new") == 0) {return new CorrGauss<ExpoApprox<0> >(d);}
+    else if (covType.compare("rational1.new") == 0) {return new CorrExp<ExpoApprox<0> >(d);}
+    else if (covType.compare("rational2square") == 0) {return new CorrGauss<ExpoApprox<1> >(d);}
+    else if (covType.compare("rational1square") == 0) {return new CorrExp<ExpoApprox<1> >(d);}
+    else if (covType.compare("rational2four") == 0) {return new CorrGauss<ExpoApprox<2> >(d);}
+    else if (covType.compare("rational1four") == 0) {return new CorrExp<ExpoApprox<2> >(d);}
     //
     // --- temporary, legacy kernels for benchmarks and compatibility
     else if (covType.compare("gauss.legacy")==0) {return new CorrGauss<Expo>(d);}
@@ -630,6 +636,30 @@ public:
 };
 
 } //end namespace nestedKrig
+
+//======================================== exports, outside namespace
+//[[Rcpp::export]]
+arma::mat getCorrMatrix(arma::mat X, arma::vec param, std::string covType) {
+  using namespace nestedKrig;
+  const long d= X.n_cols;
+  const Covariance::NuggetVector emptyNugget{};
+  const CovarianceParameters covParams(d, param, 1.0, covType);
+  const Covariance kernel(covParams);
+  arma::mat K;
+  kernel.fillCorrMatrix(K, Points(X, covParams), emptyNugget);
+  return K;
+}
+
+//[[Rcpp::export]]
+arma::mat getCrossCorrMatrix(arma::mat X1, arma::mat X2, arma::vec param, std::string covType) {
+  using namespace nestedKrig;
+  const long d= X1.n_cols;
+  const CovarianceParameters covParams(d, param, 1.0, covType);
+  const Covariance kernel(covParams);
+  arma::mat K;
+  kernel.fillCrossCorrelations(K, Points(X1, covParams), Points(X2, covParams));
+  return K;
+}
 
 #endif /* COVARIANCE_HPP */
 

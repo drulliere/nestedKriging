@@ -642,6 +642,53 @@ Test testKernelGaussWithNugget() {
   return test;
 }
 
+Test testGetCorrMatrix() {
+	Test test("I_ getCorrMatrix and getCrossCorrMatrix");
+  arma::mat X1("1.1 1.2 1.3; 3.1 3.2 3.3; 4.1 4.2 4.3");
+  arma::vec param("1.2 0.9 1.1");
+  arma::rowvec delta = arma::abs((X1.row(1)-X1.row(2))/param.t());
+  
+  double d1 = arma::accu(delta);
+  double d2 = arma::accu(arma::pow(delta,2));
+  
+  arma::mat K1gauss = getCorrMatrix(X1, param, "gauss");
+  arma::mat K1exp = getCorrMatrix(X1, param, "exp");
+  arma::mat K1rational1 = getCorrMatrix(X1, param, "rational1");
+  arma::mat K1rational2 = getCorrMatrix(X1, param, "rational2");
+  test.assertClose(K1gauss(1,2), std::exp(-0.5*d2), "K1gauss");
+  test.assertClose(K1exp(1,2), std::exp(-d1), "K1exp");
+  test.assertClose(K1rational1(1,2), 1/(1+d1), "K1rational1");
+  test.assertClose(K1rational2(1,2), 1/(1+0.5*d2), "K1rational2");
+  arma::mat K11gauss = getCrossCorrMatrix(X1, X1, param, "gauss");
+  test.assertCloseValues(K1gauss,K11gauss, "when X1=X2, cross corr is corr");
+  
+	return test;
+}
+
+Test testPowerExpKernel() {
+  Test test("I_ powerExp kernel");
+  arma::mat X1("1.1 1.2 1.3; 3.1 3.2 3.3; 4.1 4.2 4.3");
+  arma::vec param("1.2 0.9 1.1");
+  arma::vec paramPowA("1.2 0.9 1.1 2 2 2");
+  arma::vec paramPowB("1.2 0.9 1.1 1 1 1");
+  arma::rowvec delta = arma::abs((X1.row(1)-X1.row(2))/param.t());
+  arma::mat K1gauss = getCorrMatrix(X1, param/std::sqrt(2.0), "gauss");
+  arma::mat K1exp = getCorrMatrix(X1, param, "exp");
+  arma::mat K1powA = getCorrMatrix(X1, paramPowA, "powexp");
+  arma::mat K1powB = getCorrMatrix(X1, paramPowB, "powexp");
+  test.assertCloseValues(K1gauss, K1powA, "if powers equal 2, pow=scaled gauss");  
+  test.assertCloseValues(K1exp, K1powB, "if powers equal 1, pow=exp");  
+  arma::vec powers("2.3 2.6 2.8");
+  arma::vec paramPowC= arma::join_cols(param, powers);
+  arma::mat K1powC = getCorrMatrix(X1, paramPowC, "powexp");
+  double dist = std::pow(delta[0], powers[0]);
+  dist += std::pow(delta[1], powers[1]);
+  dist += std::pow(delta[2], powers[2]);
+  test.assertClose(K1powC(1,2), exp(-dist), "powexp = manual calculation");
+  return test;
+}
+
+
 Test testRetrieveCorrFromCrossCorr() {
   Test test("I_ CrossCorr Matrix(X,X) = Corr (covariance.h)");
   CaseStudy myCase(1, "gauss");
@@ -1744,6 +1791,8 @@ Rcpp::List runAllTests(bool showSuccess=false, bool debugMode=false) {
     test.append(testApproxTools());
     test.append(testKernelGaussDimTwo());
     test.append(testKernelGaussWithNugget());
+	  test.append(testGetCorrMatrix());
+	  test.append(testPowerExpKernel());
     test.append(testRetrieveCorrFromCrossCorr());
     test.append(testCorrWithEquivalentNuggets());
     test.append(testKernelIdenticalNicolas());
