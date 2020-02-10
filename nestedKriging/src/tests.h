@@ -1467,7 +1467,7 @@ Test testWithRotatedPredPoints() {
 
 Test testInterpolating() {
   Test test("III_ testInterpolating");
-  test.setPrecision(1e-8, 4e-12);
+  test.setPrecision(1e-7, 4e-12);
   for(Long caseIndex=1; caseIndex< 8; ++caseIndex) {
     test.createSection("case "+std::to_string(caseIndex));
     CaseStudy myCase(caseIndex, "matern5_2");
