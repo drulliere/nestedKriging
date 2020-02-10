@@ -639,7 +639,8 @@ public:
 
 //======================================== exports, outside namespace
 //[[Rcpp::export]]
-arma::mat getCorrMatrix(arma::mat X, arma::vec param, std::string covType) {
+arma::mat getCorrMatrix(const arma::mat& X, const arma::vec& param, const std::string& covType) {
+try{
   using namespace nestedKrig;
   const long d= X.n_cols;
   const Covariance::NuggetVector emptyNugget{};
@@ -649,9 +650,15 @@ arma::mat getCorrMatrix(arma::mat X, arma::vec param, std::string covType) {
   kernel.fillCorrMatrix(K, Points(X, covParams), emptyNugget);
   return K;
 }
+catch(const std::exception &e) {
+  nestedKrig::Screen::error("error in getCorrMatrix", e);
+  return arma::mat{};
+}
+}
 
 //[[Rcpp::export]]
-arma::mat getCrossCorrMatrix(arma::mat X1, arma::mat X2, arma::vec param, std::string covType) {
+arma::mat getCrossCorrMatrix(const arma::mat& X1, const arma::mat& X2, const arma::vec& param, const std::string& covType) {
+try{
   using namespace nestedKrig;
   const long d= X1.n_cols;
   const CovarianceParameters covParams(d, param, 1.0, covType);
@@ -659,6 +666,11 @@ arma::mat getCrossCorrMatrix(arma::mat X1, arma::mat X2, arma::vec param, std::s
   arma::mat K;
   kernel.fillCrossCorrelations(K, Points(X1, covParams), Points(X2, covParams));
   return K;
+}
+catch(const std::exception &e) {
+  nestedKrig::Screen::error("error in getCrossCorrMatrix", e);
+  return arma::mat{};
+}
 }
 
 #endif /* COVARIANCE_HPP */

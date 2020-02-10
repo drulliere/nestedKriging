@@ -19,6 +19,7 @@ extern SEXP _nestedKriging_tests_run(SEXP, SEXP);
 extern SEXP _nestedKriging_versionInfo(SEXP);
 extern SEXP _nestedKriging_getCorrMatrix(SEXP, SEXP, SEXP, SEXP);
 extern SEXP _nestedKriging_getCrossCorrMatrix(SEXP, SEXP, SEXP);
+extern SEXP _nestedKriging_getKrigingPrediction(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
   {"_nestedKriging_nestedKrigingDirect", (DL_FUNC) &_nestedKriging_nestedKrigingDirect, 15},
@@ -31,6 +32,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"_nestedKriging_versionInfo",         (DL_FUNC) &_nestedKriging_versionInfo,          1},
   {"_nestedKriging_getCorrMatrix",       (DL_FUNC) &_nestedKriging_getCorrMatrix,    3},
   {"_nestedKriging_getCrossCorrMatrix",       (DL_FUNC) &_nestedKriging_getCrossCorrMatrix,    4},
+  {"_nestedKriging_getKrigingPrediction",     (DL_FUNC) &_nestedKriging_getKrigingPrediction,    6},
   {NULL, NULL, 0}
 };
 

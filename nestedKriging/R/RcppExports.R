@@ -9,6 +9,10 @@ getCrossCorrMatrix <- function(X1, X2, param, covType) {
     .Call(`_nestedKriging_getCrossCorrMatrix`, X1, X2, param, covType)
 }
 
+getKrigingPrediction <- function(X, Y, x, param, covType, krigingType = "simple") {
+    .Call(`_nestedKriging_getKrigingPrediction`, X, Y, x, param, covType, krigingType)
+}
+
 versionInfo <- function(outputLevel = 0L) {
     .Call(`_nestedKriging_versionInfo`, outputLevel)
 }

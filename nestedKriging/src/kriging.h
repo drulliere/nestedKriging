@@ -83,7 +83,6 @@ public:
 
   virtual void fillResults(arma::mat& weights, arma::rowvec& mean_M, std::vector<double>& cov_MY, std::vector<double>& cov_MM) const =0;
   virtual void fillResults(arma::vec& weights, double& mean_M, double& cov_MY, double& cov_MM)  const =0;
-
 };
 
 //-----------------------------------------------------------------------------
@@ -292,10 +291,58 @@ public:
     else
       fillResultsImplementation< SimpleKrigingPredictor > (weights, mean_M, cov_MY, cov_MM);
   }
-
-
 };
-
 } //end namespace
+
+//======================================== exports, outside namespace
+//[[Rcpp::export]]
+Rcpp::List getKrigingPrediction(const arma::mat& X, const arma::rowvec& Y, const arma::mat& x, const arma::vec& param, const std::string& covType, const std::string krigingType = "simple") {
+try{
+  using namespace nestedKrig;
+  bool ordinaryKriging;
+  if (krigingType=="simple") ordinaryKriging = false;
+  else if (krigingType=="ordinary") ordinaryKriging = true;
+  else { 
+    throw std::runtime_error("kriging type must be either 'simple' or 'ordinary'");
+  }
+
+  const Covariance::NuggetVector emptyNugget{};
+  const CovarianceParameters covParams(X.n_cols, param, 1.0, covType);
+  const Covariance kernel(covParams);
+  
+  arma::mat K, k;
+  const Points pointsX(X, covParams);
+  kernel.fillCorrMatrix(K, pointsX, emptyNugget);
+  kernel.fillCrossCorrelations(k, pointsX, Points(x, covParams));
+
+  Long q=x.n_rows, n=X.n_rows;
+  arma::mat weights(n,q);
+  arma::rowvec mean_M(q); 
+  std::vector<double> cov_MY(q); 
+  std::vector<double> cov_MM(q);
+
+  ChosenPredictor predictor(K, k, Y, ordinaryKriging);
+  predictor.fillResults(weights, mean_M, cov_MY, cov_MM);
+  
+  arma::rowvec krigVariance(q); // a adapter si ordinary Kriging
+  for(Long m = 0; m < q; ++m) krigVariance[m] = std::max(0.0, 1.0 + cov_MM[m] - 2 * cov_MY[m]);
+
+  return Rcpp::List::create(
+      Rcpp::Named("mean") = mean_M,
+      Rcpp::Named("unitVariance") = krigVariance
+  );
+} catch(const std::exception &e) {
+  nestedKrig::Screen::error("error in getKrigingPrediction", e);
+  return Rcpp::List::create(
+    Rcpp::Named("error") = e.what()
+  );
+}
+
+
+
+}
+
+
+
 #endif /* KRIGING_HPP */
 

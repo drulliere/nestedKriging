@@ -7,29 +7,45 @@
 using namespace Rcpp;
 
 // getCorrMatrix
-arma::mat getCorrMatrix(arma::mat X, arma::vec param, std::string covType);
+arma::mat getCorrMatrix(const arma::mat& X, const arma::vec& param, const std::string& covType);
 RcppExport SEXP _nestedKriging_getCorrMatrix(SEXP XSEXP, SEXP paramSEXP, SEXP covTypeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type X(XSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type param(paramSEXP);
-    Rcpp::traits::input_parameter< std::string >::type covType(covTypeSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type X(XSEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type param(paramSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type covType(covTypeSEXP);
     rcpp_result_gen = Rcpp::wrap(getCorrMatrix(X, param, covType));
     return rcpp_result_gen;
 END_RCPP
 }
 // getCrossCorrMatrix
-arma::mat getCrossCorrMatrix(arma::mat X1, arma::mat X2, arma::vec param, std::string covType);
+arma::mat getCrossCorrMatrix(const arma::mat& X1, const arma::mat& X2, const arma::vec& param, const std::string& covType);
 RcppExport SEXP _nestedKriging_getCrossCorrMatrix(SEXP X1SEXP, SEXP X2SEXP, SEXP paramSEXP, SEXP covTypeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type X1(X1SEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type X2(X2SEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type param(paramSEXP);
-    Rcpp::traits::input_parameter< std::string >::type covType(covTypeSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type X1(X1SEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type X2(X2SEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type param(paramSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type covType(covTypeSEXP);
     rcpp_result_gen = Rcpp::wrap(getCrossCorrMatrix(X1, X2, param, covType));
+    return rcpp_result_gen;
+END_RCPP
+}
+// getKrigingPrediction
+Rcpp::List getKrigingPrediction(const arma::mat& X, const arma::rowvec& Y, const arma::mat& x, const arma::vec& param, const std::string& covType, const std::string krigingType);
+RcppExport SEXP _nestedKriging_getKrigingPrediction(SEXP XSEXP, SEXP YSEXP, SEXP xSEXP, SEXP paramSEXP, SEXP covTypeSEXP, SEXP krigingTypeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::mat& >::type X(XSEXP);
+    Rcpp::traits::input_parameter< const arma::rowvec& >::type Y(YSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type param(paramSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type covType(covTypeSEXP);
+    Rcpp::traits::input_parameter< const std::string >::type krigingType(krigingTypeSEXP);
+    rcpp_result_gen = Rcpp::wrap(getKrigingPrediction(X, Y, x, param, covType, krigingType));
     return rcpp_result_gen;
 END_RCPP
 }

@@ -324,7 +324,7 @@ public:
   std::vector<arma::mat> KM;    // q items, each = NxN cov matrix between Mi(x)
   std::vector<arma::vec> kM;    // q items, each = Nx1 cov vector between Mi(x) and Y(x)
   std::vector<arma::vec> mean_M;   // q items, each = Nx1 prediction mean vector E[ Mi(x) | Y(X)=y]
-  std::vector<arma::vec> sd2_M;   // q items, each = Nx1 prediction sd2 vector var[ Mi(x) | Y(X)=y]
+  std::vector<arma::vec> sd2_M;   // q items, each = Nx1 prediction sd2 vector var[ Mi(x)-Y(X) ]
   std::vector<arma::mat> alpha;  // N items, each = ni x q matrix of weights: columns give weigths for each pred point in the submodel
   arma::mat weights;             // q columns, each = Nx1 weigts between submodels (N x q matrix)
 
@@ -713,7 +713,8 @@ void partC_agregateFirstLayer() {
     out.predsd2(m) = std::max(0.0 , sd2* (1 - arma::dot(weightsColm, out.kM[m])));
   }
   if (out.requiredByUser.predictionBySubmodel()) {
-    for(Long m = 0; m < q; ++m) out.sd2_M[m] = sd2* (1 - arma::diagvec(out.KM[m]));
+    //for(Long m = 0; m < q; ++m) out.sd2_M[m] = sd2* (1 - arma::diagvec(out.KM[m])); //Simple Kriging only
+    for(Long m = 0; m < q; ++m) out.sd2_M[m] = sd2* (1 + arma::diagvec(out.KM[m]) - 2* out.kM[m]);
   }
   chrono.print("Part C, aggregation first layer: done.");
 }
