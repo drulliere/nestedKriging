@@ -644,23 +644,28 @@ void partB_interGroupCovariance_WithCov() {
   // we have arma::diagvec(out.KKM[m1][m2])=out.kkM[m1][m1] in simpleKriging case only
   ProgressBar<ShowProgress> progressBar(chrono, N*(N+1)/2, verboseLevel);
   parallelism.switchToContext<Parallelism::innerContext>();
-  #pragma omp parallel for schedule(CHOSEN_SCHEDULE, CHOSEN_CHUNKSIZE) collapse(2)
-    for(Long i=0; i<N; ++i)
-      for(Long j=0; j<N; ++j) {
-        if (i<=j) { //caution, j must start at 0 if modified into (i<=j)
-          arma::mat Kij(submodels.splittedX[i].size(), submodels.splittedX[j].size()); // ni x nj
+#pragma omp parallel for schedule(CHOSEN_SCHEDULE, CHOSEN_CHUNKSIZE) collapse(2)
+  for(Long i=0; i<N; ++i)
+    for(Long j=0; j<N; ++j) {
+      if (i<=j) { //caution, j must start at 0 if modified into (i<=j)
+        arma::mat Kij(submodels.splittedX[i].size(), submodels.splittedX[j].size()); // ni x nj
+        if (i==j) // needs to take nugget into account here
+          kernel.fillAllocatedCorrMatrix(Kij, submodels.splittedX[i], submodels.splittedNuggets[i]);
+        else 
           kernel.fillAllocatedCrossCorrelations(Kij, submodels.splittedX[i], submodels.splittedX[j]);
-          arma::mat Zij {  Kij * out.alpha[j] }; // Zij has size ni x q
-          for(Long m1=0; m1<q; ++m1)
-            for(Long m2=0; m2<q; ++m2)
-              out.KKM[m1][m2].at(i,j) = out.KKM[m2][m1].at(j,i) = arma::dot(out.alpha[i].col(m1), Zij.col(m2));
-              //caution, swap both m1, m2 and i,j as cov[Mi(x), Mj(x')]=cov[Mj(x'),Mi(x)]
-          progressBar.next();
-          }
-        }
-  for(Long m=0;m<q;++m) out.KM[m] = out.KKM[m][m]; //avoidable copy if selected use of KKM or KM
-  chrono.print("Part B with cross-cov, inter-groups covariances: done.");
+        
+        arma::mat Zij {  Kij * out.alpha[j] }; // Zij has size ni x q
+        for(Long m1=0; m1<q; ++m1)
+          for(Long m2=0; m2<q; ++m2)
+            out.KKM[m1][m2].at(i,j) = out.KKM[m2][m1].at(j,i) = arma::dot(out.alpha[i].col(m1), Zij.col(m2));
+            //caution, swap both m1, m2 and i,j as cov[Mi(x), Mj(x')]=cov[Mj(x'),Mi(x)]
+        progressBar.next();
+      }
+    }
+    for(Long m=0;m<q;++m) out.KM[m] = out.KKM[m][m]; //avoidable copy if selected use of KKM or KM
+    chrono.print("Part B with cross-cov, inter-groups covariances: done.");
 }
+
 
 template <int ShowProgress>
 void partB_interGroupCovariance_WithoutCov() {
