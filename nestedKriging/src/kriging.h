@@ -13,19 +13,18 @@
 
 namespace nestedKrig {
 
-//============================== Linear Solvers
-// choice of solver for linear systems (e.g. Cholesky / Inversion of Cov matrix / linear solver)
-// please choose by setting: using ChosenSolver = (YourChosenClass) ; (see below)
+//============================== Available Linear Solvers
+// catalogue of available methods for solving linear systems (e.g. Cholesky / Inversion of Cov matrix / linear solver)
 // solve matrix equation K * alpha = k in alpha
+// not used directly in nestedKriging, but via ChosenSolver
 
-enum class SolverChoice { InvSympd, Cholesky, Solve };
-#define CHOSEN_SOLVER SolverChoice::Solve
+enum class SolverMethod { InvSympd, Cholesky, Solve, SafeSolve };
 
-template <SolverChoice SOLVER>
+template <SolverMethod SOLVER>
 struct LinearSolver { };
 
 template <>
-struct LinearSolver<SolverChoice::InvSympd> {
+struct LinearSolver<SolverMethod::InvSympd> {
   static void findWeights(const arma::mat& K, const arma::mat& k, arma::mat& alpha)  {
     Long sizeK = K.n_rows;
     arma::mat Kinv(sizeK,sizeK);
@@ -35,7 +34,7 @@ struct LinearSolver<SolverChoice::InvSympd> {
 };
 
 template <>
-struct LinearSolver<SolverChoice::Cholesky>  {
+struct LinearSolver<SolverMethod::Cholesky>  {
   static void findWeights(const arma::mat& K, const arma::mat& k, arma::mat& alpha)  {
     arma::mat R = chol(K);
     arma::mat z = arma::solve(arma::trimatl(R.t()), k, arma::solve_opts::fast);
@@ -44,7 +43,7 @@ struct LinearSolver<SolverChoice::Cholesky>  {
 };
 
 template <>
-struct LinearSolver<SolverChoice::Solve>  {
+struct LinearSolver<SolverMethod::Solve>  {
   static void findWeights(const arma::mat& K, const arma::mat& k, arma::mat& alpha)  {
     alpha.set_size(K.n_rows,k.n_cols);
     //#pragma omp critical
@@ -52,8 +51,51 @@ struct LinearSolver<SolverChoice::Solve>  {
   }
 };
 
+template <>
+struct LinearSolver<SolverMethod::SafeSolve>  {
+  static void findWeights(const arma::mat& K, const arma::mat& k, arma::mat& alpha)  {
+    alpha.set_size(K.n_rows,k.n_cols);
+    //#pragma omp critical
+    {  arma::solve(alpha, K, k, arma::solve_opts::likely_sympd + arma::solve_opts::equilibrate + arma::solve_opts::allow_ugly + arma::solve_opts::no_approx);}
+  }
+};
 
-using ChosenSolver = LinearSolver<CHOSEN_SOLVER>;
+//============================================================================
+// Chosen Solver, depending on SolverOptions
+// chosen solver can differ, depending on required safety (higher in PartC)
+// and depending on the number of columns of k (number of prediction points) 
+// e.g. q=1, q<=n, q>n
+
+enum class SolverOption { OnePoint, OnePointSafe, SeveralPoints };
+
+template <SolverOption OPTION>
+struct ChosenSolver {};
+
+template<> 
+struct ChosenSolver<SolverOption::OnePoint> {
+  inline static void findWeights(const arma::mat& K, const arma::mat& k, arma::mat& alpha) {
+    LinearSolver<SolverMethod::Solve>::findWeights(K, k, alpha);  
+  }
+};
+
+template<> 
+struct ChosenSolver<SolverOption::OnePointSafe> {
+  inline static void findWeights(const arma::mat& K, const arma::mat& k, arma::mat& alpha) {
+    LinearSolver<SolverMethod::SafeSolve>::findWeights(K, k, alpha);  
+  }
+};
+
+template<>
+struct ChosenSolver<SolverOption::SeveralPoints> {
+  inline static void findWeights(const arma::mat& K, const arma::mat& k, arma::mat& alpha) {
+    if (k.n_cols<=K.n_rows) {         // q<=n => use Solve
+      LinearSolver<SolverMethod::Solve>::findWeights(K, k, alpha);  
+    } else {                         // q>n => use InvSympd
+      LinearSolver<SolverMethod::InvSympd>::findWeights(K, k, alpha);  
+    }
+  }
+};
+
 
 //============================================================================
 // Kriging predictors: from covariances (K, k) and observations Y
@@ -101,7 +143,7 @@ public:
   virtual void fillResults(arma::vec& weights, double& mean_M, double& cov_MY, double& cov_MM)  const override{
     // in the case where k is a column vector, one prediction point: q=1
     if (knownInverse) weights = knownKinv * k;
-    else ChosenSolver::findWeights(K, k, weights);
+    else ChosenSolver<SolverOption::OnePoint>::findWeights(K, k, weights);
     mean_M = arma::dot(Y.t(),weights);
     cov_MM = cov_MY = arma::dot(k,  weights);
   }
@@ -109,7 +151,7 @@ public:
   virtual void fillResults(arma::mat& weights, arma::rowvec& mean_M, std::vector<double>& cov_MY, std::vector<double>& cov_MM) const override {
     // in the case where k is a matrix, several prediction points: q>1
     if (knownInverse) weights = knownKinv * k;
-    else ChosenSolver::findWeights(K, k, weights);
+    else ChosenSolver<SolverOption::SeveralPoints>::findWeights(K, k, weights);
     mean_M = Y * weights;
     for(Long m=0;m<q;++m) {
       cov_MM[m] = cov_MY[m] = arma::dot(k.col(m),  weights.col(m));

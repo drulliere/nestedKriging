@@ -712,7 +712,7 @@ void partC_agregateFirstLayer() {
   //#pragma omp parallel for schedule(static, 1) if (q>50) //avoid dynamic for Loo repeated calls
   for(Long m = 0; m < q; ++m) {
     arma::mat weightsColm(N,1);
-    ChosenSolver::findWeights(out.KM[m], out.kM[m], weightsColm);
+    ChosenSolver<SolverOption::OnePointSafe>::findWeights(out.KM[m], out.kM[m], weightsColm);
     if (storeWeights) out.weights.col(m) = weightsColm;
     out.predmean(m) = arma::dot( weightsColm, out.mean_M[m] );
     out.predsd2(m) = std::max(0.0 , sd2* (1 - arma::dot(weightsColm, out.kM[m])));
@@ -978,7 +978,9 @@ const Long optimLevel = 0
   screen.print(parallelism.informationString(), tagAlgo);
 
   parallelism.setThreadsNumber<Parallelism::outerContext>(numThreadsZones);
-  Long q=xSelected.n_rows;
+  Long q=xSelected.n_rows, n=X.n_rows;
+  if (q>n) screen.warning("more prediction points than observations, q>n, bad situation for nestedKriging");
+
   parallelism.boundThreadsNumber<Parallelism::outerContext>(q);
   Long threadsZone=static_cast<Long>(numThreadsZones);
 
