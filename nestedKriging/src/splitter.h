@@ -69,13 +69,14 @@ protected:
     rankByPositiveValue.resize(Nmax, 0);
     count_ByRank.resize(Nmax, 0);
     Long rank=0;
-    for(Long i=0; i<Nmax; ++i)
+    for(Long i=0; i<Nmax; ++i) {
       if (count_ByPositiveValue[i]>0) {
         rankByPositiveValue[i]=rank;
         count_ByRank[rank]=count_ByPositiveValue[i];
         ++rank;
       }
-      count_ByRank.resize(rank);
+    }
+    count_ByRank.resize(rank);
   }
 
 public:

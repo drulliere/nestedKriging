@@ -89,9 +89,11 @@ const arma::vec nugget = Rcpp::NumericVector::create(0)
 {
 // Rcpp seems not allowing export of default value for other arma or std vector, thus the use of IntegerVector
   try {
-      bool OrdinaryKriging = (krigingType=="ordinary");
+      //bool OrdinaryKriging = (krigingType=="ordinary");
+      nestedKrig::KrigingTypeByLayer krigingTypeByLayer{krigingType};
+    
       std::vector<signed long> noCrossValidationIndices{};
-      return nestedKrig::nested_kriging(X, Y, clusters, x, covType, param, sd2, OrdinaryKriging, tagAlgo, numThreadsZones, numThreads, verboseLevel, outputLevel, noCrossValidationIndices, globalOptions, nugget);
+      return nestedKrig::nested_kriging(X, Y, clusters, x, covType, param, sd2, krigingTypeByLayer, tagAlgo, numThreadsZones, numThreads, verboseLevel, outputLevel, noCrossValidationIndices, globalOptions, nugget);
   }
   catch(const std::exception& e) {
       return Rcpp::List::create(Rcpp::Named("Exception") = e.what());
@@ -121,9 +123,11 @@ Rcpp::List looErrors(
 {
   // Rcpp seems not allowing export of default value for other arma or std vector, thus the use of IntegerVector
   try {
-    bool OrdinaryKriging = (krigingType=="ordinary");
+    //bool OrdinaryKriging = (krigingType=="ordinary");
+    nestedKrig::KrigingTypeByLayer krigingTypeByLayer{krigingType};
+    
     arma::mat empty_x{};
-    return nestedKrig::nested_kriging(X, Y, clusters, empty_x, covType, param, sd2, OrdinaryKriging, tagAlgo, numThreadsZones, numThreads, verboseLevel, outputLevel, indices, globalOptions, nugget, method);
+    return nestedKrig::nested_kriging(X, Y, clusters, empty_x, covType, param, sd2, krigingTypeByLayer, tagAlgo, numThreadsZones, numThreads, verboseLevel, outputLevel, indices, globalOptions, nugget, method);
       }
   catch(const std::exception& e) {
     return Rcpp::List::create(Rcpp::Named("Exception") = e.what());
@@ -218,10 +222,12 @@ Rcpp::List looErrorsDirect(
 )
   {
   try{
-    bool OrdinaryKriging = (krigingType=="ordinary");
+    //bool OrdinaryKriging = (krigingType=="ordinary");
+    nestedKrig::KrigingTypeByLayer krigingTypeByLayer{krigingType};
+    
     arma::mat empty_x{};
     nestedKrig::Long optimLevel = 1;
-    return nestedKrig::nested_kriging(X, Y, clusters, empty_x, covType, param, sd2, OrdinaryKriging, tagAlgo, numThreadsZones, numThreads, verboseLevel, outputLevel, indices, globalOptions, nugget, method, optimLevel);
+    return nestedKrig::nested_kriging(X, Y, clusters, empty_x, covType, param, sd2, krigingTypeByLayer, tagAlgo, numThreadsZones, numThreads, verboseLevel, outputLevel, indices, globalOptions, nugget, method, optimLevel);
     }
     catch(const std::exception& e){
       return Rcpp::List::create(Rcpp::Named("Exception") = e.what());

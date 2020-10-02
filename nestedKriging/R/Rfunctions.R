@@ -5,7 +5,7 @@ return(c("rational1", "rational2", "exp", "exp.approx", "gauss", "gauss.approx",
 }
 
 .checkModel <- function(X, Y, clusters, krigingType, nugget) {
-  if (class(X)!="matrix") stop("'X' must be a matrix")
+  if (!is.matrix(X)) stop("'X' must be a matrix")
   if ((nrow(X)<1)||(ncol(X)<1)) stop("'X' must have at least one raw and one column")
   if (!is.numeric(X)) stop("'X' must contain numeric values")
   if (!all(is.finite(X))) stop("'X' must contain finite values")
@@ -23,7 +23,7 @@ return(c("rational1", "rational2", "exp", "exp.approx", "gauss", "gauss.approx",
   if (!(length(clusters)==nrow(X))) stop("'clusters' must have the same length as the number of rows in X")
   clusters <- as.integer(round(clusters,0))
 
-  validKrigingType = c("simple", "ordinary")
+  validKrigingType = c("simple", "ordinary", "OKSK", "SKOK", "SKSK", "OKOK")
   if(class(krigingType)!="character") stop("'krigingType' must be one of the following:", paste(validKrigingType, collapse=", ") )
   if(!(krigingType) %in% validKrigingType) stop("'krigingType' must be one of the following:", paste(validKrigingType, collapse=", ") )
 
@@ -70,7 +70,7 @@ return(c("rational1", "rational2", "exp", "exp.approx", "gauss", "gauss.approx",
 }
 
 .checkPredPoints <- function(x, expectedColumns) {
-  if (class(x)!="matrix") stop("'x' must be a matrix")
+  if (!is.matrix(x)) stop("'x' must be a matrix")
   if ((nrow(x)<1)||(ncol(x)<1)) stop("'x' must have at least one raw and one column")
   if (!is.numeric(x)) stop("'x' must contain numeric values")
   if (!all(is.finite(x))) stop("'x' must contain finite values")

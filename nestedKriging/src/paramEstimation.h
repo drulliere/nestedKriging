@@ -72,7 +72,9 @@ Rcpp::List estimParamCpp(
 {
   using Parameter = arma::vec;
   // Initializations
-  bool ordinaryKriging = (krigingType=="ordinary");
+  //bool ordinaryKriging = (krigingType=="ordinary");
+  const KrigingTypeByLayer krigingTypeByLayer{ krigingType };
+  
   const Screen screen(verboseLevel);
 
   int noVerbose = -1;
@@ -151,14 +153,14 @@ Rcpp::List estimParamCpp(
 
     // computation of the LOO errors and extracts the LOO-MSE
     paramPlus = exp( log(paramCurrent) + deltaiDeltai) ;
-    Algo algoPlus(parallelism, X, Y, splitter, xSelected, paramPlus, sd2, ordinaryKriging, covType, tagAlgo, noVerbose,
+    Algo algoPlus(parallelism, X, Y, splitter, xSelected, paramPlus, sd2, krigingTypeByLayer, covType, tagAlgo, noVerbose,
                   outputLevel, nugget, screenWithin, options, looScheme);
     LOOMSEplus = algoPlus.output().getDefaultLOOError(looScheme);
     bestParameterSoFar.observedParameter(paramPlus, LOOMSEplus);
 
     // computation of the LOO errors and extracts the LOO-MSE
     paramMinus = exp( log(paramCurrent) - deltaiDeltai) ;
-    Algo algoMinus(parallelism, X, Y, splitter, xSelected, paramMinus, sd2, ordinaryKriging, covType, tagAlgo, noVerbose,
+    Algo algoMinus(parallelism, X, Y, splitter, xSelected, paramMinus, sd2, krigingTypeByLayer, covType, tagAlgo, noVerbose,
                    outputLevel, nugget, screenWithin, options, looScheme);
     LOOMSEminus = algoMinus.output().getDefaultLOOError(looScheme);
     bestParameterSoFar.observedParameter(paramMinus, LOOMSEminus);

@@ -1,7 +1,7 @@
 Package: nestedKriging
 Type: Package
 Title: Nested Kriging Predictions for Large Datasets
-Version: 0.1.9
+Version: 0.2.0
 Author: Didier Rullière, Clément Chevalier. Contributors: Nicolas Durrande, François Bachoc.
 Maintainer: Didier Rullière <didier.rulliere@univ-lyon1.fr>
 Description: Compute nested Kriging mean and variance predictions, based on submodels aggregation. Allows to deal with larger number of observations than classical Kriging techniques.

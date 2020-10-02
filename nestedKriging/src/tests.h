@@ -211,6 +211,7 @@ public:
   ClusterVector gp{};
   std::string tag = "";
   bool ordinaryKriging = false;
+  KrigingTypeByLayer krigingTypeByLayer{"simple"};
   Indices indices{};
 
   CaseStudy() {}
@@ -240,11 +241,16 @@ public:
       goodExample = createGpSize(gp_arma);
     }
     while (!goodExample);
+
+    if (ordinaryKriging) krigingTypeByLayer=KrigingTypeByLayer{"ordinary"};
+    else krigingTypeByLayer=KrigingTypeByLayer{"simple"};
+    
     gp = arma::conv_to<ClusterVector>::from(gp_arma);
   }
 
   void setSimpleKriging() {
     ordinaryKriging=false;
+    krigingTypeByLayer=KrigingTypeByLayer{"simple"};
   }
 
   void setGroupsN_equals_1() { //change gp to one unique group
@@ -317,7 +323,7 @@ Rcpp::List launchOurAlgo(CaseStudy& cas, Long numThreadsZ=1, Long numThreadsG=1)
   Long outputLevel=2;
   Indices noCrossValidationIndices{};
   resu=nested_kriging(cas.X, cas.Y, cas.gp, cas.x, cas.covType, cas.param, cas.sd2,
-                        cas.ordinaryKriging, "test", numThreadsZ, numThreadsG, verboseLevel, outputLevel, noCrossValidationIndices);
+                        cas.krigingTypeByLayer, "test", numThreadsZ, numThreadsG, verboseLevel, outputLevel, noCrossValidationIndices);
   return resu;
 }
 
@@ -329,7 +335,7 @@ double getLOOerror(CaseStudy& cas, Long numThreadsZ=1, Long numThreadsG=1) {
   parallelism.setThreadsNumber<Parallelism::outerContext>(1);
   parallelism.setThreadsNumber<Parallelism::innerContext>(4);
   Rcpp::List resu = nested_kriging(cas.X, cas.Y, cas.gp, emptyx, cas.covType, cas.param, cas.sd2,
-                      cas.ordinaryKriging, "test", numThreadsZ, numThreadsG, verboseLevel, outputLevel, cas.indices);
+                      cas.krigingTypeByLayer, "test", numThreadsZ, numThreadsG, verboseLevel, outputLevel, cas.indices);
   Rcpp::List resuDetail = resu["LOOErrors"];
   double value = resuDetail["looErrorNestedKriging"];
   return value;
@@ -347,7 +353,7 @@ Output getDetailedOutput(CaseStudy& cas, int outputLevel) {
   GlobalOptions options(Rcpp::IntegerVector {0});
   std::string tag="";
   LOOScheme looScheme{};
-  Algo algo(parallelism, cas.X, cas.Y, splitter, cas.x, cas.param, cas.sd2, cas.ordinaryKriging, cas.covType, tag,
+  Algo algo(parallelism, cas.X, cas.Y, splitter, cas.x, cas.param, cas.sd2, cas.krigingTypeByLayer, cas.covType, tag,
             verboseLevel, outputDetailLevel, noNugget, screen, options, looScheme);
   return algo.output();
 }
@@ -604,13 +610,13 @@ Test testKernelGaussDimTwo() {
   test.assertClose(K3.n_cols, myCase.x.n_rows, "K3.n_cols");
   double sd2 = myCase.sd2;
   arma::mat expectedSigma2K3(myCase.X.n_rows, myCase.x.n_rows), expectedSigma2K(myCase.X.n_rows, myCase.X.n_rows);
-   for(Long i=0; i<myCase.X.n_rows; ++i)
+   for(Long i=0; i<myCase.X.n_rows; ++i) {
     for(Long j=0; j<myCase.x.n_rows; ++j)
-      expectedSigma2K3(i,j) = slowGaussCovariance(myCase.X.row(i), myCase.x.row(j), theta, sd2);
+      expectedSigma2K3(i,j) = slowGaussCovariance(myCase.X.row(i), myCase.x.row(j), theta, sd2);}
       test.assertCloseValues(sd2* K3, expectedSigma2K3);
-    for(Long i=0; i<myCase.X.n_rows; ++i)
+    for(Long i=0; i<myCase.X.n_rows; ++i) {
       for(Long j=0; j<myCase.X.n_rows; ++j)
-          expectedSigma2K(i,j) = slowGaussCovariance(myCase.X.row(i), myCase.X.row(j), theta, sd2);
+          expectedSigma2K(i,j) = slowGaussCovariance(myCase.X.row(i), myCase.X.row(j), theta, sd2);}
       test.assertCloseValues(sd2* K, expectedSigma2K);
   return test;
 }
@@ -1701,7 +1707,7 @@ Test testIdenticalDiceKriging() {
   arma::vec meanGaussDiceCas1("3.010741 -1.084594");
   arma::vec sd2GaussDiceCas1("0.0026667431 0.0004412312");
   CaseStudy mycase(1, "gauss");
-  mycase.ordinaryKriging=false;
+  mycase.setSimpleKriging();
 
   test.createSection("case N=1, gauss");
   mycase.setGroupsN_equals_1();

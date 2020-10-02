@@ -57,7 +57,8 @@ Lengthscale parameters of the covariance kernel. \code{param} is a vector of siz
 Variance parameter of the covariance kernel. \code{sd2} is a scalar that gives the variance of the underlying random field. Impacts prediction variance, but not prediction mean.
 }
   \item{krigingType}{
-Optional. String that specifies if one must use ordinary Kriging or simple Kriging. \code{"simple"}: Simple Kriging, \code{"ordinary"}: Ordinary Kriging (for the first Layer only). Default=\code{"simple"}.
+Optional. String that specifies if one must use ordinary Kriging or simple Kriging. \code{"simple"}: Simple Kriging, \code{"ordinary"}: Ordinary Kriging (for the first Layer only, as "OKSK"). You can specify the Kriging type to apply to each layer of the algo, e.g. "SKOK" means that submodels are computed with simple kriging, and agregated by ordinary kriging.
+Default=\code{"simple"}.
 }
   \item{tagAlgo}{
 Optional. A string that will appear on output messages of the function. Useful to distinguish between outputs, or to check the progression of an algorithm that launches \code{nestedKriging} several times. Default=\code{""}.

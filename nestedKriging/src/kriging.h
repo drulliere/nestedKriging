@@ -14,7 +14,7 @@
 namespace nestedKrig {
 
 //============================== Available Linear Solvers
-// catalogue of available methods for solving linear systems (e.g. Cholesky / Inversion of Cov matrix / linear solver)
+// catalog of available methods for solving linear systems (e.g. Cholesky / Inversion of Cov matrix / linear solver)
 // solve matrix equation K * alpha = k in alpha
 // not used directly in nestedKriging, but via ChosenSolver
 
@@ -55,9 +55,14 @@ template <>
 struct LinearSolver<SolverMethod::SafeSolve>  {
   static void findWeights(const arma::mat& K, const arma::mat& k, arma::mat& alpha)  {
     alpha.set_size(K.n_rows,k.n_cols);
+#if (ARMA_VERSION_MAJOR>=10)||((ARMA_VERSION_MAJOR>=9)&&(ARMA_VERSION_MINOR > 500))
     //#pragma omp critical
     {  arma::solve(alpha, K, k, arma::solve_opts::likely_sympd + arma::solve_opts::equilibrate + arma::solve_opts::allow_ugly + arma::solve_opts::no_approx);}
-  }
+#else
+    //#pragma omp critical
+    {  arma::solve(alpha, K, k);}
+#endif
+      }
 };
 
 //============================================================================
@@ -95,7 +100,23 @@ struct ChosenSolver<SolverOption::SeveralPoints> {
     }
   }
 };
+//============================================================================
 
+struct KrigingType {
+  enum Type { simpleKriging, ordinaryKriging };
+  // UK to be implemented, requires a supplementary input matrix of regressors
+  Type type = simpleKriging;
+  
+  KrigingType() = default; 
+  
+  explicit KrigingType(const std::string& krigingType) {
+    if (krigingType == "SK") {type = simpleKriging;}
+    else if (krigingType == "simple") {type = simpleKriging;}
+    else if (krigingType == "OK") {type = ordinaryKriging;}
+    else if (krigingType == "ordinary") {type = ordinaryKriging;}
+    else throw(std::runtime_error("unknown kriging Type, e.g. should be 'simple' or 'ordinary'"));
+  }
+};
 
 //============================================================================
 // Kriging predictors: from covariances (K, k) and observations Y
@@ -121,7 +142,7 @@ public:
   KrigingPredictor(const arma::mat& K, const arma::mat& k, const type_Y& Y) : K(K), k(k), Y(Y), q(k.n_cols), knownKinv(empty), knownInverse(false) {}
   KrigingPredictor(const arma::mat& K, const arma::mat& Kinv, const arma::mat& k, const type_Y& Y) : K(K), k(k), Y(Y), q(k.n_cols), knownKinv(Kinv), knownInverse(true) {}
 
-  virtual ~KrigingPredictor() {}
+  virtual ~KrigingPredictor() {} 
 
   virtual void fillResults(arma::mat& weights, arma::rowvec& mean_M, std::vector<double>& cov_MY, std::vector<double>& cov_MM) const =0;
   virtual void fillResults(arma::vec& weights, double& mean_M, double& cov_MY, double& cov_MM)  const =0;
@@ -227,19 +248,32 @@ class ChosenPredictor {
   KrigingPredictor* krigingPredictor = nullptr;
 
 public:
-  ChosenPredictor(const arma::mat& K, const arma::mat& k, const type_Y& Y, const bool ordinaryKriging)  {
-    if (ordinaryKriging) {krigingPredictor=new OrdinaryKrigingPredictor(K, k, Y); }
-    else {krigingPredictor=new SimpleKrigingPredictor(K, k, Y); }
+  ChosenPredictor(const arma::mat& K, const arma::mat& k, const type_Y& Y, const KrigingType& krigingType)  {
+    switch (krigingType.type) {
+    case KrigingType::simpleKriging:   
+      krigingPredictor=new SimpleKrigingPredictor(K, k, Y);
+      break;
+    case KrigingType::ordinaryKriging:
+      krigingPredictor=new OrdinaryKrigingPredictor(K, k, Y);
+      break;
+    }
   }
-  ChosenPredictor(const arma::mat& K, const arma::mat& Kinv, const arma::mat& k, const type_Y& Y, const bool ordinaryKriging)  {
-    if (ordinaryKriging) {krigingPredictor=new OrdinaryKrigingPredictor(K, Kinv, k, Y); }
-    else {krigingPredictor=new SimpleKrigingPredictor(K, Kinv, k, Y); }
+  ChosenPredictor(const arma::mat& K, const arma::mat& Kinv, const arma::mat& k, const type_Y& Y, const KrigingType& krigingType)  {
+    switch (krigingType.type) {
+    case KrigingType::simpleKriging:   
+      krigingPredictor=new SimpleKrigingPredictor(K, Kinv, k, Y);
+      break;
+    case KrigingType::ordinaryKriging:
+      krigingPredictor=new OrdinaryKrigingPredictor(K, Kinv, k, Y);
+      break;
+    }
   }
-  ChosenPredictor(const arma::mat& K, const arma::mat& k, const type_Y& Y, const bool ordinaryKriging, const LOOExclusions&)
-    : ChosenPredictor(K,  k,  Y, ordinaryKriging) {}
+  
+  ChosenPredictor(const arma::mat& K, const arma::mat& k, const type_Y& Y, const KrigingType& krigingType, const LOOExclusions&)
+    : ChosenPredictor(K,  k,  Y, krigingType) {}
 
-  ChosenPredictor(const arma::mat& K, const arma::mat& Kinv, const arma::mat& k, const type_Y& Y, const bool ordinaryKriging, const LOOExclusions&)
-    : ChosenPredictor(K,  Kinv, k,  Y, ordinaryKriging) {}
+  ChosenPredictor(const arma::mat& K, const arma::mat& Kinv, const arma::mat& k, const type_Y& Y, const KrigingType& krigingType, const LOOExclusions&)
+    : ChosenPredictor(K,  Kinv, k,  Y, krigingType) {}
 
   ~ChosenPredictor() {
     delete krigingPredictor;
@@ -266,7 +300,7 @@ class ChosenLOOKrigingPredictor {
   const arma::mat& K;
   const arma::mat& k;
   const type_Y& Y;
-  const bool ordinaryKriging;
+  const KrigingType& krigingType;
   const LOOExclusions& looExclusions;
 
   struct LOOSubMatrices {
@@ -289,8 +323,8 @@ class ChosenLOOKrigingPredictor {
 public:
   ChosenLOOKrigingPredictor() = delete;
 
-  ChosenLOOKrigingPredictor(const arma::mat& K, const arma::mat& k, const type_Y& Y, bool ordinaryKriging, const LOOExclusions& looExclusions)
-    : K(K), k(k), Y(Y), ordinaryKriging(ordinaryKriging), looExclusions(looExclusions) {
+  ChosenLOOKrigingPredictor(const arma::mat& K, const arma::mat& k, const type_Y& Y, const KrigingType& krigingType, const LOOExclusions& looExclusions)
+    : K(K), k(k), Y(Y), krigingType(krigingType), looExclusions(looExclusions) {
   }
 
   template <typename PredictorType>
@@ -328,10 +362,14 @@ public:
   }
 
   virtual void fillResults(arma::mat& weights, arma::rowvec& mean_M, std::vector<double>& cov_MY, std::vector<double>& cov_MM) const {
-    if (ordinaryKriging)
-      fillResultsImplementation< OrdinaryKrigingPredictor > (weights, mean_M, cov_MY, cov_MM);
-    else
-      fillResultsImplementation< SimpleKrigingPredictor > (weights, mean_M, cov_MY, cov_MM);
+    switch (krigingType.type) {
+    case (KrigingType::ordinaryKriging):
+        fillResultsImplementation< OrdinaryKrigingPredictor > (weights, mean_M, cov_MY, cov_MM);
+        break;
+    case (KrigingType::simpleKriging):
+        fillResultsImplementation< SimpleKrigingPredictor > (weights, mean_M, cov_MY, cov_MM);
+        break;
+    }
   }
 };
 } //end namespace
@@ -341,12 +379,7 @@ public:
 Rcpp::List getKrigingPrediction(const arma::mat& X, const arma::rowvec& Y, const arma::mat& x, const arma::vec& param, const std::string& covType, const std::string krigingType = "simple") {
 try{
   using namespace nestedKrig;
-  bool ordinaryKriging;
-  if (krigingType=="simple") ordinaryKriging = false;
-  else if (krigingType=="ordinary") ordinaryKriging = true;
-  else { 
-    throw std::runtime_error("kriging type must be either 'simple' or 'ordinary'");
-  }
+  KrigingType krigingTypeObject(krigingType);
 
   const Covariance::NuggetVector emptyNugget{};
   const CovarianceParameters covParams(X.n_cols, param, 1.0, covType);
@@ -363,7 +396,7 @@ try{
   std::vector<double> cov_MY(q); 
   std::vector<double> cov_MM(q);
 
-  ChosenPredictor predictor(K, k, Y, ordinaryKriging);
+  ChosenPredictor predictor(K, k, Y, krigingTypeObject);
   predictor.fillResults(weights, mean_M, cov_MY, cov_MM);
   
   arma::rowvec krigVariance(q); // a adapter si ordinary Kriging

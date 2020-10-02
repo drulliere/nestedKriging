@@ -35,6 +35,10 @@ namespace nestedKrig {
 
 using NuggetVector = Covariance::NuggetVector;
 
+//==========================================================
+
+
+
 //========================================================== Developer Options
 //
 // class containing global options for development purposes only
@@ -318,9 +322,10 @@ public:
 
   ChronoReport chronoReport{};
 
-  //--- results by subModel
+  //--- results by subModel. N=number of submodels, q=number of pred points
   std::vector<std::vector<arma::mat> > KKM {}; // q x q items, each = NxN cov matrix between Mi(x), M_j(x')
   std::vector<std::vector<arma::vec> > kkM {}; // q x q items, each = Nx1 cov matrix between Mi(x), Y(x')
+  
   std::vector<arma::mat> KM;    // q items, each = NxN cov matrix between Mi(x)
   std::vector<arma::vec> kM;    // q items, each = Nx1 cov vector between Mi(x) and Y(x)
   std::vector<arma::vec> mean_M;   // q items, each = Nx1 prediction mean vector E[ Mi(x) | Y(X)=y]
@@ -408,7 +413,7 @@ public:
     if (method == "GPOE_1N") return  Pair(meanGPOE_1N, sd2GPOE_1N);
     return Pair(empty, empty);
   }
-
+  
   double getDefaultLOOError(const LOOScheme& looScheme, const arma::vec& defaultMean) const {
     const arma::vec expectedY = looScheme.getExpectedY();
     if ((expectedY.size()==defaultMean.size())&&(expectedY.size()>0))
@@ -511,6 +516,40 @@ public:
       );
   }
 };
+//================================================================================= KrigingTypeByLayer
+// contains the kriging type (simple, ordinary...) for each layer of the algo
+// for universal kriging, should contain a matrix of regressors (or an equation)
+
+class KrigingTypeByLayer {
+
+  static constexpr int numberOfLayers=2;
+  std::array<std::string, numberOfLayers> _summaryStrings;
+  KrigingType _layerOne, _layerTwo;
+  
+public:
+  std::array<std::string, numberOfLayers> getSummaryStrings(const std::string& krigingStr) const {
+    std::string summary=krigingStr;
+    // summary when a global choice is given
+    if ((krigingStr == "simple")||(krigingStr == "SK"))
+          summary = "SKSK";
+    else if ((krigingStr == "ordinary")||(krigingStr == "OK"))
+          summary = "OKSK";
+    // extract values for each layer
+    const std::string strLayerOne = summary.substr(0,2);
+    const std::string strLayerTwo = summary.substr(2,2);
+    return std::array<std::string, numberOfLayers>{strLayerOne, strLayerTwo};
+  }
+
+  explicit KrigingTypeByLayer(const std::string krigingStr) 
+    : _summaryStrings(getSummaryStrings(krigingStr)), _layerOne(_summaryStrings[0]), _layerTwo(_summaryStrings[1])
+  { // if (krigingStr=="ordinary") _layerOne = KrigingType{"OK"};
+    // else _layerOne=KrigingType{"SK"};
+    // _layerTwo = KrigingType{"SK"};
+  }
+
+  KrigingType layerOne() const {return _layerOne; }
+  KrigingType layerTwo() const {return _layerTwo; }
+};
 
 //================================================================================== Algo
 //
@@ -524,7 +563,8 @@ class Algo {
   const Parallelism& parallelism;
   const PointDimension d;
   const double sd2;
-  const bool ordinaryKriging;
+  const KrigingTypeByLayer& krigingTypeByLayer;
+  //const bool ordinaryKriging;
   const std::string tag;
   const int verboseLevel, outputDetailLevel;
   const GlobalOptions& options;
@@ -587,9 +627,9 @@ class Algo {
 
 public:
   Algo(const Parallelism& parallelism, const arma::mat& X, const arma::vec& Y, const Splitter& splitter, const arma::mat& x, const arma::vec& param,
-       const double sd2, const bool ordinaryKriging, const std::string& covType, const std::string& tag, const int verboseLevel,
+       const double sd2, const KrigingTypeByLayer& krigingTypeByLayer, const std::string& covType, const std::string& tag, const int verboseLevel,
        const int outputDetailLevel, const NuggetVector& nugget, const Screen& screen, const GlobalOptions& options, const LOOScheme& looScheme)
-      : parallelism(parallelism), d(X.n_cols), sd2(sd2), ordinaryKriging(ordinaryKriging), tag(tag),
+      : parallelism(parallelism), d(X.n_cols), sd2(sd2), krigingTypeByLayer(krigingTypeByLayer), tag(tag),
       verboseLevel(verboseLevel), outputDetailLevel(outputDetailLevel), options(options), looScheme(looScheme),
       covParam(d, param, sd2, covType),
       submodels(X, x, Y, covParam, splitter, nugget),
@@ -607,7 +647,10 @@ void partA_predictEachGroup() {
   chrono.print("Part A, first layer, prediction for each group: starting...");
   ProgressBar<ShowProgress> progressBar(chrono, N, verboseLevel);
   parallelism.switchToContext<Parallelism::innerContext>();
-#pragma omp parallel for schedule(CHOSEN_SCHEDULE, CHOSEN_CHUNKSIZE)// Main label (A)
+
+  const KrigingType krigingType = krigingTypeByLayer.layerOne();
+  
+  #pragma omp parallel for schedule(CHOSEN_SCHEDULE, CHOSEN_CHUNKSIZE)// Main label (A)
   for(Long i=0; i<N; ++i) {
     Long ni= submodels.splittedX[i].size(), q= submodels.predictionPoints.size();
 
@@ -616,11 +659,13 @@ void partA_predictEachGroup() {
     kernel.fillAllocatedCrossCorrelations(ki, submodels.splittedX[i], submodels.predictionPoints);
 
     LOOExclusions looExclusions(looScheme, i);
-    PredictorType krigingPredictor(Ki, ki, submodels.splittedY[i], ordinaryKriging, looExclusions);
+    PredictorType krigingPredictor(Ki, ki, submodels.splittedY[i], krigingType, looExclusions);
 
+    // objets temporaires => stockables dans un krigingOutput, sauf alpha non temp
     arma::rowvec mean_M(q);
     std::vector<double> cov_MY(q);
     std::vector<double> cov_MM(q);
+  
     krigingPredictor.fillResults(out.alpha[i], mean_M, cov_MY, cov_MM);
 
     for(Long m=0;m<q;++m){
@@ -633,6 +678,11 @@ void partA_predictEachGroup() {
       for(Long m1=0;m1<q;++m1) for(Long m2=0;m2<q;++m2) out.kkM[m1][m2](i) = Zi(m1,m2);
     }
     progressBar.next();
+  }
+  if (out.requiredByUser.predictionBySubmodel()) {
+    // Bascule récente dans partA
+    // for(Long m = 0; m < q; ++m) out.sd2_M[m] = sd2* (1 - arma::diagvec(out.KM[m])); //Simple Kriging only
+    for(Long m = 0; m < q; ++m) out.sd2_M[m] = sd2* (1 + arma::diagvec(out.KM[m]) - 2* out.kM[m]);
   }
   chrono.print("Part A, first layer, prediction for each group: done.");
 }
@@ -705,7 +755,7 @@ template <int ShowProgress, bool ComputeCov>
   }
 
 template <int ShowProgress>
-void partC_agregateFirstLayer() {
+void partC_agregateFirstLayerOld() {
   const bool storeWeights = (out.requiredByUser.predictionBySubmodel()) || (out.requiredByUser.covariances());
   chrono.print("Part C, aggregation first layer: starting...");
   //parallelism.switchToContext<Parallelism::innerContext>();
@@ -722,6 +772,30 @@ void partC_agregateFirstLayer() {
     for(Long m = 0; m < q; ++m) out.sd2_M[m] = sd2* (1 + arma::diagvec(out.KM[m]) - 2* out.kM[m]);
   }
   chrono.print("Part C, aggregation first layer: done.");
+}
+
+template <int ShowProgress>
+void partC_agregateFirstLayer() {
+  chrono.print("Part C, aggregation first layer New: starting...");
+  const KrigingType krigingTypeSecondLayer = krigingTypeByLayer.layerTwo();
+  //constexpr bool secondLayerOrdinary = false;
+  //parallelism.switchToContext<Parallelism::innerContext>();
+  //#pragma omp parallel for schedule(static, 1) if (q>50) //avoid dynamic for Loo repeated calls
+  for(Long m = 0; m < q; ++m) {
+    const arma::rowvec& rowmeanMm = out.mean_M[m].t(); 
+    // warning! does not work if out.mean_M[m].t() is directly in the function call!
+    ChosenPredictor krigingPredictor(out.KM[m], out.kM[m], rowmeanMm, krigingTypeSecondLayer);
+    arma::vec weightsColm(N);
+    double meanM, KMMagg, KMYagg;
+    krigingPredictor.fillResults(weightsColm, meanM, KMYagg, KMMagg);
+
+    const bool storeWeights = (out.requiredByUser.predictionBySubmodel()) || (out.requiredByUser.covariances());
+    if (storeWeights) out.weights.col(m) = weightsColm;
+    out.predmean(m) = meanM;
+    out.predsd2(m) = std::max(0.0 , sd2* (1 + KMMagg - 2 * KMYagg));
+  }
+  // calculations of out.sd2_M now computed in partA
+  chrono.print("Part C, aggregation first layer New: done.");
 }
 
 template <int ShowProgress, bool computeCov>
@@ -823,7 +897,7 @@ class AlgoZones {
   const arma::mat &X, &x;
   const arma::vec &Y, &param;
   const Splitter& splitter;
-  const bool ordinaryKriging;
+  const KrigingTypeByLayer& krigingTypeByLayer;
   const std::string covType;
   const Long NbZones, n, q;
   const PointDimension d;
@@ -882,9 +956,9 @@ class AlgoZones {
 
 public:
 AlgoZones(const Parallelism& parallelism, const Long NbZones, const arma::mat& X, const arma::vec& Y, const Splitter& splitter, const arma::mat& x, const arma::vec& param,
-          const double sd2, const bool ordinaryKriging, const std::string& covType, const std::string& tagAlgo,
+          const double sd2, const KrigingTypeByLayer& krigingTypeByLayer, const std::string& covType, const std::string& tagAlgo,
           const int verboseLevel, const int outputDetailLevel, const NuggetVector& nugget, const Screen& screen, const GlobalOptions& options, const LOOScheme& looScheme)
-      :  parallelism(parallelism), X(X), x(x), Y(Y), param(param), splitter(splitter), ordinaryKriging(ordinaryKriging), covType(covType),
+      :  parallelism(parallelism), X(X), x(x), Y(Y), param(param), splitter(splitter), krigingTypeByLayer(krigingTypeByLayer), covType(covType),
        NbZones(NbZones), n(X.n_rows), q(x.n_rows), d(X.n_cols), sd2(sd2), tagAlgo(tagAlgo), verboseLevel(verboseLevel), outputLevel(outputDetailLevel),
        nugget(nugget), screen(screen), options(options), looScheme(looScheme), chrono(screen, "general zone")
   {
@@ -913,7 +987,7 @@ AlgoZones(const Parallelism& parallelism, const Long NbZones, const arma::mat& X
       for(Long z=0; z<NbZones; ++z) {
           std::string tag = tagAlgo + " zone=" + std::to_string(z);
           LOOScheme localScheme = splittedLOOSchemes[z];
-          Algo* algo=new Algo(parallelism, X, Y, splitter, splittedx[z], param, sd2, ordinaryKriging, covType,
+          Algo* algo=new Algo(parallelism, X, Y, splitter, splittedx[z], param, sd2, krigingTypeByLayer, covType,
                               tag, verboseLevel, outputLevel, copy(nugget), screen, options, localScheme);
           splittedOutput[z] = algo->output(); //move assignement
           delete algo;
@@ -949,7 +1023,7 @@ const arma::mat& x,
 const std::string covType,
 const arma::vec& param,
 const double sd2,
-const bool ordinaryKriging,
+const KrigingTypeByLayer krigingTypeByLayer,
 const std::string tagAlgo,
 long numThreadsZones,
 long numThreads,
@@ -961,6 +1035,7 @@ const arma::vec nugget =  Rcpp::NumericVector::create(0.0),
 const std::string defaultLOOmethod = "",
 const Long optimLevel = 0
 ) {
+  
   const Screen screen(verboseLevel);
   const GlobalOptions options(optionsVector);
 
@@ -1003,12 +1078,12 @@ const Long optimLevel = 0
       Parallelism::set_nested(1);
       if (threadsZone>q) screen.warning("as numThreadsZones>q, algorithm Zone will not use all available threads");
 
-      AlgoZones algoZ(parallelism, NbZones, X, Y, splitter, xSelected, param, sd2, ordinaryKriging, covType,
+      AlgoZones algoZ(parallelism, NbZones, X, Y, splitter, xSelected, param, sd2, krigingTypeByLayer, covType,
                       tagAlgo, verboseLevel, outputDetailLevel, nugget, screen, options, looScheme);
       return algoZ.exportList(optimLevel);
    } else {
         Parallelism::set_nested(0);
-        Algo algo(parallelism, X, Y, splitter, xSelected, param, sd2, ordinaryKriging, covType, tagAlgo, verboseLevel,
+        Algo algo(parallelism, X, Y, splitter, xSelected, param, sd2, krigingTypeByLayer, covType, tagAlgo, verboseLevel,
                 outputDetailLevel, nugget, screen, options, looScheme);
         return algo.exportList(optimLevel);
    }
