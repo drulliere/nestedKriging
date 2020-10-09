@@ -23,7 +23,7 @@ return(c("rational1", "rational2", "exp", "exp.approx", "gauss", "gauss.approx",
   if (!(length(clusters)==nrow(X))) stop("'clusters' must have the same length as the number of rows in X")
   clusters <- as.integer(round(clusters,0))
 
-  validKrigingType = c("simple", "ordinary", "OKSK", "SKOK", "SKSK", "OKOK")
+  validKrigingType = c("simple", "ordinary", "OKSK", "SKOK", "SKSK", "OKOK", "universal", "UKOK", "UKSK")
   if(class(krigingType)!="character") stop("'krigingType' must be one of the following:", paste(validKrigingType, collapse=", ") )
   if(!(krigingType) %in% validKrigingType) stop("'krigingType' must be one of the following:", paste(validKrigingType, collapse=", ") )
 
@@ -82,7 +82,9 @@ setNumThreadsBLAS <-function(numThreadsBLAS=1, showMessage=TRUE) {
   if (showMessage) {  message("linear algebra libray BLAS threads set to ", numThreadsBLAS) }
 }
 
-nestedKriging <- function(X, Y, clusters, x, covType, param, sd2, krigingType="simple", tagAlgo = "", numThreadsZones = 1L, numThreads = 16L, verboseLevel = 10L, outputLevel = 0L, numThreadsBLAS = 1L, globalOptions= as.integer( c(0)), nugget = c(0.0)) {
+#################
+
+nestedKriging <- function(X, Y, clusters, x, covType, param, sd2, krigingType="simple", tagAlgo = "", numThreadsZones = 1L, numThreads = 16L, verboseLevel = 10L, outputLevel = 0L, numThreadsBLAS = 1L, globalOptions= as.integer( c(0)), nugget = c(0.0), trendX=NULL, trendx=NULL) {
 
   ################################################### basic check of input arguments validity
   .checkModel(X, Y, clusters, krigingType, nugget)
@@ -103,7 +105,7 @@ nestedKriging <- function(X, Y, clusters, x, covType, param, sd2, krigingType="s
   ################################################### Set BLAS Threads and launch algo
 
   setNumThreadsBLAS(numThreadsBLAS, FALSE)
-  .Call(`_nestedKriging_nestedKrigingDirect`, X, Y, clusters, x, covType, param, sd2, krigingType, tagAlgo, numThreadsZones, numThreads, verboseLevel, outputLevel, globalOptions, nugget)
+  .Call(`_nestedKriging_nestedKrigingDirect`, X, Y, clusters, x, covType, param, sd2, krigingType, tagAlgo, numThreadsZones, numThreads, verboseLevel, outputLevel, globalOptions, nugget, trendX, trendx)
 
 }
 
@@ -236,7 +238,7 @@ estimParamOld <- function(X,Y,cluster,covtype,q, sd2,krigingType,
 }
 
 
-estimSigma2 <- function(X, Y, q, clusters, covType, krigingType, param, numThreads=8, nugget=0.0, method="NK", seed=0)  {
+estimSigma2 <- function(X, Y, q, clusters, covType, krigingType, param, numThreads=8, nugget=0.0, method="NK", seed=0, trendX=NULL, trendx=NULL)  {
   # X: n*d matrix of input points
   # Y: n-dimensional vector of scalar output
   # clusters: n-dimensional vector containing the group number of all n points
@@ -265,7 +267,7 @@ estimSigma2 <- function(X, Y, q, clusters, covType, krigingType, param, numThrea
 
   res <- nestedKriging::looErrors(X=X, Y=Y, clusters=clusters, indices=indices , covType=covType, param=param, sd2=1.0,
                                   krigingType=krigingType, tagAlgo='nestedK_sd2',
-                                  numThreads=numThreads, verboseLevel=0, outputLevel=outputLevel, globalOptions = c(0), nugget=nugget, method = method)
+                                  numThreads=numThreads, verboseLevel=0, outputLevel=outputLevel, globalOptions = c(0), nugget=nugget, method = method, trendX=trendX, trendx=trendx)
   return( mean( ((Y[chosenIndices]-res$LOOErrors$meanDefaultMethod)^2) / res$LOOErrors$sd2DefaultMethod ) )
 }
 

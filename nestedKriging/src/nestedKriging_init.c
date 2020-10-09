@@ -9,30 +9,30 @@
 
 
 /* .Call calls */
-extern SEXP _nestedKriging_nestedKrigingDirect(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP _nestedKriging_estimParam(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP _nestedKriging_looErrors(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP _nestedKriging_looErrorsDirect(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP _nestedKriging_nestedKrigingDirect(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP _nestedKriging_estimParam(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP _nestedKriging_looErrors(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP _nestedKriging_looErrorsDirect(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP _nestedKriging_tests_getCaseStudy(SEXP, SEXP);
 extern SEXP _nestedKriging_tests_getCodeValues(SEXP, SEXP, SEXP, SEXP);
 extern SEXP _nestedKriging_tests_run(SEXP, SEXP);
 extern SEXP _nestedKriging_versionInfo(SEXP);
 extern SEXP _nestedKriging_getCorrMatrix(SEXP, SEXP, SEXP, SEXP);
 extern SEXP _nestedKriging_getCrossCorrMatrix(SEXP, SEXP, SEXP);
-extern SEXP _nestedKriging_getKrigingPrediction(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP _nestedKriging_getKrigingPrediction(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
-  {"_nestedKriging_nestedKrigingDirect", (DL_FUNC) &_nestedKriging_nestedKrigingDirect, 15},
-  {"_nestedKriging_looErrors", (DL_FUNC) &_nestedKriging_looErrors, 16},
-  {"_nestedKriging_estimParam", (DL_FUNC) &_nestedKriging_estimParam, 24},
-  {"_nestedKriging_looErrorsDirect", (DL_FUNC) &_nestedKriging_looErrorsDirect, 16},
+  {"_nestedKriging_nestedKrigingDirect", (DL_FUNC) &_nestedKriging_nestedKrigingDirect, 17},
+  {"_nestedKriging_looErrors", (DL_FUNC) &_nestedKriging_looErrors, 18},
+  {"_nestedKriging_estimParam", (DL_FUNC) &_nestedKriging_estimParam, 26},
+  {"_nestedKriging_looErrorsDirect", (DL_FUNC) &_nestedKriging_looErrorsDirect, 18},
   {"_nestedKriging_tests_getCaseStudy",  (DL_FUNC) &_nestedKriging_tests_getCaseStudy,   2},
   {"_nestedKriging_tests_getCodeValues", (DL_FUNC) &_nestedKriging_tests_getCodeValues,  4},
   {"_nestedKriging_tests_run",           (DL_FUNC) &_nestedKriging_tests_run,            2},
   {"_nestedKriging_versionInfo",         (DL_FUNC) &_nestedKriging_versionInfo,          1},
   {"_nestedKriging_getCorrMatrix",       (DL_FUNC) &_nestedKriging_getCorrMatrix,    3},
   {"_nestedKriging_getCrossCorrMatrix",       (DL_FUNC) &_nestedKriging_getCrossCorrMatrix,    4},
-  {"_nestedKriging_getKrigingPrediction",     (DL_FUNC) &_nestedKriging_getKrigingPrediction,    6},
+  {"_nestedKriging_getKrigingPrediction",     (DL_FUNC) &_nestedKriging_getKrigingPrediction,    8},
   {NULL, NULL, 0}
 };
 

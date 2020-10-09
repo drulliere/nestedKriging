@@ -32,7 +32,8 @@ Hereafter, the predictor based on a subgroup of design points is called a submod
 \usage{
 nestedKriging(X, Y, clusters, x, covType, param, sd2, krigingType="simple", tagAlgo = "",
 numThreadsZones = 1L, numThreads = 16L, verboseLevel = 10L, outputLevel = 0L,
-numThreadsBLAS = 1L, globalOptions=as.integer(c(0)), nugget = c(0.0))
+numThreadsBLAS = 1L, globalOptions=as.integer(c(0)), nugget = c(0.0),
+trendX=NULL, trendx=NULL)
 }
 \arguments{
   \item{X}{
@@ -57,7 +58,7 @@ Lengthscale parameters of the covariance kernel. \code{param} is a vector of siz
 Variance parameter of the covariance kernel. \code{sd2} is a scalar that gives the variance of the underlying random field. Impacts prediction variance, but not prediction mean.
 }
   \item{krigingType}{
-Optional. String that specifies if one must use ordinary Kriging or simple Kriging. \code{"simple"}: Simple Kriging, \code{"ordinary"}: Ordinary Kriging (for the first Layer only, as "OKSK"). You can specify the Kriging type to apply to each layer of the algo, e.g. "SKOK" means that submodels are computed with simple kriging, and agregated by ordinary kriging.
+Optional. String that specifies if one must use simple, ordinary or universal Kriging. \code{"simple"}: simple Kriging, \code{"ordinary"}: ordinary Kriging (for the first Layer only, as "OKSK"), \code{"universal"} or \code{"UKOK"}: universal Kriging using \code{"trendX"} and  \code{"trendx"} covariate matrices. You can specify the Kriging type to apply to each layer of the algo, e.g. "SKOK" means that submodels are computed with simple kriging, and agregated by ordinary kriging.
 Default=\code{"simple"}.
 }
   \item{tagAlgo}{
@@ -87,6 +88,11 @@ Optional (rare usage), for developers only. A vector of integers containing glob
 \item{nugget}{
 Optional, a vector containing variances that will be added to the diagonal of the covariance matrix of \eqn{X}. If a real is used instead of a vector, or if the vector is of length lower than the number of rows \eqn{n} of the matrix \eqn{X}, the pattern is repeated along the diagonal. Default=\code{c(0.0)}.
 }
+\item{trendX}{(uppercase X) Optional, covariates \eqn{g(X)}{g(X)}, when doing universal Kriging, e.g. \code{krigingType="universal"}. This is a \eqn{n \times k}{n x k} matrix, with \eqn{n}{n} observations and \eqn{k}{k} covariates. If empty, acts as an intercept vector, then universal Kriging one layer one corresponds to ordinary kriging.
+}
+\item{trendx}{(lowercase X) Optional, covariates \eqn{g(x)}{g(x)}, when doing universal Kriging, e.g. \code{krigingType="universal"}. This is a \eqn{q \times k}{q x k} matrix, with \eqn{q}{q} prediction points and \eqn{k}{k} covariates. If empty, acts as an intercept vector, then universal Kriging one layer one corresponds to ordinary kriging.
+}
+
 }
 %%\details{
 %%}

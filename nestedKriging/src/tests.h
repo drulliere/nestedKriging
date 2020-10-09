@@ -353,8 +353,9 @@ Output getDetailedOutput(CaseStudy& cas, int outputLevel) {
   GlobalOptions options(Rcpp::IntegerVector {0});
   std::string tag="";
   LOOScheme looScheme{};
+  arma::mat emptyTrendMatrix{};
   Algo algo(parallelism, cas.X, cas.Y, splitter, cas.x, cas.param, cas.sd2, cas.krigingTypeByLayer, cas.covType, tag,
-            verboseLevel, outputDetailLevel, noNugget, screen, options, looScheme);
+            verboseLevel, outputDetailLevel, noNugget, screen, options, looScheme, emptyTrendMatrix, emptyTrendMatrix);
   return algo.output();
 }
 
@@ -1006,7 +1007,8 @@ Test testSubmodels() {
   arma::vec clusters("2 1 2 3 2 1");
   arma::vec nugget("0.1 0.2");
   Splitter splitter(clusters);
-  Submodels sub(matX, matx, vecY, covParams, splitter, nugget);
+  arma::mat trendX = matX; //emptyTrendX{};
+  Submodels sub(matX, matx, vecY, covParams, splitter, nugget, trendX);
   test.assertClose(sub.cmax, 3, "cmax");
   test.assertClose(sub.d, d, "d");
   test.assertClose(sub.N, 3, "N");

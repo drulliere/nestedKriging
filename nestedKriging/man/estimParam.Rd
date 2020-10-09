@@ -11,7 +11,8 @@ The function \code{estimParam} estimates the lenghtscale parameters \code{param}
 estimParam(X, Y, clusters, q, covType, niter, paramStart, paramLower, paramUpper, sd2,
 krigingType = "simple", seed = 0L, alpha = 0.602, gamma = 0.101, a = 200, A = 1, c = 0.1,
 tagAlgo = "", numThreadsZones = 1L, numThreads = 16L, verboseLevel = 10L,
-globalOptions = as.integer(c(0)), nugget = as.numeric(c(0)), method = "NK")
+globalOptions = as.integer(c(0)),
+nugget = as.numeric(c(0)), method = "NK", trendX = NULL, trendx = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -44,10 +45,11 @@ Vector of size \eqn{d}{d} containing the lower bounds for the value of the lengt
   \item{sd2}{
 Variance parameter of the covariance kernel. \code{sd2} is a scalar that gives the variance of the underlying random field. Impacts prediction variance, but not prediction mean.
 }
-  \item{krigingType}{
-Optional. String that specifies if one must use ordinary Kriging or simple Kriging. \code{"simple"}: Simple Kriging, \code{"ordinary"}: Ordinary Kriging (for the first Layer only). Default=\code{"simple"}.
+\item{krigingType}{
+Optional. String that specifies if one must use simple, ordinary or universal Kriging. \code{"simple"}: simple Kriging, \code{"ordinary"}: ordinary Kriging (for the first Layer only, as "OKSK"), \code{"universal"} or \code{"UKOK"}: universal Kriging using \code{"trendX"} and  \code{"trendx"} covariate matrices. You can specify the Kriging type to apply to each layer of the algo, e.g. "SKOK" means that submodels are computed with simple kriging, and agregated by ordinary kriging.
+Default=\code{"simple"}.
 }
-  \item{seed}{
+\item{seed}{
 Optional. Seed used for the random generation of the chosen \eqn{q}{q} points where are evaluated the Leave-One-Out errors(results look random but a same seed gives the same results, so that a study can be reproduced).
 }
   \item{alpha}{
@@ -91,6 +93,11 @@ Optional, a vector containing variances that will be added to the diagonal of th
 \item{method}{
 Optional, a string containing the default method to be used for evaluating Leave-One-Out errors: \code{"NK"} for nested Kriging, or \code{"POE"}, \code{"GPOE"}, \code{"GPOE_1N"}, \code{"BCM"}, \code{"RBCM"}, \code{"SPV"} for fast less precise alternatives (see output \code{alternatives} of the function \code{\link{nestedKriging}}, and also \url{http://proceedings.mlr.press/v37/deisenroth15.pdf}). Computed alternatives predictors: (Generalised) Product of Expert (POE/GPOE), (Robust) Bayesian Comittee Machine (BCM/RBCM) and Smallest Predictive Variance (SPV). Weights of GPOE are summing to one, they are proportional to the one of RBCM (differential entropy difference between the prior and the posterior), or set to \eqn{1/N}{1/N} for the result GPOE_1N. SPV gives the prediction of the submodel having the smallest conditional variance.
 }
+\item{trendX}{(uppercase X) Optional, covariates \eqn{g(X)}{g(X)}, when doing universal Kriging, e.g. \code{krigingType="universal"}. This is a \eqn{n \times k}{n x k} matrix, with \eqn{n}{n} observations and \eqn{k}{k} covariates. If empty, acts as an intercept vector, then universal Kriging one layer one corresponds to ordinary kriging.
+}
+\item{trendx}{(lowercase X) Optional, covariates \eqn{g(x)}{g(x)}, when doing universal Kriging, e.g. \code{krigingType="universal"}. This is a \eqn{q \times k}{q x k} matrix, with \eqn{q}{q} prediction points and \eqn{k}{k} covariates. If empty, acts as an intercept vector, then universal Kriging one layer one corresponds to ordinary kriging.
+}
+
 }
 \details{
 The algorithm uses a stochastic gradient descent (see bathnagar et al., chapter 5). It is highly recommended to tune the parameters \eqn{a}{a}, \eqn{c}{c} and \eqn{A}{A} on small samples of the data before using the procedure.

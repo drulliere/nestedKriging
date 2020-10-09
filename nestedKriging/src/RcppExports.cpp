@@ -34,8 +34,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // getKrigingPrediction
-Rcpp::List getKrigingPrediction(const arma::mat& X, const arma::rowvec& Y, const arma::mat& x, const arma::vec& param, const std::string& covType, const std::string krigingType);
-RcppExport SEXP _nestedKriging_getKrigingPrediction(SEXP XSEXP, SEXP YSEXP, SEXP xSEXP, SEXP paramSEXP, SEXP covTypeSEXP, SEXP krigingTypeSEXP) {
+Rcpp::List getKrigingPrediction(const arma::mat& X, const arma::rowvec& Y, const arma::mat& x, const arma::vec& param, const std::string& covType, const std::string krigingType, const Rcpp::Nullable<Rcpp::NumericMatrix> trendX, const Rcpp::Nullable<Rcpp::NumericMatrix> trendx);
+RcppExport SEXP _nestedKriging_getKrigingPrediction(SEXP XSEXP, SEXP YSEXP, SEXP xSEXP, SEXP paramSEXP, SEXP covTypeSEXP, SEXP krigingTypeSEXP, SEXP trendXSEXP, SEXP trendxSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -45,7 +45,9 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const arma::vec& >::type param(paramSEXP);
     Rcpp::traits::input_parameter< const std::string& >::type covType(covTypeSEXP);
     Rcpp::traits::input_parameter< const std::string >::type krigingType(krigingTypeSEXP);
-    rcpp_result_gen = Rcpp::wrap(getKrigingPrediction(X, Y, x, param, covType, krigingType));
+    Rcpp::traits::input_parameter< const Rcpp::Nullable<Rcpp::NumericMatrix> >::type trendX(trendXSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::Nullable<Rcpp::NumericMatrix> >::type trendx(trendxSEXP);
+    rcpp_result_gen = Rcpp::wrap(getKrigingPrediction(X, Y, x, param, covType, krigingType, trendX, trendx));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -61,8 +63,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // nestedKrigingDirect
-Rcpp::List nestedKrigingDirect(const arma::mat& X, const arma::vec& Y, const std::vector<signed long>& clusters, const arma::mat& x, const std::string covType, const arma::vec& param, const double sd2, const std::string krigingType, const std::string tagAlgo, const long numThreadsZones, const long numThreads, const int verboseLevel, const int outputLevel, const Rcpp::IntegerVector globalOptions, const arma::vec nugget);
-RcppExport SEXP _nestedKriging_nestedKrigingDirect(SEXP XSEXP, SEXP YSEXP, SEXP clustersSEXP, SEXP xSEXP, SEXP covTypeSEXP, SEXP paramSEXP, SEXP sd2SEXP, SEXP krigingTypeSEXP, SEXP tagAlgoSEXP, SEXP numThreadsZonesSEXP, SEXP numThreadsSEXP, SEXP verboseLevelSEXP, SEXP outputLevelSEXP, SEXP globalOptionsSEXP, SEXP nuggetSEXP) {
+Rcpp::List nestedKrigingDirect(const arma::mat& X, const arma::vec& Y, const std::vector<signed long>& clusters, const arma::mat& x, const std::string covType, const arma::vec& param, const double sd2, const std::string krigingType, const std::string tagAlgo, const long numThreadsZones, const long numThreads, const int verboseLevel, const int outputLevel, const Rcpp::IntegerVector globalOptions, const arma::vec nugget, const Rcpp::Nullable<Rcpp::NumericMatrix> trendX, const Rcpp::Nullable<Rcpp::NumericMatrix> trendx);
+RcppExport SEXP _nestedKriging_nestedKrigingDirect(SEXP XSEXP, SEXP YSEXP, SEXP clustersSEXP, SEXP xSEXP, SEXP covTypeSEXP, SEXP paramSEXP, SEXP sd2SEXP, SEXP krigingTypeSEXP, SEXP tagAlgoSEXP, SEXP numThreadsZonesSEXP, SEXP numThreadsSEXP, SEXP verboseLevelSEXP, SEXP outputLevelSEXP, SEXP globalOptionsSEXP, SEXP nuggetSEXP, SEXP trendXSEXP, SEXP trendxSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -81,13 +83,15 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const int >::type outputLevel(outputLevelSEXP);
     Rcpp::traits::input_parameter< const Rcpp::IntegerVector >::type globalOptions(globalOptionsSEXP);
     Rcpp::traits::input_parameter< const arma::vec >::type nugget(nuggetSEXP);
-    rcpp_result_gen = Rcpp::wrap(nestedKrigingDirect(X, Y, clusters, x, covType, param, sd2, krigingType, tagAlgo, numThreadsZones, numThreads, verboseLevel, outputLevel, globalOptions, nugget));
+    Rcpp::traits::input_parameter< const Rcpp::Nullable<Rcpp::NumericMatrix> >::type trendX(trendXSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::Nullable<Rcpp::NumericMatrix> >::type trendx(trendxSEXP);
+    rcpp_result_gen = Rcpp::wrap(nestedKrigingDirect(X, Y, clusters, x, covType, param, sd2, krigingType, tagAlgo, numThreadsZones, numThreads, verboseLevel, outputLevel, globalOptions, nugget, trendX, trendx));
     return rcpp_result_gen;
 END_RCPP
 }
 // looErrors
-Rcpp::List looErrors(const arma::mat& X, const arma::vec& Y, const std::vector<signed long>& clusters, const std::vector<signed long>& indices, const std::string covType, const arma::vec& param, const double sd2, const std::string krigingType, const std::string tagAlgo, const long numThreadsZones, const long numThreads, const int verboseLevel, const int outputLevel, const Rcpp::IntegerVector globalOptions, const arma::vec nugget, const std::string method);
-RcppExport SEXP _nestedKriging_looErrors(SEXP XSEXP, SEXP YSEXP, SEXP clustersSEXP, SEXP indicesSEXP, SEXP covTypeSEXP, SEXP paramSEXP, SEXP sd2SEXP, SEXP krigingTypeSEXP, SEXP tagAlgoSEXP, SEXP numThreadsZonesSEXP, SEXP numThreadsSEXP, SEXP verboseLevelSEXP, SEXP outputLevelSEXP, SEXP globalOptionsSEXP, SEXP nuggetSEXP, SEXP methodSEXP) {
+Rcpp::List looErrors(const arma::mat& X, const arma::vec& Y, const std::vector<signed long>& clusters, const std::vector<signed long>& indices, const std::string covType, const arma::vec& param, const double sd2, const std::string krigingType, const std::string tagAlgo, const long numThreadsZones, const long numThreads, const int verboseLevel, const int outputLevel, const Rcpp::IntegerVector globalOptions, const arma::vec nugget, const std::string method, const Rcpp::Nullable<Rcpp::NumericMatrix> trendX, const Rcpp::Nullable<Rcpp::NumericMatrix> trendx);
+RcppExport SEXP _nestedKriging_looErrors(SEXP XSEXP, SEXP YSEXP, SEXP clustersSEXP, SEXP indicesSEXP, SEXP covTypeSEXP, SEXP paramSEXP, SEXP sd2SEXP, SEXP krigingTypeSEXP, SEXP tagAlgoSEXP, SEXP numThreadsZonesSEXP, SEXP numThreadsSEXP, SEXP verboseLevelSEXP, SEXP outputLevelSEXP, SEXP globalOptionsSEXP, SEXP nuggetSEXP, SEXP methodSEXP, SEXP trendXSEXP, SEXP trendxSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -107,7 +111,9 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const Rcpp::IntegerVector >::type globalOptions(globalOptionsSEXP);
     Rcpp::traits::input_parameter< const arma::vec >::type nugget(nuggetSEXP);
     Rcpp::traits::input_parameter< const std::string >::type method(methodSEXP);
-    rcpp_result_gen = Rcpp::wrap(looErrors(X, Y, clusters, indices, covType, param, sd2, krigingType, tagAlgo, numThreadsZones, numThreads, verboseLevel, outputLevel, globalOptions, nugget, method));
+    Rcpp::traits::input_parameter< const Rcpp::Nullable<Rcpp::NumericMatrix> >::type trendX(trendXSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::Nullable<Rcpp::NumericMatrix> >::type trendx(trendxSEXP);
+    rcpp_result_gen = Rcpp::wrap(looErrors(X, Y, clusters, indices, covType, param, sd2, krigingType, tagAlgo, numThreadsZones, numThreads, verboseLevel, outputLevel, globalOptions, nugget, method, trendX, trendx));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -150,8 +156,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // looErrorsDirect
-Rcpp::List looErrorsDirect(const arma::mat& X, const arma::vec& Y, const std::vector<signed long>& clusters, const std::vector<signed long>& indices, const std::string covType, const arma::vec& param, const double sd2, const std::string krigingType, const std::string tagAlgo, const long numThreadsZones, const long numThreads, const int verboseLevel, const int outputLevel, const Rcpp::IntegerVector globalOptions, const arma::vec nugget, const std::string method);
-RcppExport SEXP _nestedKriging_looErrorsDirect(SEXP XSEXP, SEXP YSEXP, SEXP clustersSEXP, SEXP indicesSEXP, SEXP covTypeSEXP, SEXP paramSEXP, SEXP sd2SEXP, SEXP krigingTypeSEXP, SEXP tagAlgoSEXP, SEXP numThreadsZonesSEXP, SEXP numThreadsSEXP, SEXP verboseLevelSEXP, SEXP outputLevelSEXP, SEXP globalOptionsSEXP, SEXP nuggetSEXP, SEXP methodSEXP) {
+Rcpp::List looErrorsDirect(const arma::mat& X, const arma::vec& Y, const std::vector<signed long>& clusters, const std::vector<signed long>& indices, const std::string covType, const arma::vec& param, const double sd2, const std::string krigingType, const std::string tagAlgo, const long numThreadsZones, const long numThreads, const int verboseLevel, const int outputLevel, const Rcpp::IntegerVector globalOptions, const arma::vec nugget, const std::string method, const Rcpp::Nullable<Rcpp::NumericMatrix> trendX, const Rcpp::Nullable<Rcpp::NumericMatrix> trendx);
+RcppExport SEXP _nestedKriging_looErrorsDirect(SEXP XSEXP, SEXP YSEXP, SEXP clustersSEXP, SEXP indicesSEXP, SEXP covTypeSEXP, SEXP paramSEXP, SEXP sd2SEXP, SEXP krigingTypeSEXP, SEXP tagAlgoSEXP, SEXP numThreadsZonesSEXP, SEXP numThreadsSEXP, SEXP verboseLevelSEXP, SEXP outputLevelSEXP, SEXP globalOptionsSEXP, SEXP nuggetSEXP, SEXP methodSEXP, SEXP trendXSEXP, SEXP trendxSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -171,13 +177,15 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const Rcpp::IntegerVector >::type globalOptions(globalOptionsSEXP);
     Rcpp::traits::input_parameter< const arma::vec >::type nugget(nuggetSEXP);
     Rcpp::traits::input_parameter< const std::string >::type method(methodSEXP);
-    rcpp_result_gen = Rcpp::wrap(looErrorsDirect(X, Y, clusters, indices, covType, param, sd2, krigingType, tagAlgo, numThreadsZones, numThreads, verboseLevel, outputLevel, globalOptions, nugget, method));
+    Rcpp::traits::input_parameter< const Rcpp::Nullable<Rcpp::NumericMatrix> >::type trendX(trendXSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::Nullable<Rcpp::NumericMatrix> >::type trendx(trendxSEXP);
+    rcpp_result_gen = Rcpp::wrap(looErrorsDirect(X, Y, clusters, indices, covType, param, sd2, krigingType, tagAlgo, numThreadsZones, numThreads, verboseLevel, outputLevel, globalOptions, nugget, method, trendX, trendx));
     return rcpp_result_gen;
 END_RCPP
 }
 // estimParam
-Rcpp::List estimParam(const arma::mat& X, const arma::vec& Y, const std::vector<signed long>& clusters, const std::size_t q, const std::string covType, const std::size_t niter, const arma::vec& paramStart, const arma::vec& paramLower, const arma::vec& paramUpper, const double sd2, const std::string krigingType, const std::size_t seed, const double alpha, const double gamma, const double a, const double A, const double c, const std::string tagAlgo, const long numThreadsZones, const long numThreads, const int verboseLevel, const Rcpp::IntegerVector globalOptions, const arma::vec nugget, const std::string method);
-RcppExport SEXP _nestedKriging_estimParam(SEXP XSEXP, SEXP YSEXP, SEXP clustersSEXP, SEXP qSEXP, SEXP covTypeSEXP, SEXP niterSEXP, SEXP paramStartSEXP, SEXP paramLowerSEXP, SEXP paramUpperSEXP, SEXP sd2SEXP, SEXP krigingTypeSEXP, SEXP seedSEXP, SEXP alphaSEXP, SEXP gammaSEXP, SEXP aSEXP, SEXP ASEXP, SEXP cSEXP, SEXP tagAlgoSEXP, SEXP numThreadsZonesSEXP, SEXP numThreadsSEXP, SEXP verboseLevelSEXP, SEXP globalOptionsSEXP, SEXP nuggetSEXP, SEXP methodSEXP) {
+Rcpp::List estimParam(const arma::mat& X, const arma::vec& Y, const std::vector<signed long>& clusters, const std::size_t q, const std::string covType, const std::size_t niter, const arma::vec& paramStart, const arma::vec& paramLower, const arma::vec& paramUpper, const double sd2, const std::string krigingType, const std::size_t seed, const double alpha, const double gamma, const double a, const double A, const double c, const std::string tagAlgo, const long numThreadsZones, const long numThreads, const int verboseLevel, const Rcpp::IntegerVector globalOptions, const arma::vec nugget, const std::string method, const Rcpp::Nullable<Rcpp::NumericMatrix> trendX, const Rcpp::Nullable<Rcpp::NumericMatrix> trendx);
+RcppExport SEXP _nestedKriging_estimParam(SEXP XSEXP, SEXP YSEXP, SEXP clustersSEXP, SEXP qSEXP, SEXP covTypeSEXP, SEXP niterSEXP, SEXP paramStartSEXP, SEXP paramLowerSEXP, SEXP paramUpperSEXP, SEXP sd2SEXP, SEXP krigingTypeSEXP, SEXP seedSEXP, SEXP alphaSEXP, SEXP gammaSEXP, SEXP aSEXP, SEXP ASEXP, SEXP cSEXP, SEXP tagAlgoSEXP, SEXP numThreadsZonesSEXP, SEXP numThreadsSEXP, SEXP verboseLevelSEXP, SEXP globalOptionsSEXP, SEXP nuggetSEXP, SEXP methodSEXP, SEXP trendXSEXP, SEXP trendxSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -205,7 +213,9 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const Rcpp::IntegerVector >::type globalOptions(globalOptionsSEXP);
     Rcpp::traits::input_parameter< const arma::vec >::type nugget(nuggetSEXP);
     Rcpp::traits::input_parameter< const std::string >::type method(methodSEXP);
-    rcpp_result_gen = Rcpp::wrap(estimParam(X, Y, clusters, q, covType, niter, paramStart, paramLower, paramUpper, sd2, krigingType, seed, alpha, gamma, a, A, c, tagAlgo, numThreadsZones, numThreads, verboseLevel, globalOptions, nugget, method));
+    Rcpp::traits::input_parameter< const Rcpp::Nullable<Rcpp::NumericMatrix> >::type trendX(trendXSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::Nullable<Rcpp::NumericMatrix> >::type trendx(trendxSEXP);
+    rcpp_result_gen = Rcpp::wrap(estimParam(X, Y, clusters, q, covType, niter, paramStart, paramLower, paramUpper, sd2, krigingType, seed, alpha, gamma, a, A, c, tagAlgo, numThreadsZones, numThreads, verboseLevel, globalOptions, nugget, method, trendX, trendx));
     return rcpp_result_gen;
 END_RCPP
 }

@@ -9,20 +9,20 @@ getCrossCorrMatrix <- function(X1, X2, param, covType) {
     .Call(`_nestedKriging_getCrossCorrMatrix`, X1, X2, param, covType)
 }
 
-getKrigingPrediction <- function(X, Y, x, param, covType, krigingType = "simple") {
-    .Call(`_nestedKriging_getKrigingPrediction`, X, Y, x, param, covType, krigingType)
+getKrigingPrediction <- function(X, Y, x, param, covType, krigingType = "simple", trendX = NULL, trendx = NULL) {
+    .Call(`_nestedKriging_getKrigingPrediction`, X, Y, x, param, covType, krigingType, trendX, trendx)
 }
 
 versionInfo <- function(outputLevel = 0L) {
     .Call(`_nestedKriging_versionInfo`, outputLevel)
 }
 
-nestedKrigingDirect <- function(X, Y, clusters, x, covType, param, sd2, krigingType = "simple", tagAlgo = "", numThreadsZones = 1L, numThreads = 16L, verboseLevel = 10L, outputLevel = 1L, globalOptions = as.integer( c(0)), nugget = as.numeric( c(0))) {
-    .Call(`_nestedKriging_nestedKrigingDirect`, X, Y, clusters, x, covType, param, sd2, krigingType, tagAlgo, numThreadsZones, numThreads, verboseLevel, outputLevel, globalOptions, nugget)
+nestedKrigingDirect <- function(X, Y, clusters, x, covType, param, sd2, krigingType = "simple", tagAlgo = "", numThreadsZones = 1L, numThreads = 16L, verboseLevel = 10L, outputLevel = 1L, globalOptions = as.integer( c(0)), nugget = as.numeric( c(0)), trendX = NULL, trendx = NULL) {
+    .Call(`_nestedKriging_nestedKrigingDirect`, X, Y, clusters, x, covType, param, sd2, krigingType, tagAlgo, numThreadsZones, numThreads, verboseLevel, outputLevel, globalOptions, nugget, trendX, trendx)
 }
 
-looErrors <- function(X, Y, clusters, indices, covType, param, sd2, krigingType = "simple", tagAlgo = "", numThreadsZones = 1L, numThreads = 16L, verboseLevel = 10L, outputLevel = 1L, globalOptions = as.integer( c(0)), nugget = as.numeric( c(0)), method = "NK") {
-    .Call(`_nestedKriging_looErrors`, X, Y, clusters, indices, covType, param, sd2, krigingType, tagAlgo, numThreadsZones, numThreads, verboseLevel, outputLevel, globalOptions, nugget, method)
+looErrors <- function(X, Y, clusters, indices, covType, param, sd2, krigingType = "simple", tagAlgo = "", numThreadsZones = 1L, numThreads = 16L, verboseLevel = 10L, outputLevel = 1L, globalOptions = as.integer( c(0)), nugget = as.numeric( c(0)), method = "NK", trendX = NULL, trendx = NULL) {
+    .Call(`_nestedKriging_looErrors`, X, Y, clusters, indices, covType, param, sd2, krigingType, tagAlgo, numThreadsZones, numThreads, verboseLevel, outputLevel, globalOptions, nugget, method, trendX, trendx)
 }
 
 tests_run <- function(showSuccess = FALSE, debugMode = FALSE) {
@@ -37,11 +37,11 @@ tests_getCaseStudy <- function(selectedCase, covType = "gauss") {
     .Call(`_nestedKriging_tests_getCaseStudy`, selectedCase, covType)
 }
 
-looErrorsDirect <- function(X, Y, clusters, indices, covType, param, sd2, krigingType = "simple", tagAlgo = "", numThreadsZones = 1L, numThreads = 16L, verboseLevel = 10L, outputLevel = 1L, globalOptions = as.integer( c(0)), nugget = as.numeric( c(0)), method = "NK") {
-    .Call(`_nestedKriging_looErrorsDirect`, X, Y, clusters, indices, covType, param, sd2, krigingType, tagAlgo, numThreadsZones, numThreads, verboseLevel, outputLevel, globalOptions, nugget, method)
+looErrorsDirect <- function(X, Y, clusters, indices, covType, param, sd2, krigingType = "simple", tagAlgo = "", numThreadsZones = 1L, numThreads = 16L, verboseLevel = 10L, outputLevel = 1L, globalOptions = as.integer( c(0)), nugget = as.numeric( c(0)), method = "NK", trendX = NULL, trendx = NULL) {
+    .Call(`_nestedKriging_looErrorsDirect`, X, Y, clusters, indices, covType, param, sd2, krigingType, tagAlgo, numThreadsZones, numThreads, verboseLevel, outputLevel, globalOptions, nugget, method, trendX, trendx)
 }
 
-estimParam <- function(X, Y, clusters, q, covType, niter, paramStart, paramLower, paramUpper, sd2, krigingType = "simple", seed = 0L, alpha = 0.602, gamma = 0.101, a = 200, A = 1, c = 0.1, tagAlgo = "", numThreadsZones = 1L, numThreads = 16L, verboseLevel = 10L, globalOptions = as.integer( c(0)), nugget = as.numeric( c(0)), method = "NK") {
-    .Call(`_nestedKriging_estimParam`, X, Y, clusters, q, covType, niter, paramStart, paramLower, paramUpper, sd2, krigingType, seed, alpha, gamma, a, A, c, tagAlgo, numThreadsZones, numThreads, verboseLevel, globalOptions, nugget, method)
+estimParam <- function(X, Y, clusters, q, covType, niter, paramStart, paramLower, paramUpper, sd2, krigingType = "simple", seed = 0L, alpha = 0.602, gamma = 0.101, a = 200, A = 1, c = 0.1, tagAlgo = "", numThreadsZones = 1L, numThreads = 16L, verboseLevel = 10L, globalOptions = as.integer( c(0)), nugget = as.numeric( c(0)), method = "NK", trendX = NULL, trendx = NULL) {
+    .Call(`_nestedKriging_estimParam`, X, Y, clusters, q, covType, niter, paramStart, paramLower, paramUpper, sd2, krigingType, seed, alpha, gamma, a, A, c, tagAlgo, numThreadsZones, numThreads, verboseLevel, globalOptions, nugget, method, trendX, trendx)
 }
 

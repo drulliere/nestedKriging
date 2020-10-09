@@ -84,16 +84,23 @@ const long numThreads=16,
 const int verboseLevel=10,
 const int outputLevel=1,
 const Rcpp::IntegerVector globalOptions = Rcpp::IntegerVector::create(0),
-const arma::vec nugget = Rcpp::NumericVector::create(0)
+const arma::vec nugget = Rcpp::NumericVector::create(0),
+const Rcpp::Nullable<Rcpp::NumericMatrix> trendX = R_NilValue, 
+const Rcpp::Nullable<Rcpp::NumericMatrix> trendx = R_NilValue
 )
 {
 // Rcpp seems not allowing export of default value for other arma or std vector, thus the use of IntegerVector
   try {
-      //bool OrdinaryKriging = (krigingType=="ordinary");
+    arma::mat trendXmat = readNullableMatrix(trendX);
+    arma::mat trendxmat = arma::trans(readNullableMatrix(trendx));
+    
       nestedKrig::KrigingTypeByLayer krigingTypeByLayer{krigingType};
     
       std::vector<signed long> noCrossValidationIndices{};
-      return nestedKrig::nested_kriging(X, Y, clusters, x, covType, param, sd2, krigingTypeByLayer, tagAlgo, numThreadsZones, numThreads, verboseLevel, outputLevel, noCrossValidationIndices, globalOptions, nugget);
+      std::string defaultLOOmethod = "";
+      nestedKrig::Long optimLevel = 0;
+
+      return nestedKrig::nested_kriging(X, Y, clusters, x, covType, param, sd2, krigingTypeByLayer, tagAlgo, numThreadsZones, numThreads, verboseLevel, outputLevel, noCrossValidationIndices, globalOptions, nugget, defaultLOOmethod, optimLevel, trendXmat, trendxmat);
   }
   catch(const std::exception& e) {
       return Rcpp::List::create(Rcpp::Named("Exception") = e.what());
@@ -118,23 +125,28 @@ Rcpp::List looErrors(
     const int outputLevel=1,
     const Rcpp::IntegerVector globalOptions = Rcpp::IntegerVector::create(0),
     const arma::vec nugget = Rcpp::NumericVector::create(0),
-    const std::string method = "NK"
+    const std::string method = "NK",
+    const Rcpp::Nullable<Rcpp::NumericMatrix> trendX = R_NilValue, 
+    const Rcpp::Nullable<Rcpp::NumericMatrix> trendx = R_NilValue
 )
 {
   // Rcpp seems not allowing export of default value for other arma or std vector, thus the use of IntegerVector
   try {
-    //bool OrdinaryKriging = (krigingType=="ordinary");
+    arma::mat trendXmat = readNullableMatrix(trendX);
+    arma::mat trendxmat = arma::trans(readNullableMatrix(trendx));
+
     nestedKrig::KrigingTypeByLayer krigingTypeByLayer{krigingType};
     
     arma::mat empty_x{};
-    return nestedKrig::nested_kriging(X, Y, clusters, empty_x, covType, param, sd2, krigingTypeByLayer, tagAlgo, numThreadsZones, numThreads, verboseLevel, outputLevel, indices, globalOptions, nugget, method);
+    
+    const nestedKrig::Long optimLevel = 0;
+
+    return nestedKrig::nested_kriging(X, Y, clusters, empty_x, covType, param, sd2, krigingTypeByLayer, tagAlgo, numThreadsZones, numThreads, verboseLevel, outputLevel, indices, globalOptions, nugget, method, optimLevel, trendXmat, trendxmat);
       }
   catch(const std::exception& e) {
     return Rcpp::List::create(Rcpp::Named("Exception") = e.what());
   }
 }
-
-
 
 //---------------------------------------------------------- Run All Tests
 
@@ -218,16 +230,20 @@ Rcpp::List looErrorsDirect(
     const int outputLevel=1,
     const Rcpp::IntegerVector globalOptions = Rcpp::IntegerVector::create(0),
     const arma::vec nugget = Rcpp::NumericVector::create(0),
-    const std::string method = "NK"
+    const std::string method = "NK",
+    const Rcpp::Nullable<Rcpp::NumericMatrix> trendX = R_NilValue, 
+    const Rcpp::Nullable<Rcpp::NumericMatrix> trendx = R_NilValue
 )
   {
   try{
-    //bool OrdinaryKriging = (krigingType=="ordinary");
+    arma::mat trendXmat = readNullableMatrix(trendX);
+    arma::mat trendxmat = arma::trans(readNullableMatrix(trendx));
+
     nestedKrig::KrigingTypeByLayer krigingTypeByLayer{krigingType};
     
     arma::mat empty_x{};
     nestedKrig::Long optimLevel = 1;
-    return nestedKrig::nested_kriging(X, Y, clusters, empty_x, covType, param, sd2, krigingTypeByLayer, tagAlgo, numThreadsZones, numThreads, verboseLevel, outputLevel, indices, globalOptions, nugget, method, optimLevel);
+    return nestedKrig::nested_kriging(X, Y, clusters, empty_x, covType, param, sd2, krigingTypeByLayer, tagAlgo, numThreadsZones, numThreads, verboseLevel, outputLevel, indices, globalOptions, nugget, method, optimLevel, trendXmat, trendxmat);
     }
     catch(const std::exception& e){
       return Rcpp::List::create(Rcpp::Named("Exception") = e.what());
@@ -261,14 +277,18 @@ Rcpp::List estimParam(
     const int verboseLevel=10,
     const Rcpp::IntegerVector globalOptions = Rcpp::IntegerVector::create(0),
     const arma::vec nugget = Rcpp::NumericVector::create(0),
-    const std::string method = "NK") {
+    const std::string method = "NK",
+    const Rcpp::Nullable<Rcpp::NumericMatrix> trendX = R_NilValue, 
+    const Rcpp::Nullable<Rcpp::NumericMatrix> trendx = R_NilValue) {
   try{
+    arma::mat trendXmat = readNullableMatrix(trendX);
+    arma::mat trendxmat = arma::trans(readNullableMatrix(trendx));
     if (verboseLevel==0)
       return nestedKrig::estimParamCpp<0>(X, Y, clusters, q, covType, niter, paramStart, paramLower, paramUpper, sd2, krigingType, seed, alpha,
-                     gamma, a, A, c, tagAlgo, numThreadsZones, numThreads, verboseLevel, globalOptions, nugget, method);
+                     gamma, a, A, c, tagAlgo, numThreadsZones, numThreads, verboseLevel, globalOptions, nugget, method, trendXmat, trendxmat);
     else
       return nestedKrig::estimParamCpp<1>(X, Y, clusters, q, covType, niter, paramStart, paramLower, paramUpper, sd2, krigingType, seed, alpha,
-                                          gamma, a, A, c, tagAlgo, numThreadsZones, numThreads, verboseLevel, globalOptions, nugget, method);
+                                          gamma, a, A, c, tagAlgo, numThreadsZones, numThreads, verboseLevel, globalOptions, nugget, method, trendXmat, trendxmat);
   }
   catch(const std::exception& e){
     return Rcpp::List::create(Rcpp::Named("Exception") = e.what());

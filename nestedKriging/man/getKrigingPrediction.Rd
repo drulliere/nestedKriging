@@ -10,7 +10,8 @@ Compute classical kriging predictions, using either Simple or Ordinary Kriging.
 Caution! This is NOT nestedKriging prediction. This is an intermediate calculation of the nestedKriging algorithm, given for side purposes, thus not optimized for a direct output (e.g. monothread here). No checks are performed on arguments. For nestedKriging predictions see the function \code{\link{nestedKriging}}.
 }
 \usage{
-getKrigingPrediction(X, Y, x, param, covType, krigingType = "simple")
+getKrigingPrediction(X, Y, x, param, covType, krigingType = "simple",
+trendX=NULL, trendx=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -29,8 +30,13 @@ Vector containing lengthscales. dimension \eqn{d}{d} or \eqn{2d}{2d} for \code{"
   \item{covType}{
 Covariance kernel family used by Kriging predictors (unless specified, the multivariate kernel is obtained using a tensor product). Must be one of the following: \code{"exp"} (exponential kernel), \code{"gauss"} (gaussian square exponential kernel), \code{"matern3_2"} (Matern 3/2), \code{"matern5_2"} (Matern 5/2), \code{"powexp"} (power exponential kernel), \code{"white_noise"} (white noise kernel), \code{"rational2"} (fast radial rational quadratic kernel, with power 1), \code{"rational1"} (fast radial rational kernel, with norm 1), \code{"gauss.approx"} (fast approximation of gaussian kernel), \code{"exp.approx"} (fast approximation of exponential kernel).
 }
-  \item{krigingType}{
-Optional. String that specifies if one must use ordinary Kriging or simple Kriging. \code{"simple"}: Simple Kriging, \code{"ordinary"}: Ordinary Kriging (for the first Layer only). Default=\code{"simple"}.
+\item{krigingType}{
+Optional. String that specifies if one must use simple, ordinary or universal Kriging. \code{"simple"}: simple Kriging, \code{"ordinary"}: ordinary Kriging (for the first Layer only, as "OKSK"), \code{"universal"} or \code{"UKOK"}: universal Kriging using \code{"trendX"} and  \code{"trendx"} covariate matrices. You can specify the Kriging type to apply to each layer of the algo, e.g. "SKOK" means that submodels are computed with simple kriging, and agregated by ordinary kriging.
+Default=\code{"simple"}.
+}
+\item{trendX}{(uppercase X) Optional, covariates \eqn{g(X)}{g(X)}, when doing universal Kriging, e.g. \code{krigingType="universal"}. This is a \eqn{n \times k}{n x k} matrix, with \eqn{n}{n} observations and \eqn{k}{k} covariates. If empty, acts as an intercept vector, then universal Kriging one layer one corresponds to ordinary kriging.
+}
+\item{trendx}{(lowercase X) Optional, covariates \eqn{g(x)}{g(x)}, when doing universal Kriging, e.g. \code{krigingType="universal"}. This is a \eqn{q \times k}{q x k} matrix, with \eqn{q}{q} prediction points and \eqn{k}{k} covariates. If empty, acts as an intercept vector, then universal Kriging one layer one corresponds to ordinary kriging.
 }
 }
 \details{

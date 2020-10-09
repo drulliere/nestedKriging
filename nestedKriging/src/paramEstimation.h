@@ -11,7 +11,6 @@ namespace nestedKrig {
 
 //=====================================================================================
 
-
 bool withinBound(const arma::vec& paramInf, const arma::vec& param, const arma::vec& paramSup) {
   bool within=true;
   for(Long k=0; k<param.size(); ++k) {
@@ -68,13 +67,14 @@ Rcpp::List estimParamCpp(
     const int verboseLevel=10,
     const Rcpp::IntegerVector globalOptions = Rcpp::IntegerVector::create(0),
     const arma::vec nugget = Rcpp::NumericVector::create(0),
-    const std::string defaultLOOmethod = "NK")
-{
+    const std::string defaultLOOmethod = "NK",
+    const arma::mat& trendX=arma::mat{},
+    const arma::mat& trendx=arma::mat{}  
+)
+{  //default with reference Object& obj=temporary: ok with const, or ok with static global variable
   using Parameter = arma::vec;
   // Initializations
-  //bool ordinaryKriging = (krigingType=="ordinary");
   const KrigingTypeByLayer krigingTypeByLayer{ krigingType };
-  
   const Screen screen(verboseLevel);
 
   int noVerbose = -1;
@@ -154,14 +154,14 @@ Rcpp::List estimParamCpp(
     // computation of the LOO errors and extracts the LOO-MSE
     paramPlus = exp( log(paramCurrent) + deltaiDeltai) ;
     Algo algoPlus(parallelism, X, Y, splitter, xSelected, paramPlus, sd2, krigingTypeByLayer, covType, tagAlgo, noVerbose,
-                  outputLevel, nugget, screenWithin, options, looScheme);
+                  outputLevel, nugget, screenWithin, options, looScheme, trendX, trendx);
     LOOMSEplus = algoPlus.output().getDefaultLOOError(looScheme);
     bestParameterSoFar.observedParameter(paramPlus, LOOMSEplus);
 
     // computation of the LOO errors and extracts the LOO-MSE
     paramMinus = exp( log(paramCurrent) - deltaiDeltai) ;
     Algo algoMinus(parallelism, X, Y, splitter, xSelected, paramMinus, sd2, krigingTypeByLayer, covType, tagAlgo, noVerbose,
-                   outputLevel, nugget, screenWithin, options, looScheme);
+                   outputLevel, nugget, screenWithin, options, looScheme, trendX, trendx);
     LOOMSEminus = algoMinus.output().getDefaultLOOError(looScheme);
     bestParameterSoFar.observedParameter(paramMinus, LOOMSEminus);
 

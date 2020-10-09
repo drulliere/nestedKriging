@@ -8,10 +8,10 @@
 // class: Initializer
 //===============================================================================
 
-#define VERSION_CODE "nestedKriging v0.2.0"
-#define BUILT_ID 62
-#define BUILT_DATE 20201002
-#define INTERFACE_VERSION 8
+#define VERSION_CODE "nestedKriging v0.2.1"
+#define BUILT_ID 63
+#define BUILT_DATE 20201009
+#define INTERFACE_VERSION 9
 //========================================================== R - Armadillo =======
 
 #include <RcppArmadillo.h>
@@ -25,6 +25,16 @@
 
 using namespace Rcpp;
 #define ARMA_NO_DEBUG //uncomment to avoids bounds check for Armadillo objects (1-2% faster)
+
+//arma::mat emptyMatrix{}; //eventual use in default parameters
+
+//======================================================= ReadNullableMatrix
+
+arma::mat readNullableMatrix(const Rcpp::Nullable<Rcpp::NumericMatrix>& M) {
+  if (M.isNotNull()) return as<arma::mat>(Rcpp::NumericMatrix(M));
+  return arma::mat{}; // return a 0 x 0 matrix if M is Null
+}
+
 //================================================================================
 
 #include <vector> // std::vector
