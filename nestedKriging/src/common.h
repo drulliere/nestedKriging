@@ -8,9 +8,9 @@
 // class: Initializer
 //===============================================================================
 
-#define VERSION_CODE "nestedKriging v0.2.1"
-#define BUILT_ID 63
-#define BUILT_DATE 20201009
+#define VERSION_CODE "nestedKriging v0.2.2"
+#define BUILT_ID 64
+#define BUILT_DATE 20201022
 #define INTERFACE_VERSION 9
 //========================================================== R - Armadillo =======
 

@@ -13,6 +13,9 @@
 
 namespace nestedKrig {
 
+
+const arma::mat emptyMatrix{};
+
 //============================== Available Linear Solvers
 // catalog of available methods for solving linear systems (e.g. Cholesky / Inversion of Cov matrix / linear solver)
 // solve matrix equation K * alpha = k in alpha
@@ -153,8 +156,8 @@ public:
 
   virtual ~KrigingPredictor() {} 
 
-  virtual void fillResults(arma::mat& weights, arma::rowvec& mean_M, std::vector<double>& cov_MY, std::vector<double>& cov_MM) const =0;
-  virtual void fillResults(arma::vec& weights, double& mean_M, double& cov_MY, double& cov_MM)  const =0;
+  virtual void fillResults(arma::mat& weights, arma::rowvec& mean_M, std::vector<double>& cov_MY, std::vector<double>& cov_MM, arma::vec& betaUK) const =0;
+  virtual void fillResults(arma::vec& weights, double& mean_M, double& cov_MY, double& cov_MM, arma::vec& betaUK)  const =0;
 };
 
 //-----------------------------------------------------------------------------
@@ -170,15 +173,16 @@ public:
 
   virtual ~SimpleKrigingPredictor() {}
 
-  virtual void fillResults(arma::vec& weights, double& mean_M, double& cov_MY, double& cov_MM)  const override{
+  virtual void fillResults(arma::vec& weights, double& mean_M, double& cov_MY, double& cov_MM, arma::vec& betaUK)  const override{
     // in the case where k is a column vector, one prediction point: q=1
     if (knownInverse) weights = knownKinv * k;
     else ChosenSolver<SolverOption::OnePoint>::findWeights(K, k, weights);
     mean_M = arma::dot(Y.t(),weights);
     cov_MM = cov_MY = arma::dot(k,  weights);
+    betaUK = arma::vec{};
   }
 
-  virtual void fillResults(arma::mat& weights, arma::rowvec& mean_M, std::vector<double>& cov_MY, std::vector<double>& cov_MM) const override {
+  virtual void fillResults(arma::mat& weights, arma::rowvec& mean_M, std::vector<double>& cov_MY, std::vector<double>& cov_MM, arma::vec& betaUK) const override {
     // in the case where k is a matrix, several prediction points: q>1
     if (knownInverse) weights = knownKinv * k;
     else ChosenSolver<SolverOption::SeveralPoints>::findWeights(K, k, weights);
@@ -186,6 +190,7 @@ public:
     for(Long m=0;m<q;++m) {
       cov_MM[m] = cov_MY[m] = arma::dot(k.col(m),  weights.col(m));
     }
+    betaUK = arma::vec{};
   }
 };
 
@@ -237,7 +242,8 @@ public:
 
   virtual ~OrdinaryKrigingPredictor() {}
 
-  virtual void fillResults(arma::mat& weights, arma::rowvec& mean_M, std::vector<double>& cov_MY, std::vector<double>& cov_MM) const override {
+  virtual void fillResults(arma::mat& weights, arma::rowvec& mean_M, std::vector<double>& cov_MY, std::vector<double>& cov_MM, arma::vec& betaUK) const override {
+    betaUK = arma::vec{};
     if (knownInverse)
       fillResultsHelper(weights, mean_M, cov_MY, cov_MM, knownKinv, precomputations);
     else {
@@ -246,7 +252,8 @@ public:
     }
   }
 
-  virtual void fillResults(arma::vec& weights, double& mean_M, double& cov_MY, double& cov_MM)  const override {
+  virtual void fillResults(arma::vec& weights, double& mean_M, double& cov_MY, double& cov_MM, arma::vec& betaUK)  const override {
+    betaUK = arma::vec{};
     if (knownInverse)
       fillResultsHelper(weights, mean_M, cov_MY, cov_MM, knownKinv, precomputations);
     else {
@@ -261,31 +268,55 @@ class UniversalKrigingPredictor : public KrigingPredictor {
 
 const arma::mat& FX;
 const arma::mat& fx;
-  
+
+//TODO: add precomputations depending on X, Y, FX, not fx nor k
+// instead of only precomputed Kinv
+
 private:
 
-  void fillResultsHelper(arma::mat& weights, arma::rowvec& mean_M, std::vector<double>& cov_MY, std::vector<double>& cov_MM, const arma::mat& Kinv) const {
+  void fillResultsHelper(arma::mat& weights, arma::rowvec& mean_M, std::vector<double>& cov_MY, std::vector<double>& cov_MM, arma::vec& betaUK, const arma::mat& Kinv) const {
+    try{
     arma::mat alpha = Kinv * k;
     arma::mat H = FX.t() * Kinv;
-    arma::mat k_UK= k + FX * arma::inv_sympd(H * FX) * (fx - H*k); 
-  
+    arma::mat HFinv = arma::inv(H * FX); 
+    betaUK = HFinv * H * Y.t(); 
+    
+    //arma::mat HF = H * FX; 
+    //arma::mat HY = H* Y.t();
+    //betaUK = arma::solve(HF, HY);
+
+    arma::mat k_UK= k + FX * HFinv * (fx - H*k); 
+
     weights = Kinv*k_UK;
     mean_M = Y * weights;
     for(Long m=0;m<q;m++){
       cov_MY[m] = arma::dot( k.col(m), weights.col(m) );
       cov_MM[m] = arma::dot( k_UK.col(m), weights.col(m) );
     }
+    } catch(const std::exception &e) {
+      nestedKrig::Screen::error("error in universal Kriging", e);
+      throw std::runtime_error("problem in solving UK equation, singular matrix?");
+    }
   }
-  void fillResultsHelper(arma::vec& weights, double& mean_M, double& cov_MY, double& cov_MM, const arma::mat& Kinv)  const {
-    // fill results using Kinv and Precomputations, case of one prediction point: q=1
+  void fillResultsHelper(arma::vec& weights, double& mean_M, double& cov_MY, double& cov_MM,  arma::vec& betaUK, const arma::mat& Kinv)  const {
+    // fill results using Kinv, case of one prediction point: q=1
+    try{
     arma::vec alpha = Kinv * k;
-    arma::mat H = FX.t() * Kinv;
-    arma::vec k_UK= k + FX * arma::inv_sympd(H * FX) * (fx - H * k); 
-
+    arma::mat H = FX.t() * Kinv; //depends on X,Y,FX only
+    arma::mat HFinv = arma::inv(H * FX); //idem
+    betaUK = HFinv * H * Y.t();  //idem
+    // betaUK pourrait venir d'un solve HF, H*Y.t()
+    arma::vec k_UK= k + FX * HFinv * (fx - H * k); 
+    //arma::vec k_UK= k + FX * arma::inv_sympd(H * FX) * (fx - H*k); 
+    
     weights = Kinv*k_UK;
     mean_M = arma::dot( Y, weights);
     cov_MY = arma::dot( k, weights );
     cov_MM = arma::dot( k_UK, weights );
+    } catch(const std::exception &e) {
+      nestedKrig::Screen::error("error in universal Kriging", e);
+      throw std::runtime_error("problem in solving UK equation, singular matrix?");
+    }
   }
   
 public:
@@ -297,28 +328,24 @@ public:
   
   virtual ~UniversalKrigingPredictor() {}
   
-  virtual void fillResults(arma::mat& weights, arma::rowvec& mean_M, std::vector<double>& cov_MY, std::vector<double>& cov_MM) const override {
+  virtual void fillResults(arma::mat& weights, arma::rowvec& mean_M, std::vector<double>& cov_MY, std::vector<double>& cov_MM,  arma::vec& betaUK) const override {
     if (knownInverse)
-      fillResultsHelper(weights, mean_M, cov_MY, cov_MM, knownKinv);
+      fillResultsHelper(weights, mean_M, cov_MY, cov_MM, betaUK, knownKinv);
     else {
       arma::mat newKinv = arma::inv_sympd(K);
-      fillResultsHelper(weights, mean_M, cov_MY, cov_MM, newKinv);
+      fillResultsHelper(weights, mean_M, cov_MY, cov_MM, betaUK, newKinv);
     }
   }
   
-  virtual void fillResults(arma::vec& weights, double& mean_M, double& cov_MY, double& cov_MM)  const override {
+  virtual void fillResults(arma::vec& weights, double& mean_M, double& cov_MY, double& cov_MM,  arma::vec& betaUK)  const override {
     if (knownInverse)
-      fillResultsHelper(weights, mean_M, cov_MY, cov_MM, knownKinv);
+      fillResultsHelper(weights, mean_M, cov_MY, cov_MM, betaUK, knownKinv);
     else {
       arma::mat newKinv = arma::inv_sympd(K);
-      fillResultsHelper(weights, mean_M, cov_MY, cov_MM, newKinv);
+      fillResultsHelper(weights, mean_M, cov_MY, cov_MM, betaUK, newKinv);
     }
   }
 };
-
-//------------------------------------------------------------
-
-const arma::mat emptyMatrix{};
 
 //---------------------------------------------------------------------------------------------
 class ChosenPredictor {
@@ -374,11 +401,11 @@ public:
     delete krigingPredictor;
   }
 
-  void fillResults(arma::mat& weights, arma::rowvec& mean_M, std::vector<double>& cov_MY, std::vector<double>& cov_MM) {
-    krigingPredictor->fillResults(weights,mean_M,cov_MY,cov_MM);
+  void fillResults(arma::mat& weights, arma::rowvec& mean_M, std::vector<double>& cov_MY, std::vector<double>& cov_MM, arma::vec& betaUK) {
+    krigingPredictor->fillResults(weights,mean_M,cov_MY,cov_MM, betaUK);
   }
-  void fillResults(arma::vec& weights, double& mean_M, double& cov_MY, double& cov_MM)  const {
-    krigingPredictor->fillResults(weights,mean_M,cov_MY,cov_MM);
+  void fillResults(arma::vec& weights, double& mean_M, double& cov_MY, double& cov_MM, arma::vec& betaUK)  const {
+    krigingPredictor->fillResults(weights,mean_M,cov_MY,cov_MM, betaUK);
   }
 
   //-------------- this object is not copied or moved, check pointer copy if further need to be moved
@@ -430,7 +457,7 @@ public:
   }
 
   //template <typename PredictorType>
-  void fillResults(arma::mat& weights, arma::rowvec& mean_M, std::vector<double>& cov_MY, std::vector<double>& cov_MM) const {
+  void fillResults(arma::mat& weights, arma::rowvec& mean_M, std::vector<double>& cov_MY, std::vector<double>& cov_MM, arma::vec& betaUK) const {
     Long q = k.n_cols;
     arma::mat Kinv(K.n_rows, K.n_cols);
     arma::inv_sympd(Kinv, K);
@@ -447,7 +474,7 @@ public:
         ChosenPredictor predictorSelec(subMats.K, subMats.k, subMats.Y, krigingType, subMats.FX, fxcolm);
 
         arma::vec subWeights(k.n_rows-1);
-        predictorSelec.fillResults(subWeights, mean_M[m], cov_MY[m], cov_MM[m]);
+        predictorSelec.fillResults(subWeights, mean_M[m], cov_MY[m], cov_MM[m], betaUK);
 
         constexpr bool fillWithZero=true;
         subWeights.insert_rows(excludedIndex, 1, fillWithZero);
@@ -459,7 +486,7 @@ public:
         ChosenPredictor predictorUsingAllPoints(K, Kinv, kcolm, Y, krigingType, FX, fxcolm);
 
         arma::vec localweights(K.n_rows);
-        predictorUsingAllPoints.fillResults(localweights, mean_M[m], cov_MY[m], cov_MM[m]);
+        predictorUsingAllPoints.fillResults(localweights, mean_M[m], cov_MY[m], cov_MM[m], betaUK);
         weights.col(m) = localweights;
       }
     }
@@ -494,9 +521,10 @@ try{
   arma::rowvec mean_M(q); 
   std::vector<double> cov_MY(q); 
   std::vector<double> cov_MM(q);
+  arma::vec betaUK(q);
 
   ChosenPredictor predictor(K, k, Y, krigingTypeObject, trendXmat, trendxmat);
-  predictor.fillResults(weights, mean_M, cov_MY, cov_MM);
+  predictor.fillResults(weights, mean_M, cov_MY, cov_MM, betaUK);
   
   arma::rowvec krigVariance(q);
   for(Long m = 0; m < q; ++m) krigVariance[m] = std::max(0.0, 1.0 + cov_MM[m] - 2 * cov_MY[m]);

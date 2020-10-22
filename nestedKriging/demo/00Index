@@ -11,3 +11,4 @@ demoJ     	LOO predictions
 demoK     	hyperparameter estimation
 demoL     	small benchmark between options
 demoM       side results not directly related to nestedKriging
+demoN		illustration with universal Kriging, in 1D

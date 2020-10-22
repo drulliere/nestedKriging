@@ -345,7 +345,8 @@ public:
   std::vector<arma::vec> sd2_M;   // q items, each = Nx1 prediction sd2 vector var[ Mi(x)-Y(X) ]
   std::vector<arma::mat> alpha;  // N items, each = ni x q matrix of weights: columns give weigths for each pred point in the submodel
   arma::mat weights;             // q columns, each = Nx1 weigts between submodels (N x q matrix)
-
+  std::vector<arma::vec> betaUK; // N items, each= k-vector of Universal Kriging coefficients in front of covariate
+  
   //--- aggregated results
   arma::vec predmean;            // q x 1 prediction vector, pred mean for each pred point
   arma::vec predsd2;             // q x 1 prediction vector, pred var  for each pred point
@@ -357,11 +358,11 @@ public:
   arma::vec sd2POE{}, sd2GPOE{}, sd2BCM{}, sd2RBCM{}, sd2GPOE_1N{}, sd2SPV{};      // q x 1 predicted sd2  for each pred point using POE, GPOE...
 
   Output(Long N, Long q, int outputDetailLevel) : requiredByUser(outputDetailLevel),
-    KM(q), kM(q), mean_M(q), sd2_M(q), alpha(N), weights(N,q), predmean(q), predsd2(q), kagg(q,q), cagg(q,q) {
+    KM(q), kM(q), mean_M(q), sd2_M(q), alpha(N), weights(N,q), betaUK(N), predmean(q), predsd2(q), kagg(q,q), cagg(q,q) {
     reserveMatrices(N, q);
   }
 
-  Output() :  requiredByUser(0), KM{}, kM{}, mean_M{}, sd2_M{}, alpha{}, weights{}, predmean{}, predsd2{},
+  Output() :  requiredByUser(0), KM{}, kM{}, mean_M{}, sd2_M{}, alpha{}, weights{}, betaUK{}, predmean{}, predsd2{},
               kagg{}, cagg{} {}
 
   void reserveMatrices(Long N, Long q) {
@@ -369,6 +370,7 @@ public:
       predmean.resize(q);
       predsd2.resize(q);
       weights.set_size(N,q);
+      betaUK.resize(N);
       KM.resize(q);
       kM.resize(q);
       mean_M.resize(q);
@@ -524,6 +526,7 @@ public:
         Rcpp::Named("weights") = (show.predictionBySubmodel())?weights:empty(weights),
         Rcpp::Named("mean_M") = (show.predictionBySubmodel())?vecvecToMat(mean_M):empty(arma::mat{}),
         Rcpp::Named("sd2_M") = (show.predictionBySubmodel())?vecvecToMat(sd2_M):empty(arma::mat{}),
+        Rcpp::Named("beta_UK") = (show.predictionBySubmodel())?vecvecToMat(betaUK):empty(arma::mat{}),
         Rcpp::Named("K_M") = (show.covariancesBySubmodel())?KM:empty(KM),
         Rcpp::Named("k_M") = (show.covariancesBySubmodel())?kM:empty(kM)
       );
@@ -688,8 +691,8 @@ void partA_predictEachGroup() {
     arma::rowvec mean_M(q);
     std::vector<double> cov_MY(q);
     std::vector<double> cov_MM(q);
-  
-    krigingPredictor.fillResults(out.alpha[i], mean_M, cov_MY, cov_MM);
+
+    krigingPredictor.fillResults(out.alpha[i], mean_M, cov_MY, cov_MM, out.betaUK[i]);
 
     for(Long m=0;m<q;++m){
       out.mean_M[m](i) = mean_M[m];
@@ -807,9 +810,9 @@ void partC_agregateFirstLayer() {
     const arma::rowvec& rowmeanMm = out.mean_M[m].t(); 
     // warning! does not work if out.mean_M[m].t() is directly in the function call!
     ChosenPredictor krigingPredictor(out.KM[m], out.kM[m], rowmeanMm, krigingTypeSecondLayer);
-    arma::vec weightsColm(N);
+    arma::vec weightsColm(N), betaUKagg{};
     double meanM, KMMagg, KMYagg;
-    krigingPredictor.fillResults(weightsColm, meanM, KMYagg, KMMagg);
+    krigingPredictor.fillResults(weightsColm, meanM, KMYagg, KMMagg, betaUKagg);
 
     const bool storeWeights = (out.requiredByUser.predictionBySubmodel()) || (out.requiredByUser.covariances());
     if (storeWeights) out.weights.col(m) = weightsColm;
